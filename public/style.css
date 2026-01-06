@@ -79,6 +79,27 @@ body {
   font-style: italic;
 }
 
+.message p {
+  margin-bottom: 0.75rem;
+}
+
+.message p:last-child {
+  margin-bottom: 0;
+}
+
+.message ul {
+  margin: 0.5rem 0;
+  padding-left: 1.25rem;
+}
+
+.message li {
+  margin-bottom: 0.4rem;
+}
+
+.message strong {
+  font-weight: 600;
+}
+
 .chat-input {
   display: flex;
   gap: 0.5rem;
