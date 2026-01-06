@@ -99,6 +99,54 @@ For questions about the DCDA program, contact:
 - Email: dcda@tcu.edu
 - Program Director: Dr. Curt Rode (c.rode@tcu.edu)`;
 
+      // Build English Department program details context
+      const englishContext = `\n\n## English Department Programs
+
+### English Major (BA, 33 hours)
+Required categories:
+- American Literature (6 hrs): e.g., ENGL 30133 American Lit to 1865, ENGL 30593 American Fiction 1960-present
+- British Literature (6 hrs): e.g., ENGL 30673 King Arthur: Lit & Legend, ENGL 30653 Jane Austen: Novels & Films
+- Global & Diasporic Literature (3 hrs): e.g., ENGL 30693 U.S. Multi-Ethnic Literature
+- Writing (3 hrs): Creative writing workshops (CRWT) or multimedia authoring (WRIT)
+- Theory (3 hrs): e.g., ENGL 30103 Intro to Literary Theory, ENGL 30803 Theories of Cinema
+- Electives (12 hrs): Any ENGL, WRIT, or CRWT courses (max 9 hrs lower-division)
+
+Overlay Requirements:
+- Early Literature & Culture (6 hrs)
+- Junior Research Seminar (3 hrs): ENGL 38023 Research Seminar
+
+### Writing and Rhetoric Major (BA, 33 hours)
+Required categories:
+- Writing & Publishing (3 hrs): e.g., WRIT 20113 Technical Writing, WRIT 40233 Writing for Publication
+- Rhetorics & Cultures (6 hrs): e.g., WRIT 20313 Power & Protest, WRIT 40333 Language, Rhetoric & Culture
+- Digital Rhetorics & Design (3 hrs): e.g., WRIT 20303 Writing Games, WRIT 40163 Multimedia Authoring
+- Writing Internship (3 hrs): WRIT 40273
+- Junior Writing Major Seminar (3 hrs): WRIT 38063
+- Electives (12 hrs): Any ENGL, WRIT, or CRWT courses (max 9 hrs lower-division)
+
+### Creative Writing Major (BA, 33 hours)
+Required categories:
+- Prerequisite (3 hrs): CRWT 10203 Intro to Creative Writing
+- Upper Division Creative Writing (12 hrs): Fiction, Poetry, Nonfiction, or Drama workshops
+- Advanced Creative Writing Seminar (3 hrs): CRWT 40703 Advanced Multi-Genre or CRWT 40803 Advanced Literary Forms
+- Internship (3 hrs): WRIT 30390 Publication Production or WRIT 40273 Writing Internship
+- Upper-division ENGL electives (6 hrs)
+- Upper-division WRIT electives (6 hrs)
+
+Note: Only 3 lower-division hours count toward Creative Writing major.
+
+### Spring 2026 Highlighted Courses:
+- ENGL 30653 Jane Austen: Novels and Films
+- ENGL 30673 King Arthur: Literature & Legend
+- ENGL 40473 Milton and His Contemporaries
+- CRWT 30233 Creative Nonfiction Workshop I
+- CRWT 30373 Drama Writing Workshop I
+- WRIT 40373 The Rhetoric of Revolution
+- WRIT 40563 Multimedia Authoring: Sound & Podcast
+
+### English Department Advising:
+For course descriptions and advising: https://addran.tcu.edu/english/academics/advising/`;
+
       // Build messages array for Claude
       const messages = [
         ...conversationHistory,
@@ -108,7 +156,7 @@ For questions about the DCDA program, contact:
       const response = await anthropic.messages.create({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1024,
-        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext,
+        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext + englishContext,
         messages: messages,
       });
 
