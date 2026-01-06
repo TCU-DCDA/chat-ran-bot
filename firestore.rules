@@ -1,0 +1,23 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Programs collection - read-only for all users
+    match /programs/{programId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Config collection - read-only for all users
+    match /config/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Conversations collection - write for logging, no read from client
+    match /conversations/{conversationId} {
+      allow read: if false;
+      allow create: if true;
+      allow update, delete: if false;
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "programs": {
+    "dcda_major": {
+      "name": "Digital Culture and Data Analytics (DCDA) Major",
+      "abbreviation": "DCDA",
+      "degree": "BS",
+      "totalHours": 33,
+      "url": "https://www.tcu.edu/academics/programs/digital-culture-data-analytics.php",
+      "requirements": {
+        "requiredCategories": {
+          "hours": 15,
+          "courses": [
+            {
+              "category": "Intro",
+              "options": ["ENGL 20813", "WRIT 20303", "WRIT 20323", "WRIT 20333"],
+              "description": "Introduction to digital culture/humanities"
+            },
+            {
+              "category": "Statistics",
+              "options": ["MATH 10043", "INSC 20153"],
+              "description": "Elementary Statistics or Statistical Analysis"
+            },
+            {
+              "category": "Coding",
+              "options": ["WRIT 20833", "GEOG 30323", "COSC 10603"],
+              "description": "Intro to Coding in the Humanities, Data Analysis and Visualization, or Intro to Python"
+            },
+            {
+              "category": "Multimedia Authoring",
+              "options": ["WRIT 40163", "WRIT 40263", "WRIT 40363", "WRIT 40463", "WRIT 40563", "CRWT 30363", "STCO 36403", "EDUC 50263"],
+              "description": "Choose one multimedia authoring course"
+            },
+            {
+              "category": "Capstone or Thesis",
+              "options": ["DCDA 40833", "DCDA 40003"],
+              "description": "Capstone Course (offered each Spring) or Senior Honors Seminar"
+            }
+          ]
+        },
+        "dcAndDaElectives": {
+          "hours": 6,
+          "description": "One Digital Culture elective + One Data Analytics elective"
+        },
+        "generalElectives": {
+          "hours": 12,
+          "description": "Four general elective courses from approved list"
+        }
+      }
+    },
+    "dcda_minor": {
+      "name": "Digital Culture and Data Analytics (DCDA) Minor",
+      "abbreviation": "DCDA",
+      "totalHours": 21,
+      "url": "https://www.tcu.edu/academics/programs/digital-culture-data-analytics.php",
+      "requirements": {
+        "requiredCategories": {
+          "hours": 12,
+          "courses": [
+            {
+              "category": "Statistics",
+              "options": ["MATH 10043", "INSC 20153"],
+              "description": "Elementary Statistics or Statistical Analysis"
+            },
+            {
+              "category": "Coding",
+              "options": ["WRIT 20833", "GEOG 30323", "COSC 10603"],
+              "description": "Intro to Coding in the Humanities, Data Analysis and Visualization, or Intro to Python"
+            },
+            {
+              "category": "Multimedia Authoring",
+              "options": ["WRIT 40163", "WRIT 40263", "WRIT 40363", "WRIT 40463", "WRIT 40563", "CRWT 30363", "STCO 36403", "EDUC 50263"],
+              "description": "Choose one multimedia authoring course"
+            },
+            {
+              "category": "Capstone or Thesis",
+              "options": ["DCDA 40833", "DCDA 40003"],
+              "description": "Capstone Course or Senior Honors Seminar"
+            }
+          ]
+        },
+        "generalElectives": {
+          "hours": 9,
+          "description": "Three general elective courses from approved list"
+        }
+      }
+    }
+  },
+  "approvedCourses": {
+    "digitalCulture": [
+      {"code": "ADRN 30503", "title": "A Human-Centered AI Future", "college": "ADRN"},
+      {"code": "ANTH 40523", "title": "Mass Media and Culture", "college": "ADRN"},
+      {"code": "ARST 10123", "title": "Design and Color", "college": "Fine Arts"},
+      {"code": "ARST 20503", "title": "Video Art: Beginning New Media", "college": "Fine Arts"},
+      {"code": "ARST 20743", "title": "Photography", "college": "Fine Arts"},
+      {"code": "ARST 30510", "title": "3D Modeling and 3D Printing", "college": "Fine Arts"},
+      {"code": "ARST 30610", "title": "Interactive Robotics and Kinetic Sculpture", "college": "Fine Arts"},
+      {"code": "CRWT 30363", "title": "Digital Creative Writing", "college": "ADRN"},
+      {"code": "DCDA 30970", "title": "Special Topics in DCDA", "college": "ADRN"},
+      {"code": "DCDA 40273", "title": "DCDA Internship", "college": "ADRN"},
+      {"code": "DSGN 10103", "title": "Intro to Creative Practice", "college": "Fine Arts"},
+      {"code": "DSGN 10153", "title": "Introduction to Computer Graphics", "college": "Fine Arts"},
+      {"code": "EDUC 50236", "title": "Digital Communication & Collaboration", "college": "EDUC"},
+      {"code": "ENGL 20813", "title": "Introduction to Digital Humanities", "college": "ADRN"},
+      {"code": "ENGL 30803", "title": "Theories of Cinema", "college": "ADRN"},
+      {"code": "HCOL 41203", "title": "Society through Multimedia", "college": "HONORS"},
+      {"code": "HIST 30673", "title": "History of Museums and Collecting", "college": "ADRN"},
+      {"code": "HIST 30693", "title": "Technologies of History - From Cuneiform to Coding", "college": "ADRN"},
+      {"code": "HIST 30803", "title": "U.S. Urban History", "college": "ADRN"},
+      {"code": "HIST 30813", "title": "Oral History Field Research Seminar", "college": "ADRN"},
+      {"code": "INTR 20103", "title": "Tech Skills for Emerging Professionals", "college": "INTR"},
+      {"code": "RELI 30483", "title": "Digital Religion", "college": "ADRN"},
+      {"code": "SOCI 30583", "title": "Technology, Social Media and Society", "college": "ADRN"},
+      {"code": "STCO 36403", "title": "Digital Storytelling", "college": "Schieffer"},
+      {"code": "STCO 43803", "title": "New Media", "college": "Schieffer"},
+      {"code": "WRIT 20303", "title": "Writing Games", "college": "ADRN"},
+      {"code": "WRIT 20323", "title": "Introduction to Multimedia Authoring", "college": "ADRN"},
+      {"code": "WRIT 20333", "title": "Language, Technology, and Society", "college": "ADRN"},
+      {"code": "WRIT 30223", "title": "Advanced Technical Writing", "college": "ADRN"},
+      {"code": "WRIT 30283", "title": "Cyberliteracy", "college": "ADRN"},
+      {"code": "WRIT 30390", "title": "Publication Production", "college": "ADRN"},
+      {"code": "WRIT 30603", "title": "Rhetoric of Social Media", "college": "ADRN"},
+      {"code": "WRIT 30893", "title": "Digital Inclusiveness", "college": "ADRN"},
+      {"code": "WRIT 40163", "title": "Multimedia Authoring I: Image and Hypertext", "college": "ADRN"},
+      {"code": "WRIT 40233", "title": "Writing for Publication", "college": "ADRN"},
+      {"code": "WRIT 40243", "title": "Professional Writing", "college": "ADRN"},
+      {"code": "WRIT 40263", "title": "Multimedia Authoring II: Animation and Film", "college": "ADRN"},
+      {"code": "WRIT 40283", "title": "Editing and Publishing", "college": "ADRN"},
+      {"code": "WRIT 40363", "title": "Multimedia Authoring III: Mobile Apps & eBooks", "college": "ADRN"},
+      {"code": "WRIT 40463", "title": "Multimedia Authoring IV: Comics Production", "college": "ADRN"},
+      {"code": "WRIT 40563", "title": "Multimedia Authoring V: Sound & Sampling", "college": "ADRN"}
+    ],
+    "dataAnalytics": [
+      {"code": "COSC 10603", "title": "Introduction to Python for Data Analysis", "college": "COSE"},
+      {"code": "CRJU 20883", "title": "Data Analyses in Criminal Justice", "college": "ADRN"},
+      {"code": "CRJU 30703", "title": "Crime Mapping", "college": "ADRN"},
+      {"code": "DCDA 30970", "title": "Special Topics in DCDA", "college": "ADRN"},
+      {"code": "DCDA 40273", "title": "DCDA Internship", "college": "ADRN"},
+      {"code": "DCDA 40343", "title": "AI & LLM Concepts & Apps", "college": "ADRN", "note": "new"},
+      {"code": "ECON 40313", "title": "Econometrics", "college": "ADRN"},
+      {"code": "ENSC/GEOL 30363", "title": "Intro to Geospatial Tech", "college": "COSE"},
+      {"code": "ENGL 30873", "title": "Digital Approaches to Textual Problems", "college": "ADRN"},
+      {"code": "ENGR 10573", "title": "Applied Programming - MatLab", "college": "COSE"},
+      {"code": "ENTR 30123", "title": "Technology Entrepreneurship", "college": "Neeley"},
+      {"code": "GEOG 30313", "title": "Introduction to GIS", "college": "ADRN"},
+      {"code": "GEOG 30323", "title": "Data Analysis and Visualization", "college": "ADRN"},
+      {"code": "GEOG 30333", "title": "Intro to GIS for Real Estate", "college": "ADRN", "note": "new"},
+      {"code": "GEOG 40303", "title": "Topics in Geospatial Tech", "college": "ADRN", "note": "new"},
+      {"code": "GEOG 40313", "title": "Advanced GIS", "college": "ADRN"},
+      {"code": "GEOG 40323", "title": "Urban & Business GIS", "college": "ADRN"},
+      {"code": "GEOG 40333", "title": "Digital Cartography", "college": "ADRN", "note": "new"},
+      {"code": "GEOL 20113", "title": "Earth System Science", "college": "ADRN", "note": "NSC"},
+      {"code": "INSC 20153", "title": "Statistical Analysis", "college": "Neeley"},
+      {"code": "MATH 10043", "title": "Elementary Statistics", "college": "COSE"},
+      {"code": "WRIT 20833", "title": "Intro to Coding in the Humanities", "college": "ADRN"}
+    ],
+    "honorsSeminarsCapstone": [
+      {"code": "DCDA 30003", "title": "Junior Honors Seminar", "college": "ADRN"},
+      {"code": "DCDA 40003", "title": "Senior Honors Seminar", "college": "ADRN"},
+      {"code": "DCDA 40833", "title": "Capstone Course", "college": "ADRN", "note": "offered each Spring"}
+    ]
+  }
+}
