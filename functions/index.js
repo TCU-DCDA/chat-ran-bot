@@ -2,6 +2,63 @@ const { onRequest } = require("firebase-functions/v2/https");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
 const Anthropic = require("@anthropic-ai/sdk");
+const fs = require("fs");
+const path = require("path");
+
+// Load DCDA data from JSON file
+const dcdaDataPath = path.join(__dirname, "dcda-data.json");
+const dcdaData = JSON.parse(fs.readFileSync(dcdaDataPath, "utf8"));
+
+// Helper function to format DCDA context from JSON data
+function buildDcdaContext(data) {
+  const { programs, approvedCourses } = data;
+  const major = programs.dcda_major;
+  const minor = programs.dcda_minor;
+
+  // Format required categories for major
+  const majorReqs = major.requirements.requiredCategories.courses
+    .map(cat => `- ${cat.category}: ${cat.options.join(", ")}`)
+    .join("\n");
+
+  // Format required categories for minor
+  const minorReqs = minor.requirements.requiredCategories.courses
+    .map(cat => `- ${cat.category}: ${cat.options.join(", ")}`)
+    .join("\n");
+
+  // Pick notable courses (ones with notes or specific highlights)
+  const notableCourses = [
+    ...approvedCourses.dataAnalytics.filter(c => c.note),
+    ...approvedCourses.digitalCulture.slice(0, 3),
+    ...approvedCourses.honorsSeminarsCapstone
+  ].slice(0, 6);
+
+  const notableList = notableCourses
+    .map(c => `- ${c.code}: ${c.title}${c.note ? ` (${c.note})` : ""}`)
+    .join("\n");
+
+  return `\n\n## DCDA (Digital Culture and Data Analytics) Program Details
+
+### DCDA Major (${major.degree}, ${major.totalHours} hours)
+Required categories (${major.requirements.requiredCategories.hours} hours):
+${majorReqs}
+
+Plus ${major.requirements.dcAndDaElectives.hours} hours of DC & DA electives (${major.requirements.dcAndDaElectives.description})
+Plus ${major.requirements.generalElectives.hours} hours of general electives from approved list
+
+### DCDA Minor (${minor.totalHours} hours)
+Required categories (${minor.requirements.requiredCategories.hours} hours):
+${minorReqs}
+
+Plus ${minor.requirements.generalElectives.hours} hours of general electives from approved list
+
+### Notable DCDA Courses:
+${notableList}
+
+### DCDA Advisor Contact:
+For questions about the DCDA program, contact:
+- Email: dcda@tcu.edu
+- Program Director: Dr. Curt Rode (c.rode@tcu.edu)`;
+}
 
 initializeApp();
 const db = getFirestore();
@@ -63,41 +120,8 @@ exports.api = onRequest(
         ? `\n\nProgram abbreviations:\n${Object.entries(abbreviations).map(([abbr, full]) => `- ${abbr} = ${full}`).join("\n")}`
         : "";
 
-      // Build DCDA program details context (always included)
-      const dcdaContext = `\n\n## DCDA (Digital Culture and Data Analytics) Program Details
-
-### DCDA Major (BS, 33 hours)
-Required categories (15 hours):
-- Intro: Choose from ENGL 20813, WRIT 20303, WRIT 20323, or WRIT 20333
-- Statistics: MATH 10043 or INSC 20153
-- Coding: WRIT 20833, GEOG 30323, or COSC 10603
-- Multimedia Authoring: Choose from WRIT 40163/40263/40363/40463/40563, CRWT 30363, STCO 36403, or EDUC 50263
-- Capstone: DCDA 40833 (offered each Spring) or DCDA 40003 (Senior Honors Seminar)
-
-Plus 6 hours of DC & DA electives (1 Digital Culture + 1 Data Analytics)
-Plus 12 hours of general electives from approved list
-
-### DCDA Minor (21 hours)
-Required categories (12 hours):
-- Statistics: MATH 10043 or INSC 20153
-- Coding: WRIT 20833, GEOG 30323, or COSC 10603
-- Multimedia Authoring: Choose from WRIT 40163/40263/40363/40463/40563, CRWT 30363, STCO 36403, or EDUC 50263
-- Capstone: DCDA 40833 or DCDA 40003
-
-Plus 9 hours of general electives from approved list
-
-### Notable DCDA Courses:
-- DCDA 40343: AI & LLM Concepts & Apps (new course!)
-- ADRN 30503: A Human-Centered AI Future
-- WRIT 20833: Intro to Coding in the Humanities
-- GEOG 30323: Data Analysis and Visualization
-- CRWT 30363: Digital Creative Writing
-- STCO 36403: Digital Storytelling
-
-### DCDA Advisor Contact:
-For questions about the DCDA program, contact:
-- Email: dcda@tcu.edu
-- Program Director: Dr. Curt Rode (c.rode@tcu.edu)`;
+      // Build DCDA program details context from JSON data
+      const dcdaContext = buildDcdaContext(dcdaData);
 
       // Build English Department program details context
       const englishContext = `\n\n## English Department Programs
