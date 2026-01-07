@@ -25,6 +25,40 @@ const supportResources = supportCsv.split("\n").slice(1).filter(line => line.tri
   return { name, url };
 });
 
+// Load Core Curriculum data
+const coreCurriculumPath = path.join(__dirname, "core-curriculum.json");
+const coreCurriculumData = JSON.parse(fs.readFileSync(coreCurriculumPath, "utf8"));
+
+// Helper function to format Core Curriculum context
+function buildCoreCurriculumContext(data) {
+  const categories = Object.values(data.requirements)
+    .map(req => `${req.name}:\n${req.categories.map(c => `  - ${c.name}: ${c.hours} hrs`).join("\n")}`)
+    .join("\n\n");
+
+  return `\n\n## TCU Core Curriculum (Fall 2025 and after)
+Applies to: ${data.appliesTo}
+Total hours: ${data.totalHours.minimum}-${data.totalHours.maximum} (${data.totalHours.note})
+
+Rules:
+${data.rules.map(r => `- ${r}`).join("\n")}
+
+Requirements:
+${categories}
+
+Resources for students:
+- Class Search (check Core designations): ${data.resources.classSearch}
+- Advising Sheet (fillable PDF): ${data.resources.advisingSheet}
+- Core Courses Dashboard (requires TCU login): ${data.resources.tableauDashboard}
+
+Policies:
+- Transfer: ${data.policies.transfer}
+- Study Abroad: ${data.policies.studyAbroad}
+- Honors: ${data.policies.honors}
+
+Contact: ${data.contact.name} (${data.contact.email})
+More info: ${data.url}`;
+}
+
 // Helper function to format DCDA context from JSON data
 function buildDcdaContext(data) {
   const { programs, approvedCourses } = data;
@@ -121,6 +155,11 @@ exports.api = onRequest(
         return;
       }
 
+      if (message.length > 1000) {
+        res.status(400).json({ error: "Message too long. Please keep it under 1000 characters." });
+        return;
+      }
+
       // Fetch config from Firestore (abbreviations)
       const abbreviationsDoc = await db.collection("config").doc("abbreviations").get();
       const abbreviations = abbreviationsDoc.exists ? abbreviationsDoc.data() : {};
@@ -190,10 +229,13 @@ For course descriptions and advising: https://addran.tcu.edu/english/academics/a
         { role: "user", content: message }
       ];
 
+      // Build Core Curriculum context
+      const coreCurriculumContext = buildCoreCurriculumContext(coreCurriculumData);
+
       const response = await anthropic.messages.create({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1024,
-        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext + englishContext,
+        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext + englishContext + coreCurriculumContext,
         messages: messages,
       });
 

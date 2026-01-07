@@ -1,0 +1,66 @@
+{
+  "name": "TCU Core Curriculum",
+  "effectiveDate": "Fall 2025",
+  "appliesTo": "Students enrolling in TCU during the 2025-2026 academic year and after",
+  "url": "https://provost.tcu.edu/faculty-resources/core-curriculum/core-curriculum-students/required-courses/",
+  "resources": {
+    "classSearch": "https://classes.tcu.edu/",
+    "advisingSheet": "https://provost.tcu.edu/wp-content/uploads/2025/06/TCU-Core-advising-fillable-or-printable.pdf",
+    "tableauDashboard": "https://tableau.tcu.edu/"
+  },
+  "contact": {
+    "name": "Louisa Mensah",
+    "email": "louisa.mensah@tcu.edu"
+  },
+  "totalHours": {
+    "minimum": 39,
+    "maximum": 63,
+    "note": "Some courses may fulfill more than one requirement"
+  },
+  "rules": [
+    "No more than four requirements may be met in one subject area (by prefix), excluding Oral and Written Communication",
+    "Courses fulfilling Core requirements may also count toward other degree requirements"
+  ],
+  "policies": {
+    "transfer": "Transfer students may fulfill many requirements through transfer/exam credit, but Writing Emphasis courses cannot transfer for students enrolling Fall 2024+",
+    "studyAbroad": "Some study abroad courses count toward Core; check with TCU Global at https://studyabroad.tcu.edu/",
+    "honors": "Honors College offers Honors-designated Core courses"
+  },
+  "requirements": {
+    "criticalCreativeThinking": {
+      "name": "Critical and Creative Thinking",
+      "categories": [
+        { "name": "Fine Arts", "hours": 3 },
+        { "name": "Humanities", "hours": 9 },
+        { "name": "Social Sciences", "hours": 9 },
+        { "name": "Historical Traditions", "hours": 3 },
+        { "name": "Literary Traditions", "hours": 3 },
+        { "name": "Religious Traditions", "hours": 3 }
+      ]
+    },
+    "quantitativeScientificReasoning": {
+      "name": "Quantitative and Scientific Reasoning",
+      "categories": [
+        { "name": "Mathematics", "hours": 3 },
+        { "name": "Natural Sciences", "hours": 6 }
+      ]
+    },
+    "communication": {
+      "name": "Communication",
+      "categories": [
+        { "name": "Oral Communications", "hours": 3 },
+        { "name": "Written Communication I", "hours": 3 },
+        { "name": "Written Communication II", "hours": 3 },
+        { "name": "Writing Emphasis", "hours": 6 }
+      ]
+    },
+    "responsibleCitizenship": {
+      "name": "Responsible Citizenship",
+      "categories": [
+        { "name": "Cultural Awareness", "hours": 3 },
+        { "name": "Global Awareness", "hours": 3 },
+        { "name": "Citizenship and Social Values", "hours": 3 }
+      ]
+    }
+  }
+}

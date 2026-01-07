@@ -2,8 +2,19 @@ const messagesContainer = document.getElementById("messages");
 const chatForm = document.getElementById("chat-form");
 const userInput = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
+const clearBtn = document.getElementById("clear-btn");
 
-let conversationHistory = [];
+let conversationHistory = JSON.parse(localStorage.getItem("conversationHistory") || "[]");
+
+// Restore previous messages on page load
+conversationHistory.forEach(msg => addMessage(msg.content, msg.role));
+
+// Clear chat button
+clearBtn.addEventListener("click", () => {
+  conversationHistory = [];
+  localStorage.removeItem("conversationHistory");
+  messagesContainer.innerHTML = `<div class="message assistant"><p>Hi! I'm here to help you explore programs in AddRan College of Liberal Arts. What would you like to know about our majors, minors, or certificates?</p></div>`;
+});
 
 function addMessage(content, role) {
   const messageDiv = document.createElement("div");
@@ -117,6 +128,10 @@ chatForm.addEventListener("submit", async (e) => {
 
   const message = userInput.value.trim();
   if (!message) return;
+  if (message.length > 1000) {
+    alert("Please keep your message under 1000 characters.");
+    return;
+  }
 
   // Clear input and disable form
   userInput.value = "";
@@ -133,6 +148,7 @@ chatForm.addEventListener("submit", async (e) => {
     const response = await sendMessage(message);
     hideLoading();
     addMessage(response, "assistant");
+    localStorage.setItem("conversationHistory", JSON.stringify(conversationHistory));
   } catch (error) {
     hideLoading();
     addMessage("Sorry, I encountered an error. Please try again.", "assistant");

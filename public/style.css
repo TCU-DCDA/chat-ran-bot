@@ -44,6 +44,22 @@ body {
   opacity: 0.9;
 }
 
+#clear-btn {
+  margin-top: 0.75rem;
+  padding: 0.4rem 1rem;
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#clear-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .chat-messages {
   flex: 1;
   overflow-y: auto;
