@@ -24,6 +24,18 @@ function formatMarkdown(text) {
   // Escape HTML first
   let html = escapeHtml(text);
 
+  // Convert URLs to clickable links (before other formatting)
+  html = html.replace(
+    /(https?:\/\/[^\s<]+)/g,
+    '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+  );
+
+  // Convert email addresses to mailto links
+  html = html.replace(
+    /([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g,
+    '<a href="mailto:$1">$1</a>'
+  );
+
   // Convert **bold** to <strong>
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 
