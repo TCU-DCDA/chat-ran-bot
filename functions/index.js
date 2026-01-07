@@ -9,6 +9,22 @@ const path = require("path");
 const dcdaDataPath = path.join(__dirname, "dcda-data.json");
 const dcdaData = JSON.parse(fs.readFileSync(dcdaDataPath, "utf8"));
 
+// Load programs from CSV file
+const programsCsvPath = path.join(__dirname, "programs.csv");
+const programsCsv = fs.readFileSync(programsCsvPath, "utf8");
+const programsData = programsCsv.split("\n").slice(1).filter(line => line.trim()).map(line => {
+  const [url, , name, degrees] = line.split(",").map(s => s.replace(/^"|"$/g, "").trim());
+  return { url, name, degrees };
+});
+
+// Load support resources from CSV file
+const supportCsvPath = path.join(__dirname, "support-resources.csv");
+const supportCsv = fs.readFileSync(supportCsvPath, "utf8");
+const supportResources = supportCsv.split("\n").slice(1).filter(line => line.trim()).map(line => {
+  const [name, url] = line.split(",").map(s => s.trim());
+  return { name, url };
+});
+
 // Helper function to format DCDA context from JSON data
 function buildDcdaContext(data) {
   const { programs, approvedCourses } = data;
@@ -80,8 +96,11 @@ CRITICAL RULES:
 - Use plain text only — no markdown headers (###), no bold (**), no special formatting
 - Use simple dashes (-) for bullet lists when needed
 - Be warm but brief
+- ONLY provide information from the program data you have been given — NEVER make up building locations, office locations, phone numbers, or other details
+- When mentioning a program or contact, include the URL or email address if available in your data
 
-If asked about financial aid, housing, registration, etc., briefly redirect to the appropriate office.`;
+REDIRECT TOPICS (provide the URL when redirecting):
+${supportResources.map(r => `- ${r.name}: ${r.url}`).join("\n")}`;
 
 exports.api = onRequest(
   {
@@ -102,19 +121,12 @@ exports.api = onRequest(
         return;
       }
 
-      // Fetch program data and config from Firestore
-      const [programsSnapshot, abbreviationsDoc] = await Promise.all([
-        db.collection("programs").get(),
-        db.collection("config").doc("abbreviations").get()
-      ]);
-
-      const programs = programsSnapshot.docs.map(doc => doc.data());
+      // Fetch config from Firestore (abbreviations)
+      const abbreviationsDoc = await db.collection("config").doc("abbreviations").get();
       const abbreviations = abbreviationsDoc.exists ? abbreviationsDoc.data() : {};
 
-      // Build context with program data
-      const programContext = programs.length > 0
-        ? `\n\nAvailable AddRan programs:\n${programs.map(p => `- ${p.name}: ${p.degrees} (${p.url})`).join("\n")}`
-        : "";
+      // Build context with program data from CSV
+      const programContext = `\n\nAvailable AddRan programs:\n${programsData.map(p => `- ${p.name}: ${p.degrees} (${p.url})`).join("\n")}`;
 
       // Build abbreviations context
       const abbreviationsContext = Object.keys(abbreviations).length > 0
