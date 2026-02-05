@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AddRan Advisor - Admin</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <div class="admin-container">
+    <header class="admin-header">
+      <h1>AddRan Advisor Admin</h1>
+      <p>Manage articles and view feedback</p>
+    </header>
+
+    <!-- Simple password gate (not secure - just prevents casual access) -->
+    <div id="auth-gate" class="auth-gate">
+      <div class="auth-box">
+        <h2>Admin Access</h2>
+        <input type="password" id="admin-password" placeholder="Enter admin password">
+        <button id="auth-btn">Enter</button>
+        <p class="auth-error" id="auth-error"></p>
+      </div>
+    </div>
+
+    <main id="admin-main" class="admin-main hidden">
+      <!-- Tabs -->
+      <nav class="admin-tabs">
+        <button class="tab-btn active" data-tab="articles">Articles</button>
+        <button class="tab-btn" data-tab="feedback">Feedback</button>
+      </nav>
+
+      <!-- Articles Tab -->
+      <section id="articles-tab" class="tab-content active">
+        <div class="section-header">
+          <h2>Articles</h2>
+          <div class="header-actions">
+            <button id="rss-check-btn" class="btn-secondary" title="Check RSS feeds for new articles">Check RSS</button>
+            <button id="openalex-check-btn" class="btn-secondary" title="Search OpenAlex for academic papers">Check Academic</button>
+            <button id="add-article-btn" class="btn-primary">Add Article</button>
+          </div>
+        </div>
+        <p id="rss-status" class="source-status"></p>
+        <p id="openalex-status" class="source-status"></p>
+
+        <!-- Add/Edit Article Form -->
+        <div id="article-form" class="article-form hidden">
+          <h3 id="form-title">Add New Article</h3>
+          <input type="hidden" id="article-id">
+          <div class="form-group">
+            <label for="article-title">Title</label>
+            <input type="text" id="article-title" placeholder="Article title">
+          </div>
+          <div class="form-group">
+            <label for="article-source">Source</label>
+            <input type="text" id="article-source" placeholder="e.g., Harvard Business Review">
+          </div>
+          <div class="form-group">
+            <label for="article-url">URL</label>
+            <div class="url-input-group">
+              <input type="url" id="article-url" placeholder="https://...">
+              <button type="button" id="fetch-url-btn" class="btn-secondary" title="Auto-fill from URL">Fetch</button>
+            </div>
+            <p class="fetch-status" id="fetch-status"></p>
+          </div>
+          <div class="form-group">
+            <label for="article-date">Date</label>
+            <input type="date" id="article-date">
+          </div>
+          <div class="form-group">
+            <label for="article-summary">Summary</label>
+            <textarea id="article-summary" rows="3" placeholder="2-3 sentence summary for chatbot context"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Use Case Tags</label>
+            <div class="tags-grid">
+              <label><input type="checkbox" name="tags" value="family-talking-points"> Family Talking Points</label>
+              <label><input type="checkbox" name="tags" value="employer-data"> Employer Data</label>
+              <label><input type="checkbox" name="tags" value="AI-era-skills"> AI-Era Skills</label>
+              <label><input type="checkbox" name="tags" value="career-outcomes"> Career Outcomes</label>
+              <label><input type="checkbox" name="tags" value="research"> Research</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Soft Skill Tags</label>
+            <div class="tags-grid">
+              <label><input type="checkbox" name="tags" value="critical-thinking"> Critical Thinking</label>
+              <label><input type="checkbox" name="tags" value="communication"> Communication</label>
+              <label><input type="checkbox" name="tags" value="problem-solving"> Problem Solving</label>
+              <label><input type="checkbox" name="tags" value="creativity"> Creativity</label>
+              <label><input type="checkbox" name="tags" value="leadership"> Leadership</label>
+              <label><input type="checkbox" name="tags" value="adaptability"> Adaptability</label>
+              <label><input type="checkbox" name="tags" value="collaboration"> Collaboration</label>
+              <label><input type="checkbox" name="tags" value="ethics"> Ethics & Judgment</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="article-status">Status</label>
+            <select id="article-status">
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
+          </div>
+          <div class="form-actions">
+            <button id="save-article-btn" class="btn-primary">Save Article</button>
+            <button id="cancel-article-btn" class="btn-secondary">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Articles List -->
+        <div id="articles-list" class="articles-list">
+          <p class="loading">Loading articles...</p>
+        </div>
+      </section>
+
+      <!-- Feedback Tab -->
+      <section id="feedback-tab" class="tab-content hidden">
+        <div class="section-header">
+          <h2>Feedback</h2>
+          <div class="filter-controls">
+            <select id="feedback-filter">
+              <option value="all">All Feedback</option>
+              <option value="positive">Positive Only</option>
+              <option value="negative">Negative Only</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Feedback Stats -->
+        <div id="feedback-stats" class="feedback-stats">
+          <div class="stat-box">
+            <span class="stat-value" id="total-feedback">-</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-box positive">
+            <span class="stat-value" id="positive-feedback">-</span>
+            <span class="stat-label">Positive</span>
+          </div>
+          <div class="stat-box negative">
+            <span class="stat-value" id="negative-feedback">-</span>
+            <span class="stat-label">Negative</span>
+          </div>
+        </div>
+
+        <!-- Feedback List -->
+        <div id="feedback-list" class="feedback-list">
+          <p class="loading">Loading feedback...</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

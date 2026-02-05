@@ -3,8 +3,34 @@ const chatForm = document.getElementById("chat-form");
 const userInput = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 const clearBtn = document.getElementById("clear-btn");
+const themeToggle = document.getElementById("theme-toggle");
 
 let conversationHistory = JSON.parse(localStorage.getItem("conversationHistory") || "[]");
+
+// Dark mode handling
+function initTheme() {
+  const savedTheme = localStorage.getItem("theme");
+  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const theme = savedTheme || (prefersDark ? "dark" : "light");
+  document.documentElement.setAttribute("data-theme", theme);
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute("data-theme");
+  const newTheme = currentTheme === "dark" ? "light" : "dark";
+  document.documentElement.setAttribute("data-theme", newTheme);
+  localStorage.setItem("theme", newTheme);
+}
+
+initTheme();
+themeToggle.addEventListener("click", toggleTheme);
+
+// Generate a simple session ID for anonymous feedback tracking
+const sessionId = localStorage.getItem("sessionId") || (() => {
+  const id = "session_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+  localStorage.setItem("sessionId", id);
+  return id;
+})();
 
 // Restore previous messages on page load
 conversationHistory.forEach(msg => addMessage(msg.content, msg.role));
@@ -15,7 +41,7 @@ clearBtn.addEventListener("click", () => {
   localStorage.removeItem("conversationHistory");
   messagesContainer.innerHTML = `
     <div class="message assistant">
-      <span class="avatar">🎓</span>
+      <span class="avatar assistant-avatar"></span>
       <div class="message-content">
         <p>Hi! I'm here to help you explore programs in AddRan College of Liberal Arts. What would you like to know?</p>
       </div>
@@ -30,18 +56,48 @@ clearBtn.addEventListener("click", () => {
   attachPromptChipListeners();
 });
 
-function addMessage(content, role, scrollToElement = null) {
+function addMessage(content, role, scrollToElement = null, userQuestion = null) {
   const messageDiv = document.createElement("div");
   messageDiv.className = `message ${role}`;
-  
-  const avatar = role === "assistant" ? "🎓" : "👤";
+  const messageId = "msg_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+  messageDiv.dataset.messageId = messageId;
+
+  const avatarClass = role === "assistant" ? "assistant-avatar" : "user-avatar";
   const contentHtml = role === "assistant" ? formatMarkdown(content) : `<p>${escapeHtml(content)}</p>`;
-  
+
+  // Add feedback buttons for assistant messages (except initial greeting)
+  const feedbackHtml = role === "assistant" && userQuestion ? `
+    <div class="feedback-buttons" data-message-id="${messageId}">
+      <button class="feedback-btn" data-rating="positive" title="Helpful">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>
+        </svg>
+      </button>
+      <button class="feedback-btn" data-rating="negative" title="Not helpful">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/>
+        </svg>
+      </button>
+    </div>
+  ` : "";
+
   messageDiv.innerHTML = `
-    <span class="avatar">${avatar}</span>
+    <span class="avatar ${avatarClass}"></span>
     <div class="message-content">${contentHtml}</div>
+    ${feedbackHtml}
   `;
-  
+
+  // Store message data for feedback
+  if (role === "assistant" && userQuestion) {
+    messageDiv.dataset.userQuestion = userQuestion;
+    messageDiv.dataset.assistantResponse = content;
+  }
+
+  // Attach feedback listeners
+  if (role === "assistant" && userQuestion) {
+    attachFeedbackListeners(messageDiv);
+  }
+
   messagesContainer.appendChild(messageDiv);
   // Scroll to the specified element (user's question) or this message
   const target = scrollToElement || messageDiv;
@@ -110,7 +166,7 @@ function showLoading() {
   loadingDiv.className = "message assistant loading";
   loadingDiv.id = "loading-message";
   loadingDiv.innerHTML = `
-    <span class="avatar">🎓</span>
+    <span class="avatar assistant-avatar"></span>
     <div class="message-content">
       <div class="typing-dots">
         <span></span><span></span><span></span>
@@ -182,11 +238,11 @@ chatForm.addEventListener("submit", async (e) => {
     const response = await sendMessage(message);
     hideLoading();
     // Scroll to user's question so it stays visible with the response
-    addMessage(response, "assistant", userMessageDiv);
+    addMessage(response, "assistant", userMessageDiv, message);
     localStorage.setItem("conversationHistory", JSON.stringify(conversationHistory));
   } catch (error) {
     hideLoading();
-    addMessage("Sorry, I encountered an error. Please try again.", "assistant");
+    addMessage("Sorry, I encountered an error. Please try again.", "assistant", null, null);
   } finally {
     // Re-enable form
     userInput.disabled = false;
@@ -214,3 +270,48 @@ function hideSuggestedPrompts() {
 
 // Attach listeners on page load
 attachPromptChipListeners();
+
+// Feedback handling
+function attachFeedbackListeners(messageDiv) {
+  const buttons = messageDiv.querySelectorAll(".feedback-btn");
+  buttons.forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const rating = btn.dataset.rating;
+      const messageId = messageDiv.dataset.messageId;
+      const userQuestion = messageDiv.dataset.userQuestion;
+      const assistantResponse = messageDiv.dataset.assistantResponse;
+
+      // Disable buttons and show selected state
+      const container = btn.closest(".feedback-buttons");
+      container.querySelectorAll(".feedback-btn").forEach(b => b.disabled = true);
+      btn.classList.add("selected");
+
+      try {
+        await sendFeedback({
+          messageId,
+          userQuestion,
+          assistantResponse,
+          rating,
+          sessionId,
+          timestamp: new Date().toISOString()
+        });
+        container.classList.add("submitted");
+      } catch (error) {
+        console.error("Failed to submit feedback:", error);
+        // Re-enable buttons on error
+        container.querySelectorAll(".feedback-btn").forEach(b => b.disabled = false);
+        btn.classList.remove("selected");
+      }
+    });
+  });
+}
+
+async function sendFeedback(feedbackData) {
+  const response = await fetch("/feedback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(feedbackData)
+  });
+  if (!response.ok) throw new Error("Feedback submission failed");
+  return response.json();
+}
