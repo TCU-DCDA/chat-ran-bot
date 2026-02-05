@@ -3,7 +3,7 @@
 ## UI Enhancements
 
 ### ✅ Completed
-- [x] Avatar icons (🎓 for assistant, 👤 for user)
+- [x] Avatar icons (CSS-based assistant & user avatars)
 - [x] Animated typing dots (bouncing dots instead of "Thinking...")
 - [x] Suggested prompts (clickable chips for common questions)
 - [x] Send button icon (paper plane instead of "Send" text)
@@ -11,13 +11,14 @@
 - [x] Chat bubble styling (white assistant, gradient user)
 - [x] Bold text and bullet list support
 - [x] Smart scroll (keeps question visible when response arrives)
+- [x] **TCU/AddRan logo** - SVG wordmark replacing emoji header
+- [x] **Dark mode toggle** - CSS custom properties with theme persistence
+- [x] **Feedback buttons** - Thumbs up/down on responses, logged to Firestore
 
 ### 🔜 Next Up
-- [ ] **TCU/AddRan logo** - Replace 🎓 emoji with official branding
-- [ ] **Timestamp badges** - Subtle time indicators on messages
-- [ ] **Dark mode toggle** - Students love this
-- [ ] **Feedback buttons** - 👍/👎 on responses for improvement data
+- [ ] **Fix horizontal drift on mobile** - Content overflows on smaller screens
 - [ ] **Mobile polish** - Larger touch targets, better keyboard handling
+- [ ] **Timestamp badges** - Subtle time indicators on messages
 
 ### 💡 Future Ideas
 - [ ] **Expandable program cards** - Interactive cards when listing majors
@@ -25,53 +26,63 @@
 - [ ] **Conversation export** - Save chat as PDF for reference
 - [ ] **Voice input** - Microphone button for accessibility
 - [ ] **Progress indicator** - Show when fetching program data
+- [ ] **Conversation history** - Let returning students pick up where they left off
+
+---
+
+## Program Data
+
+### ✅ Completed
+- [x] 23 program detail JSON files extracted from Excel spreadsheets
+- [x] Extraction pipeline (`scripts/extract_programs.py`) with verification
+- [x] Program details wired into chatbot system prompt (~4,800 tokens)
+- [x] DCDA dedicated data file with full course listings
+- [x] Core Curriculum data (Fall 2025+) with rules and requirements
+- [x] English Department hand-curated Spring 2026 highlights
+- [x] Support resources CSV (career services, tutoring, etc.)
+
+### 🔜 Next Up
+- [ ] **Periodic re-extraction** - Update JSONs when Excel files change
+- [ ] **Minor programs** - Add minor/certificate data if available
 
 ---
 
 ## Article Collection & Curation Pipeline
 
-### Current State
-- **4 verified articles** in Firestore with working URLs
-- Articles tagged with: `family-talking-points`, `employer-data`, `AI-era-skills`, `career-outcomes`, `research`
-- Chatbot includes articles in context for relevant queries
-
-### Phase 1: Manual Curation (Current)
+### ✅ Phase 1: Manual Curation
 - [x] Firestore `articles` collection schema
 - [x] Seed script for adding articles
 - [x] Status field (`approved`, `pending`, `rejected`)
 - [x] Tags for filtering by topic
 
-### Phase 2: Streamlined Admin
-- [ ] **Simple admin page** - Form to add articles without code
-  - URL input → auto-fetch title, source, date
-  - Tag checkboxes
-  - Approve/reject buttons
+### ✅ Phase 2: Streamlined Admin
+- [x] **Admin dashboard** - Full CRUD for articles at `/admin.html`
+  - URL input with auto-fetch title, source, date
+  - Tag checkboxes (use case + soft skill tags)
+  - Approve/reject/pending status
 - [ ] **Article preview** - See how article will appear in responses
 - [ ] **Bulk import** - CSV upload for multiple articles
 
-### Phase 3: Semi-Automated Discovery
-- [ ] **RSS feed monitoring** - Track sources like:
-  - Chronicle of Higher Education
-  - Inside Higher Ed
-  - World Economic Forum
-  - Fast Company (work/education)
-  - Harvard Business Review
+### ✅ Phase 3: Semi-Automated Discovery (Partial)
+- [x] **RSS feed monitoring** - Fast Company, Harvard Business Review, NYT
+- [x] **OpenAlex academic search** - Finds relevant scholarly papers
+- [x] **Scheduled RSS checking** - Cloud Function runs on schedule
 - [ ] **Google Alerts integration** - "liberal arts career" / "humanities AI"
 - [ ] **Weekly digest** - Email summary of new articles to review
 - [ ] **Auto-tagging** - Suggest tags based on content keywords
 
-### Phase 4: AI-Assisted Curation
+### 🔜 Phase 4: AI-Assisted Curation
 - [ ] **Relevance scoring** - Claude rates article fit (1-10)
 - [ ] **Summary generation** - Auto-generate article summaries
 - [ ] **Duplicate detection** - Flag similar articles
 - [ ] **Freshness tracking** - Alert when articles get stale (>1 year)
 - [ ] **Source credibility** - Weight established sources higher
 
-### Phase 5: Full Automation (Future)
+### 💡 Phase 5: Full Automation (Future)
 - [ ] **Scheduled scraping** - Daily check of target sources
 - [ ] **Auto-approval threshold** - High-confidence articles go live
 - [ ] **A/B testing** - Track which articles students engage with
-- [ ] **Feedback loop** - Demote articles that get 👎 reactions
+- [ ] **Feedback loop** - Demote articles that get negative reactions
 
 ---
 
@@ -90,10 +101,16 @@
 - Bureau of Labor Statistics
 
 ### Business & Leadership
-- Harvard Business Review
-- Fast Company
+- Harvard Business Review ✅ (RSS active)
+- Fast Company ✅ (RSS active)
 - Forbes (Education section)
 - McKinsey Insights
+
+### News
+- New York Times ✅ (RSS active)
+
+### Academic
+- OpenAlex ✅ (API active)
 
 ### Tech & AI
 - MIT Technology Review
@@ -105,11 +122,15 @@
 
 ## Priority Order
 
-1. **Admin page for articles** - Reduce friction for adding content
-2. **Dark mode** - Quick win, high student appeal
-3. **RSS monitoring** - Passive article discovery
-4. **Feedback buttons** - Data for improvement
-5. **AI-assisted curation** - Scale the pipeline
+1. ~~Admin page for articles~~ ✅
+2. ~~Dark mode~~ ✅
+3. ~~RSS monitoring~~ ✅
+4. ~~Feedback buttons~~ ✅
+5. **Fix mobile horizontal drift** - Layout issue on small screens
+6. **Mobile polish** - Touch targets, keyboard handling
+7. **AI-assisted curation** - Scale the pipeline
+8. **Timestamp badges** - Time indicators on messages
+9. **Conversation history** - Returning student experience
 
 ---
 
@@ -131,7 +152,30 @@
 }
 ```
 
+### Program Data Schema
+```javascript
+{
+  name: "Anthropology",
+  abbreviation: "ANTH",
+  degree: "BA",
+  totalHours: 30,
+  url: "https://www.tcu.edu/academics/programs/anthropology.php",
+  descriptions: ["paragraph 1", "paragraph 2"],
+  requirements: {
+    requiredCourses: { hours: 9, courses: ["ANTH 20613 - Intro...", ...] },
+    electiveCourses: { hours: 21, description: "..." }
+  },
+  careerOptions: ["Non-profit Manager", ...],
+  contacts: [{ role: "Department Chair", name: "...", email: "...", phone: "..." }],
+  internship: { description: "..." }
+}
+```
+
+### Active RSS Endpoints
+- Fast Company: `https://www.fastcompany.com/latest/rss?truncated=true`
+- Harvard Business Review: `https://feeds.hbr.org/harvardbusiness`
+- New York Times (Education): `https://rss.nytimes.com/services/xml/rss/nyt/Education.xml`
+
 ### Potential RSS Endpoints
 - WEF: `https://www.weforum.org/feed/`
-- Fast Company: `https://www.fastcompany.com/rss`
 - Chronicle: `https://www.chronicle.com/feed`

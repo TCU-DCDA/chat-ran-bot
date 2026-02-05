@@ -56,6 +56,16 @@ clearBtn.addEventListener("click", () => {
   attachPromptChipListeners();
 });
 
+function formatTimestamp(date) {
+  const now = new Date();
+  const d = date || now;
+  const hours = d.getHours();
+  const minutes = d.getMinutes().toString().padStart(2, "0");
+  const ampm = hours >= 12 ? "PM" : "AM";
+  const h = hours % 12 || 12;
+  return `${h}:${minutes} ${ampm}`;
+}
+
 function addMessage(content, role, scrollToElement = null, userQuestion = null) {
   const messageDiv = document.createElement("div");
   messageDiv.className = `message ${role}`;
@@ -64,6 +74,7 @@ function addMessage(content, role, scrollToElement = null, userQuestion = null) 
 
   const avatarClass = role === "assistant" ? "assistant-avatar" : "user-avatar";
   const contentHtml = role === "assistant" ? formatMarkdown(content) : `<p>${escapeHtml(content)}</p>`;
+  const timestamp = formatTimestamp();
 
   // Add feedback buttons for assistant messages (except initial greeting)
   const feedbackHtml = role === "assistant" && userQuestion ? `
@@ -83,8 +94,11 @@ function addMessage(content, role, scrollToElement = null, userQuestion = null) 
 
   messageDiv.innerHTML = `
     <span class="avatar ${avatarClass}"></span>
-    <div class="message-content">${contentHtml}</div>
-    ${feedbackHtml}
+    <div class="message-body">
+      <div class="message-content">${contentHtml}</div>
+      <span class="message-timestamp">${timestamp}</span>
+      ${feedbackHtml}
+    </div>
   `;
 
   // Store message data for feedback

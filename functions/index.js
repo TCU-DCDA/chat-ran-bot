@@ -784,6 +784,53 @@ function isRelevantArticle(article, keywords) {
   return keywords.some(keyword => searchText.includes(keyword.toLowerCase()));
 }
 
+// AI-assisted curation: generate summary and suggest tags for a new article
+const AVAILABLE_TAGS = [
+  "family-talking-points", "employer-data", "AI-era-skills", "career-outcomes", "research",
+  "critical-thinking", "communication", "problem-solving", "creativity",
+  "leadership", "adaptability", "collaboration", "ethics"
+];
+
+async function aiCurateArticle(articleDocId, title, rawSummary, source) {
+  try {
+    const response = await anthropic.messages.create({
+      model: "claude-sonnet-4-20250514",
+      max_tokens: 300,
+      system: `You are a content curator for an academic advising chatbot at AddRan College of Liberal Arts (TCU). Given an article title, source, and raw summary, return a JSON object with:
+1. "summary": A concise 2-3 sentence summary useful for a chatbot context window. Focus on why this matters for liberal arts students.
+2. "tags": An array of relevant tags from this list: ${AVAILABLE_TAGS.join(", ")}. Pick 1-4 tags that best fit.
+
+Return ONLY valid JSON, no markdown fences.`,
+      messages: [
+        {
+          role: "user",
+          content: `Title: ${title}\nSource: ${source}\nRaw Summary: ${rawSummary || "No summary available."}`
+        }
+      ]
+    });
+
+    const text = response.content[0].text.trim();
+    const parsed = JSON.parse(text);
+
+    // Validate tags
+    const validTags = (parsed.tags || []).filter(t => AVAILABLE_TAGS.includes(t));
+
+    // Update the Firestore document
+    await db.collection("articles").doc(articleDocId).update({
+      summary: parsed.summary || rawSummary,
+      tags: validTags.length > 0 ? validTags : ["research"],
+      ai_curated: true,
+      updated_at: new Date()
+    });
+
+    console.log(`AI curated article "${title}" with tags: ${validTags.join(", ")}`);
+    return true;
+  } catch (error) {
+    console.warn(`AI curation failed for "${title}":`, error.message);
+    return false;
+  }
+}
+
 // Fetch and process a single RSS feed
 async function processFeed(feedConfig) {
   const results = { added: 0, skipped: 0, errors: [] };
@@ -822,18 +869,21 @@ async function processFeed(feedConfig) {
       }
 
       // Add new article with pending status
-      await db.collection("articles").add({
+      const docRef = await db.collection("articles").add({
         title: article.title,
         source: article.source,
         url: article.url,
         date: article.date,
         summary: article.summary,
-        tags: [], // Admin will add tags during review
+        tags: [], // AI will suggest tags
         status: "pending",
         feedUrl: article.feedUrl,
         created_at: new Date(),
         updated_at: new Date()
       });
+
+      // AI-assisted curation: generate summary and suggest tags
+      await aiCurateArticle(docRef.id, article.title, article.summary, article.source);
 
       results.added++;
     }
@@ -1000,12 +1050,13 @@ async function processOpenAlexSearch(searchConfig) {
       }
 
       // Add new article with pending status
-      await db.collection("articles").add({
+      const rawSummary = summary || `Academic paper with ${work.cited_by_count || 0} citations.`;
+      const docRef = await db.collection("articles").add({
         title: work.title,
         source: source,
         url: work.doi,
         date: work.publication_date ? new Date(work.publication_date) : new Date(),
-        summary: summary || `Academic paper with ${work.cited_by_count || 0} citations.`,
+        summary: rawSummary,
         tags: ["research"],
         status: "pending",
         citedByCount: work.cited_by_count || 0,
@@ -1015,6 +1066,9 @@ async function processOpenAlexSearch(searchConfig) {
         created_at: new Date(),
         updated_at: new Date()
       });
+
+      // AI-assisted curation: generate summary and suggest tags
+      await aiCurateArticle(docRef.id, work.title, rawSummary, source);
 
       results.added++;
     }
