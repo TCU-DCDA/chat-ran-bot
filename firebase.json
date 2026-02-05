@@ -13,6 +13,55 @@
           "functionId": "api",
           "region": "us-central1"
         }
+      },
+      {
+        "source": "/feedback",
+        "function": {
+          "functionId": "feedback",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/admin/articles",
+        "function": {
+          "functionId": "adminArticles",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/admin/articles/**",
+        "function": {
+          "functionId": "adminArticle",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/admin/feedback",
+        "function": {
+          "functionId": "adminFeedback",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/admin/fetch-url",
+        "function": {
+          "functionId": "fetchUrlMetadata",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/admin/rss-check",
+        "function": {
+          "functionId": "triggerRssCheck",
+          "region": "us-central1"
+        }
+      },
+      {
+        "source": "/admin/openalex-check",
+        "function": {
+          "functionId": "triggerOpenAlexCheck",
+          "region": "us-central1"
+        }
       }
     ]
   },

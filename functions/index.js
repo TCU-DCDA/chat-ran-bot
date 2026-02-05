@@ -214,6 +214,7 @@ ${supportResources.map(r => `- ${r.name}: ${r.url}`).join("\n")}`;
 exports.api = onRequest(
   {
     cors: true,
+    invoker: "public",
     secrets: ["ANTHROPIC_API_KEY"]
   },
   async (req, res) => {
@@ -365,7 +366,7 @@ For course descriptions and advising: https://addran.tcu.edu/english/academics/a
 // - Use Claude to categorize and summarize feedback patterns
 // - A/B test different response styles based on feedback
 exports.feedback = onRequest(
-  { cors: true },
+  { cors: true, invoker: "public" },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).send("Method not allowed");
@@ -407,7 +408,7 @@ exports.feedback = onRequest(
 // Admin API - Articles CRUD
 // TODO: Add proper authentication (Firebase Auth) for production
 exports.adminArticles = onRequest(
-  { cors: true },
+  { cors: true, invoker: "public" },
   async (req, res) => {
     const { method } = req;
 
@@ -460,7 +461,7 @@ exports.adminArticles = onRequest(
 
 // Admin API - Single Article (GET, PUT, DELETE)
 exports.adminArticle = onRequest(
-  { cors: true },
+  { cors: true, invoker: "public" },
   async (req, res) => {
     const { method } = req;
 
@@ -535,7 +536,7 @@ exports.adminArticle = onRequest(
 
 // Admin API - Feedback (read-only for now)
 exports.adminFeedback = onRequest(
-  { cors: true },
+  { cors: true, invoker: "public" },
   async (req, res) => {
     if (req.method !== "GET") {
       res.status(405).send("Method not allowed");
@@ -563,7 +564,7 @@ exports.adminFeedback = onRequest(
 
 // URL metadata fetch - extracts title, source, and date from a URL
 exports.fetchUrlMetadata = onRequest(
-  { cors: true },
+  { cors: true, invoker: "public" },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).send("Method not allowed");
@@ -923,7 +924,7 @@ exports.checkRssFeeds = onSchedule(
 
 // Manual trigger for testing RSS feeds (admin only)
 exports.triggerRssCheck = onRequest(
-  { cors: true },
+  { cors: true, invoker: "public" },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).send("Method not allowed");
@@ -1108,7 +1109,7 @@ exports.checkOpenAlex = onSchedule(
 
 // Manual trigger for OpenAlex search (admin only)
 exports.triggerOpenAlexCheck = onRequest(
-  { cors: true },
+  { cors: true, invoker: "public" },
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).send("Method not allowed");
