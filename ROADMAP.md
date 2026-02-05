@@ -20,7 +20,7 @@
 - [x] **Header redesign** - Left-aligned app-bar layout (logo + actions top, title below)
 
 ### 💡 Future Ideas
-- [ ] **Expandable program cards** - Interactive cards when listing majors
+- [x] **Expandable program cards** - Interactive cards when listing majors (backend detection + client rendering)
 - [ ] **Advisor photos** - When suggesting "talk to an advisor"
 - [ ] **Conversation export** - Save chat as PDF for reference
 - [ ] **Voice input** - Microphone button for accessibility
@@ -131,8 +131,8 @@
 7. ~~AI-assisted curation~~ ✅
 8. ~~Timestamp badges~~ ✅
 9. ~~Header redesign~~ ✅
-10. **Relevance scoring** - Claude rates article fit (1-10)
-11. **Expandable program cards** - Interactive cards when listing majors
+10. ~~Expandable program cards~~ ✅
+11. **Relevance scoring** - Claude rates article fit (1-10)
 12. **Conversation export** - Save chat as PDF for reference
 
 ---
