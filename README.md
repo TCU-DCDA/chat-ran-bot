@@ -1,5 +1,7 @@
 # AddRan Advising Chatbot
 
+**Live Site:** https://addran-advisor-9125e.web.app
+
 An interactive chatbot for students considering majors in AddRan College of Liberal Arts at TCU (https://addran.tcu.edu/). The bot is warm, conversational, encouraging, and knowledgeable about liberal arts education.
 
 ## POC Goals

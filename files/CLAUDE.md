@@ -2,6 +2,8 @@
 
 > This file provides context for AI coding assistants (GitHub Copilot, Claude, etc.) working on this project.
 
+**Live Site:** https://addran-advisor-9125e.web.app
+
 ## Project Overview
 
 A Firebase-based chatbot helping students explore majors, minors, and certificates in TCU's AddRan College of Liberal Arts. Uses Claude API (Sonnet) for conversational AI.
