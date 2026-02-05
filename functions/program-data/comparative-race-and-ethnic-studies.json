@@ -1,0 +1,53 @@
+{
+  "name": "Comparative Race and Ethnic Studies",
+  "abbreviation": "CRES",
+  "degree": "BA",
+  "totalHours": 30,
+  "url": "https://www.tcu.edu/academics/programs/comparative-race-ethnic-studies.php",
+  "descriptions": [
+    "Studying Comparative Race and Ethnic Studies offers students the chance to critically examine the impact of the construct of race throughout time in our global society, particularly within the context of power and domination. Our curriculum re-members and centers the lived experiences, material conditions, and cultures and creativity of peoples, who originated from the Americas, Africa, and Asia and the Pacific Islands and, through conquest and colonialism, genocide, enslavement, environmental and economic instability, and migration, were either dispossessed from or made their way to what is now the United States, evolving new cultures and histories that expose the on-going contradictions of our society.",
+    "In addition to reveling in the beauty of the rich cultures of the \u201cGlobal South\u201d and their various diasporas, students who complete a degree in Comparative Race and Ethnic Studies will find themselves prepared to understand the nuances of race and racism; identify systemic racism in their neighborhoods, places of worship, campuses and workplaces, etc.; and apply their newfound knowledge and skills to not only navigate racism but also work collaboratively with others to actively dismantle it.\n    Sociocultural Anthropology\n    Archaeology\n    Physical (biological) Anthropology\n    Linguistic Anthropology"
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 6,
+      "courses": [
+        "CRES 20203 - Gateway Seminar: Intro to Ethnic Studies",
+        "CRES 40003  - CRES Capstone Seminar"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 24,
+      "description": "Elective Major Courses - Eight (8) - 24 hrs.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Program Management",
+    "Journalism",
+    "Civil Rights Law",
+    "Human Rights",
+    "Immigration Law",
+    "Health Sciences",
+    "Marketing",
+    "Environmental Science"
+  ],
+  "contacts": [
+    {
+      "role": "Departament Chair",
+      "name": "Dr. Stacie McCormick",
+      "phone": "817-257-6245",
+      "email": "s.mccormick@tcu.edu",
+      "office": "Reed Hall 414C"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "CRES 40993 - Internship & Field Research Experience - 3 hrs. Prerequisites: Permission from Internship Coordinator Internship Coordinator Dr. Stacie McCormick s.mccormick@tcu.edu"
+  }
+}

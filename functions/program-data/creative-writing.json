@@ -1,0 +1,66 @@
+{
+  "name": "Creative Writing",
+  "abbreviation": "CRWT",
+  "degree": "BA",
+  "totalHours": 33,
+  "url": "https://www.tcu.edu/academics/programs/creative-writing.php",
+  "descriptions": [
+    "By studying literature and writing, you\u2019ll learn how to make connections between ideas, construct persuasive arguments and respect multiple viewpoints. You\u2019ll gain critical-thinking skills that translate to a range of professions \u2014 from law to journalism to social work.",
+    "A degree from the Department of English is exceptional not just in terms of the excellence of our role as writers but in the unique experiences fostered by the exploration of literature, rhetoric and writing. Students and faculty are committed to a variety of intellectual and creative pursuits, working together and independently to challenge and exceed expectations both personally and professionally."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 30,
+      "courses": [
+        "*excludes  ENGL 10803 and ENGL 20803",
+        "CRWT 10203 or CRWT 20103 or CRWT 20133",
+        "CRWT 40703 or CRWT 40803 or CRWT 50233",
+        "WRIT 30390 or WRIT 40273"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 6,
+      "description": "E. Two (2) Upper Division Elective Courses - 6 hrs.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Screenwriter",
+    "Fiction/Non-Fiction Author",
+    "Editor",
+    "Copywriter",
+    "Web Content Writer"
+  ],
+  "contacts": [
+    {
+      "role": "Departament Chair",
+      "name": "Dr. Sharon Weltman",
+      "phone": "817-257-7240",
+      "email": "sharon.weltman@tcu.edu",
+      "office": "Reed 314A"
+    },
+    {
+      "role": "Director of Creative Writing",
+      "name": "Dr. Matthew Pitt",
+      "phone": "817-257-6249",
+      "email": "m.pitt@tcu.edu",
+      "office": "Reed 414B"
+    },
+    {
+      "role": "Director of Undergraduate Studies",
+      "name": "Dr. Jill Havens",
+      "phone": "817-257-6259",
+      "email": "j.havens@tcu.edu",
+      "office": "Reed 317A"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "WRIT 40273 - Writing Internship Prerequisites: 60 credit hrs., major GPA of 3.0 or cum GPA of 2.8 minimum and approval from the English department. Internship Coordinator Dr. Ashok Bhusal A.BHUSAL@tcu.edu"
+  }
+}

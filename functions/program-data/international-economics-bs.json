@@ -1,0 +1,61 @@
+{
+  "name": "International Economics",
+  "abbreviation": "INEQ",
+  "degree": "BS",
+  "totalHours": 30,
+  "url": "https://www.tcu.edu/academics/programs/international-economics.php",
+  "descriptions": [
+    "The economics department at TCU offers a wide variety of courses satisfying the diverse interests of our students and faculty members.",
+    "Reflecting our increasingly globalized world economy, we offer you the chance to learn about the economies of other countries with courses like Asian Economics. With additional offerings in International Trade and International Monetary Economics, we provide you with a valuable grasp of the interconnected nature of our global economy."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 15,
+      "courses": [
+        "ECON 30223 - Intermediate Microeconomics",
+        "ECON 30233 - Intermediate Macroeconomics",
+        "ECON 30243 - Contending Perspectives in ECON",
+        "ECON 40313 or ECON 40323",
+        "ECON 40213 - International Trade & Payments",
+        "ECON 40223 - International Monetary Economics"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 3,
+      "description": "ECON Elective Course - 3 hrs.*",
+      "courses": [
+        "MATH 10283 or MATH 10524 - 3 hrs.",
+        "INSC 20153 or MATH 10043 or MATH 30853 - 3 hrs.",
+        "GEOG 10003 - 3 hrs."
+      ]
+    }
+  },
+  "careerOptions": [
+    "Finance Analyst",
+    "International Business Consultant",
+    "Finance Consultant",
+    "Lawyer",
+    "Public Adminstration",
+    "Banker",
+    "Policy Analyst",
+    "Accountant"
+  ],
+  "contacts": [
+    {
+      "role": "Departament Chair",
+      "name": "Dr. Dawn Elliott",
+      "phone": "817-257-6233",
+      "email": "d.elliott@tcu.edu",
+      "office": "Scharbauer Hall 4016"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "ECON 40990 - Economics Internship Prerequisites: Economics major, cum GPA of at least 3.0, completed a minimum of 12 hrs. in Economics, including either ECON 30223 or ECON 30233 with a grade of C- or better. Internship Coordinator Dr. Rosemarie Fike rosemarie.fike@tcu.edu"
+  }
+}

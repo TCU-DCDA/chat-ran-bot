@@ -1,0 +1,60 @@
+{
+  "name": "Anthropology",
+  "abbreviation": "ANTH",
+  "degree": "BA",
+  "totalHours": 30,
+  "url": "https://www.tcu.edu/academics/programs/anthropology.php",
+  "descriptions": [
+    "Anthropology is the holistic analysis of humanity in all its diversity. Anthropology emphasizes a cross-cultural and global perspective and seeks to understand our species \u2013 Homo Sapiens \u2013 both throughout time and in all geographical regions.",
+    "Anthropology is divided into four subfields: Sociocultural Anthropology, Archaeology, Physical (biological, Anthropology, Linguistic Anthropology."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 9,
+      "courses": [
+        "ANTH 20613 - Introduction to Physical Anthropology",
+        "ANTH 20623 - Introduction  to Cultural Anthropology",
+        "ANTH 20633 - Introduction to Archaeology",
+        "ANTH 20643 - Language and Culture"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 21,
+      "description": "Elective Major Courses - 21 hrs.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Non-profit Manager",
+    "Archaeologist",
+    "Human Resources Manager",
+    "Ethnographer",
+    "Public Administrator",
+    "Medical Examiner's Office",
+    "Cultural Consultant",
+    "Curator"
+  ],
+  "contacts": [
+    {
+      "role": "Departament Chair",
+      "name": "Dr. Carol Thompson",
+      "phone": "817-257-7470",
+      "email": "c.thompson@tcu.edu",
+      "office": "Scharbauer Hall 4220"
+    },
+    {
+      "role": "Director of Anthropology",
+      "name": "Dr. Miguel Leatham",
+      "phone": "817-257-5398",
+      "email": "m.leatham@tcu.edu",
+      "office": "Scharbauer Hall 4223"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {}
+}

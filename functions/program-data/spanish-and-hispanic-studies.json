@@ -1,0 +1,65 @@
+{
+  "name": "Spanish and Hispanic Studies",
+  "abbreviation": "SPAN",
+  "degree": "BA",
+  "totalHours": 33,
+  "url": "https://www.tcu.edu/academics/programs/spanish.php",
+  "descriptions": [
+    "Spanish is increasingly important for employment in many areas of the country. Immerse yourself in this rich and vibrant culture to have a better understanding of business, organizations, politics and people.",
+    "From small classes and student organizations to opportunities for internships and study abroad, majoring in Spanish or Hispanic studies at TCU allows you to develop relationships with professors, discover the world and establish a strong academic and professional support network."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 6,
+      "courses": [
+        "SPAN 20203 or 20213",
+        "SPAN 20103 or 20113",
+        "SPAN 30503",
+        "SPAN 31703",
+        "SPAN 32003",
+        "SPAN 32203",
+        "iv. SPAN 30803 - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 12,
+      "description": "v. Elective Major Courses - Four (4) - 12 hrs.",
+      "courses": [
+        "vi. SPAN 43203 - Senior Seminar - 3 hrs.",
+        "SPAN 30503",
+        "SPAN 31703",
+        "iii. SPAN 30803 - 3 hrs."
+      ]
+    }
+  },
+  "careerOptions": [
+    "Medical Interpreter",
+    "International Entrepreneur",
+    "Immigration Lawyer",
+    "Social Worker",
+    "Paralegal",
+    "Diplomat or Foreign Service Officer",
+    "NGO officer",
+    "I. Museum Curator",
+    "Teacher",
+    "J. Travel Guide"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Sohyun Lee",
+      "phone": "817-257-5402",
+      "email": "sohyun.lee@tcu.edu",
+      "office": "Scharbauer Hall 3105"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "SPAN 41000 - Internship in Spanish Prerequisites: 2 upper-level  courses Internship Coordinators Dr. Maria Ciriza Lope maria.ciriza@tcu.edu"
+  }
+}

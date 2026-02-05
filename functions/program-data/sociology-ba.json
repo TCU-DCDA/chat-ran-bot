@@ -1,0 +1,52 @@
+{
+  "name": "Sociology",
+  "abbreviation": "SOCI",
+  "degree": "BA",
+  "totalHours": 27,
+  "url": "https://www.tcu.edu/academics/programs/sociology.php",
+  "descriptions": [
+    "The basic goal of sociology is to understand social interaction, social groups and culture with the hope that this knowledge will improve the human condition. Sociology fits well with many other degrees and disciplines.",
+    "As a Sociology major, you\u2019ll examine the significant social and cultural forces that shape personal lives, groups, communities, nations and the world. You\u2019ll learn how to navigate complex social structures and influence social policy and change. You\u2019ll develop transferable skills \u2014 critical reasoning, social sensitivity, leadership and knowledge of social institutions \u2014 to be successful in any career."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 9,
+      "courses": [
+        "SOCI 20213 - Introductory Sociology",
+        "SOCI 30383 - Research Methods in Sociology",
+        "SOCI 30833 - Sociological Theory"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 18,
+      "description": "B. Electives - 18 hrs.",
+      "courses": [
+        "A. MATH 10043 - Elementary Statistics - 3 hrs."
+      ]
+    }
+  },
+  "careerOptions": [
+    "Urban Planner",
+    "International Sales Representative",
+    "Policy Analyst",
+    "Health and Environment Specialist"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Carol Thompson",
+      "phone": "817-257-7470",
+      "email": "c.thompson@tcu.edu",
+      "office": "Scharbauer Hall 4220"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "SOCI 40623 - Sociology Internship and Professional Development Prerequisites: 2.5 GPA in Sociology major, completion of 12 hrs of SOCI courses and approval of instructor. Internship Coordinator Keith Whitworth k.whitworth@tcu.edu"
+  }
+}

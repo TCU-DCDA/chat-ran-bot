@@ -1,0 +1,58 @@
+{
+  "name": "Women & Gender Studies",
+  "abbreviation": "WGST",
+  "degree": "BA",
+  "totalHours": 30,
+  "url": "https://www.tcu.edu/academics/programs/women-gender-studies.php",
+  "descriptions": [
+    "TCU\u2019s Department of Women and Gender Studies puts women, gender, and sexuality at the center of academic investigation. Our programs promote inquiry into the intersections of gender with other identity categories; the workings of power in society; and the means of advancing social justice and equality.",
+    "The skills and knowledge gained through this degree are valuable in any profession that values diversity, equity, and inclusion."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 9,
+      "courses": [
+        "WGST 20003 - Intro to Women & Gender Studies",
+        "WGST 30503 - Foundations in Women, Gender,",
+        "WGST 50103 - Feminist/Queer Inquiry",
+        "WGST 30193 - Queer Theories",
+        "WGST 30203 - Social Justice Organizing & Activism",
+        "WGST 30303 - Feminisms of Color",
+        "WGST 30403 - Transnational Gender & Sexuality"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 12,
+      "description": "C. Elective Courses - 12 hrs.",
+      "courses": [
+        "WGST 40503 - Senior Capstone Project/Thesis"
+      ]
+    }
+  },
+  "careerOptions": [
+    "Teaching",
+    "Advocacy and Social Justice",
+    "Journalism",
+    "Public Administration",
+    "Public Relations",
+    "Human Resources Specialist"
+  ],
+  "contacts": [
+    {
+      "role": "Interim Department Chair",
+      "name": "Dr. Stacie McCormick",
+      "phone": "817-257-6245",
+      "email": "s.mccormick@tcu.edu",
+      "office": "Reed Hall 414C"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "WGST 49000 - Internship in Women and Gender Studies Prerequisites: Approval from Director of the Women and Gender Studies program Internship Coordinator Dr. Stacie McCormick s.mccormick@tcu.edu"
+  }
+}

@@ -13,6 +13,10 @@ firebase-debug.log
 firestore-debug.log
 ui-debug.log
 
+# Source Excel files (large binaries — extracted data lives in functions/program-data/)
+files/other_programs/*.xlsx
+files/other_programs/~$*
+
 # OS
 .DS_Store
 Thumbs.db

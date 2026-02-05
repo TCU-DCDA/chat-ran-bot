@@ -1,0 +1,50 @@
+{
+  "name": "General Studies",
+  "abbreviation": "GENS",
+  "degree": "BGS",
+  "totalHours": 24,
+  "url": "https://www.tcu.edu/academics/programs/general-studies.php",
+  "descriptions": [
+    "At TCU there\u2019s a shared willingness by faculty to collaborate across disciplines in teaching and research. Our goal is for students to build on their new knowledge, making valuable connections between concepts and ideas from different areas of study. This motivates our students to be more creative in their lifelong learning, and enhances the critical thinking skills needed for problem solving in today\u2019s world.",
+    "Like all of our programs centered around a liberal arts core curriculum, the general studies degree is based on a tradition of academic inquiry, opening up the door to a variety of careers."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 24,
+      "courses": [
+        "A. Program does not require a major or minor,",
+        "B. Emphasis areas are restricted to disciplines that allow",
+        "C. Four (4) courses in area of emphasis"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Education Coordinator",
+    "Social Media Coordinator",
+    "City Clerk",
+    "Project Manager",
+    "Human Resources",
+    "Paralegal"
+  ],
+  "contacts": [
+    {
+      "role": "Director of General Studies",
+      "name": "Dr. Muriel Cormican",
+      "phone": "817-257-6040",
+      "email": "muriel.cormican@tcu.edu",
+      "office": "Scharbauer Hall 2017"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {}
+}

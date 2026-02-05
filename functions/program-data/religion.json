@@ -1,0 +1,52 @@
+{
+  "name": "Religion",
+  "abbreviation": "RELI",
+  "degree": "BA",
+  "totalHours": 30,
+  "url": "https://www.tcu.edu/academics/programs/religion.php",
+  "descriptions": [
+    "Courses in the department approach religious traditions historically, textually, aesthetically, philosophically and comparatively, and consider the role of religion in society, culture and individual life.",
+    "These courses introduce students to various methods and issues in the study of religion; familiarize them with the beliefs and practices of various religious traditions; develop their critical thinking, reading and writing skills; and encourage them to explore and evaluate their own culturally conditioned self-understandings and ultimate commitments."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 0,
+      "courses": [
+        "RELI 10023 Communities course",
+        "D. RELI 40603 - Capstone/Seminar",
+        "RELI 30003* - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 9,
+      "description": "E. Electives - 9 hrs.",
+      "courses": [
+        "RELI 20543, 20523, 20533, 20903, or 20643"
+      ]
+    }
+  },
+  "careerOptions": [
+    "Chaplain",
+    "Legal Advisor",
+    "Diplomat",
+    "Non-Profit Manager",
+    "Interfaith Coordinator",
+    "Religious Educator"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Santiago Pinon",
+      "phone": "817-257-6596",
+      "email": "s.pinon@tcu.edu",
+      "office": "Beasley Hall 304"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {}
+}

@@ -1,0 +1,50 @@
+{
+  "name": "Modern Language Studies",
+  "abbreviation": "MDLS",
+  "degree": "BA",
+  "totalHours": 27,
+  "url": "https://www.tcu.edu/academics/programs/modern-language-studies.php",
+  "descriptions": [
+    "Knowing a foreign language will make you more competitive in the job market in fields such as business, government, hospitality, international nonprofits, hospitality, travel and tourism, library science, financial and banking services, interpreting and translating, fine arts, education and the military.",
+    "Our graduates have gone on to succeed as attorneys, administrators, medical professionals and professors. Here are a few examples:\n\n    Project manager, Fraport AG in Germany\n    Legal director, Brainloop\n    Fulbright fellow, Mohamed V University in Morocco\n    German and history teacher, Arlington High School\n    Engagement officer, Akola Project\n    Registered Nurse, Providence Health Center\n    Project specialist, Mercy Corps in Democratic Republic of Congo"
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 3,
+      "courses": [
+        "B. MOLA 20003 - Cosmopolitanism - 3 hrs.",
+        "MOLA 40193 - Senior Seminar - 3 hrs.",
+        "*excluding MOLA 20003 & 40193 as well as 10153 and 10163"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "International Business",
+    "International Sales Representative",
+    "Translator",
+    "Cultural Affairs Officer",
+    "Linguist",
+    "Human Resources"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Nicholas Albanese",
+      "phone": "817-257-6360",
+      "email": "n.albanese@tcu.edu",
+      "office": "Scharbauer Hall 3203"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {}
+}

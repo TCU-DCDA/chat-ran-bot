@@ -1,0 +1,50 @@
+{
+  "name": "Philosophy",
+  "abbreviation": "PHIL",
+  "degree": "BS",
+  "totalHours": 30,
+  "url": "https://www.tcu.edu/academics/programs/philosophy.php",
+  "descriptions": [
+    "Students who excel in philosophy have many career options. Two natural options are to study philosophy in graduate school and then become a professor in philosophy or to go to law school and then become a lawyer.",
+    "But what else? Given that training in philosophy results in a heightened ability to reason critically and write well regardless of the topic, you have many additional career options."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 0,
+      "courses": [
+        "A. Topical Studies - 12 hrs.",
+        "B. Historical Studies - 3 hrs.",
+        "C. Logical Studies - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 12,
+      "description": "D. Electives - 12 hrs.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Publishing",
+    "Screenwriter or Author",
+    "Ethics Consultant",
+    "Lawyer",
+    "Healthcare Administrator",
+    "Human Resources Specialist"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. John Harris",
+      "phone": "817-257-6794",
+      "email": "j.r.harris@tcu.edu",
+      "office": "Scharbauer Hall 3015"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {}
+}

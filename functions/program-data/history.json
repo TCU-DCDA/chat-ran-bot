@@ -1,0 +1,54 @@
+{
+  "name": "History",
+  "abbreviation": "HIST",
+  "degree": "BA",
+  "totalHours": 31,
+  "url": "https://www.tcu.edu/academics/programs/history.php",
+  "descriptions": [
+    "Most of our History majors pursue careers outside of History. Our courses will prepare you for a variety of career paths by developing your skills in research, synthesizing large amounts of information, constructing arguments, and communicating your ideas effectively.",
+    "Check out the different Minors available to see how History courses will prepare you for jobs in those areas:"
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 7,
+      "courses": [
+        "ADRN 20101 - Make Your Major Work",
+        "HIST 20003 - The Historian's Craft",
+        "HIST 49903 - History Major Seminar"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "Elective Major Courses - Five (5) - 15 hrs.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Museum Curator",
+    "Program Coordinator",
+    "Attorney",
+    "Policy Analyst",
+    "Grant Writer",
+    "Public Historian",
+    "Archivist",
+    "Professor"
+  ],
+  "contacts": [
+    {
+      "role": "Departament Chair",
+      "name": "Dr. William Meir",
+      "phone": "817-257-6302",
+      "email": "w.meier@tcu.edu",
+      "office": "Reed Hall 308A"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "The history department's internship program helps students gain practical experience working in museums and archives or on history-related projects for local organizations. Internship Options Include: The National Archives at Fort Worth, The Fort Worth Museum of Science and History, and The Tarrant County Archives You can also explore other local institutions, and access volunteer opportunities"
+  }
+}

@@ -29,6 +29,18 @@ const supportResources = supportCsv.split("\n").slice(1).filter(line => line.tri
 const coreCurriculumPath = path.join(__dirname, "core-curriculum.json");
 const coreCurriculumData = JSON.parse(fs.readFileSync(coreCurriculumPath, "utf8"));
 
+// Load all program detail JSON files from program-data directory
+const programDataDir = path.join(__dirname, "program-data");
+const programDetails = [];
+if (fs.existsSync(programDataDir)) {
+  const programFiles = fs.readdirSync(programDataDir).filter(f => f.endsWith(".json"));
+  for (const file of programFiles) {
+    const data = JSON.parse(fs.readFileSync(path.join(programDataDir, file), "utf8"));
+    programDetails.push(data);
+  }
+  console.log(`Loaded ${programDetails.length} program detail files.`);
+}
+
 // Helper function to format Core Curriculum context
 function buildCoreCurriculumContext(data) {
   const categories = Object.values(data.requirements)
@@ -108,6 +120,55 @@ ${notableList}
 For questions about the DCDA program, contact:
 - Email: dcda@tcu.edu
 - Program Director: Dr. Curt Rode (c.rode@tcu.edu)`;
+}
+
+// Helper function to format program details context from JSON files
+function buildProgramDetailsContext(programs) {
+  if (programs.length === 0) return "";
+
+  const sections = programs.map(p => {
+    const lines = [];
+    lines.push(`### ${p.name} (${p.degree}, ${p.totalHours} hours)`);
+    if (p.url) lines.push(p.url);
+
+    if (p.descriptions && p.descriptions[0]) {
+      const desc = p.descriptions[0];
+      lines.push(desc.length > 200 ? desc.substring(0, 200) + "..." : desc);
+    }
+
+    const req = p.requirements || {};
+    if (req.requiredCourses && req.requiredCourses.courses.length > 0) {
+      lines.push(`Required (${req.requiredCourses.hours} hrs): ${req.requiredCourses.courses.join(", ")}`);
+    }
+    if (req.electiveCourses && (req.electiveCourses.hours > 0 || req.electiveCourses.description)) {
+      const desc = req.electiveCourses.description || "See advisor for options";
+      lines.push(`Electives (${req.electiveCourses.hours} hrs): ${desc}`);
+    }
+
+    if (p.careerOptions && p.careerOptions.length > 0) {
+      lines.push(`Careers: ${p.careerOptions.join(", ")}`);
+    }
+
+    if (p.contacts && p.contacts.length > 0) {
+      const contactLines = p.contacts.map(c => {
+        const parts = [c.role];
+        if (c.name) parts.push(c.name);
+        if (c.email) parts.push(c.email);
+        if (c.phone) parts.push(c.phone);
+        return `- ${parts.join(", ")}`;
+      });
+      lines.push(`Contacts:\n${contactLines.join("\n")}`);
+    }
+
+    if (p.internship && p.internship.description) {
+      const iDesc = p.internship.description;
+      lines.push(`Internship: ${iDesc.length > 150 ? iDesc.substring(0, 150) + "..." : iDesc}`);
+    }
+
+    return lines.join("\n");
+  });
+
+  return `\n\n## Detailed Program Information\n\n${sections.join("\n\n")}`;
 }
 
 initializeApp();
@@ -257,10 +318,13 @@ For course descriptions and advising: https://addran.tcu.edu/english/academics/a
       // Build Core Curriculum context
       const coreCurriculumContext = buildCoreCurriculumContext(coreCurriculumData);
 
+      // Build detailed program context from JSON files
+      const programDetailsContext = buildProgramDetailsContext(programDetails);
+
       const response = await anthropic.messages.create({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1024,
-        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext + englishContext + coreCurriculumContext + articlesContext,
+        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext + englishContext + programDetailsContext + coreCurriculumContext + articlesContext,
         messages: messages,
       });
 

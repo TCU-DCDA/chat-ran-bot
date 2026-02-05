@@ -1,0 +1,65 @@
+{
+  "name": "Criminology & Criminal Justice",
+  "abbreviation": "CRJU",
+  "degree": "BS",
+  "totalHours": 43,
+  "url": "https://www.tcu.edu/academics/programs/criminal-justice.php",
+  "descriptions": [
+    "Learn about incarceration and the penal system, parole and probation, policing, criminal investigation, the causes and consequences of crime, the court system, criminal procedure and much more. The Bachelor of Science in Criminology & Criminal Justice degree requires a total of 120 semester hours of study.",
+    "In addition to the university\u2019s core requirements, criminal justice majors must complete 43 hours specifically in criminology & criminal justice courses. This includes foundational courses such as Introduction to Criminal Justice, Critical Issues in Crime and Justice, Criminological Theory, and Research Design, plus advanced courses in theory and on each subcomponent of the criminal justice system \u2013 policing, law, and corrections. You\u2019ll also get hands-on experience in a required senior internship."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 22,
+      "courses": [
+        "CRJU 10121 - Career Planning, Ethics & PD - 1 hr.",
+        "CRJU 20413 - Intro to Criminal Justice - 3 hrs.",
+        "CRJU 20423 - Critical Issues in Crime & Justice - 3 hrs.",
+        "CRJU 20873 - Research Design in CRJU - 3 hrs.",
+        "CRJU 20883 - Data Analyses In CRJU - 3 hrs.",
+        "CRJU 30333 - Criminological Theory - 3 hrs.",
+        "CRJU 30423 - Courts and Judicial Process - 3 hrs.",
+        "CRJU 40963 - Internship in CRJU - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 9,
+      "description": "Elective Major Courses - 9 hrs.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Attorney",
+    "Police Officer",
+    "Federal Law Enforcement Agent",
+    "Forensic Psychologist",
+    "Forensic Scientist",
+    "Policy Analyst",
+    "Cybersecurity Analyst",
+    "Private Security Consultant"
+  ],
+  "contacts": [
+    {
+      "role": "Departament Chair",
+      "name": "Dr. Brie Diamond",
+      "phone": "817-257-6152",
+      "email": "b.diamond@tcu.edu",
+      "office": "Scharbauer Hall 4206"
+    },
+    {
+      "role": "Director of Undergraduate Studies",
+      "name": "Dr. Katherine Polzer",
+      "phone": "817-257-6038",
+      "email": "k.l.polzer@tcu.edu"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "Gain practical experience in criminal justice and receive credit for interning under a practioner/mentor at the city, county, state or federal level in any area within the criminal justice system. Our requried internship in Criminal Justice course"
+  }
+}

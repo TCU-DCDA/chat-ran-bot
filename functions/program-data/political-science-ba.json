@@ -1,0 +1,58 @@
+{
+  "name": "Political Science",
+  "abbreviation": "POSC",
+  "degree": "BA",
+  "totalHours": 30,
+  "url": "https://www.tcu.edu/academics/programs/political-science.php",
+  "descriptions": [
+    "With a strong foundation in the liberal arts, TCU political science majors are well suited for a variety of successful careers. Occupational opportunities include government administration, politics and campaigns, public policy, non-profit organizations, international relations, business and journalism.",
+    "TCU political science grads are also prepared to pursue graduate degrees specializing in the study of specific regions, business, law or diplomacy. Our alumni have won Fulbright scholarships and attended elite law schools and graduate programs\u2014at Harvard, Yale, University of Chicago and many others."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 0,
+      "courses": [
+        "POSC 10133 - American & Texas Government",
+        "POSC 20093 - Scope & Methods of Political Science",
+        "POSC 20123 - Intro to American Politics",
+        "POSC 20203 - Intro to Political Theory",
+        "POSC 20303 - International Politics",
+        "POSC 20403 - Intro to Public Law",
+        "POSC 20503 - Intro to Comparative Politics",
+        "POSC 31990",
+        "POSC 34073"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 3,
+      "description": "D. Any Political Science course (elective) - 3 hrs.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "International Business",
+    "International Sales Representative",
+    "Lobbyist",
+    "Cultural Affairs Officer",
+    "Linguist",
+    "Educational Administrator"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Michael Strausz",
+      "phone": "817-257-6403",
+      "email": "michael.strausz@tcu.edu",
+      "office": "Scharbauer Hall 2007F"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "invaluable for helping sort out which career path most interests you. Local Civic Literacy Internships Civic Literacy Internships require 150 hours of service with a local governmental or nonprofit agency to receive three hours of political science credit. Eligible interns can be reimbursed up to $500 for the costs of transportation and professional clothing. Placements include: Arise Africa, CASA of Tarrant County, Congressman Roger Williams, Fort Worth"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "name": "Geography",
+  "abbreviation": "GEOG",
+  "degree": "BS",
+  "totalHours": 45,
+  "url": "https://www.tcu.edu/academics/programs/geography.php",
+  "descriptions": [
+    "We believe students thrive when they form relationships that make them feel connected \u2014 to each other, to the campus community and to the world around them. With its focus on patterns that explain the evolution of people, places and environments, the study of geography brings this belief to life.",
+    "From small classes and student organizations to opportunities for internships and study abroad, majoring in geography at TCU allows you to develop relationships with professors, discover the world and establish a strong academic and professional support network."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 15,
+      "courses": [
+        "GEOG 10003 - World Regional Geography",
+        "GEOG 10023 - An Urban World",
+        "GEOG 10013 - Physical Geography",
+        "GEOG 20013 - Human Geography",
+        "GEOG 30313 - Intro to Geographic Info Systems",
+        "GEOG 30323 - Data Analysis & Visualization"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 6,
+      "description": "Elective Major Courses- 6 hrs.",
+      "courses": [
+        "MATH 10043 or INSC 20153"
+      ]
+    }
+  },
+  "careerOptions": [
+    "GIS Specialist",
+    "Real Estate Appraiser",
+    "Cartographer",
+    "Humanitarian Aid Worker",
+    "Park Ranger",
+    "Logistics Coordinator"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Kyle Walker",
+      "phone": "817-257-5241",
+      "email": "kyle.walker@tcu.edu",
+      "office": "Scharbauer Hall 2004E"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {}
+}
