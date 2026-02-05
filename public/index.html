@@ -9,6 +9,7 @@
 <body>
   <div class="chat-container">
     <header class="chat-header">
+      <div class="header-icon">🎓</div>
       <h1>AddRan Advisor</h1>
       <p>Explore majors, minors & certificates in Liberal Arts at TCU</p>
       <button id="clear-btn" title="Start new conversation">Clear Chat</button>
@@ -16,7 +17,17 @@
 
     <main class="chat-messages" id="messages">
       <div class="message assistant">
-        <p>Hi! I'm here to help you explore programs in AddRan College of Liberal Arts. What would you like to know about our majors, minors, or certificates?</p>
+        <span class="avatar">🎓</span>
+        <div class="message-content">
+          <p>Hi! I'm here to help you explore programs in AddRan College of Liberal Arts. What would you like to know?</p>
+        </div>
+      </div>
+      
+      <div class="suggested-prompts" id="suggested-prompts">
+        <button class="prompt-chip" data-prompt="What majors do you offer?">What majors do you offer?</button>
+        <button class="prompt-chip" data-prompt="Tell me about the English program">English program</button>
+        <button class="prompt-chip" data-prompt="What can I do with a liberal arts degree?">Career paths</button>
+        <button class="prompt-chip" data-prompt="My parents think liberal arts is useless">Convince my parents</button>
       </div>
     </main>
 
@@ -28,7 +39,12 @@
         autocomplete="off"
         required
       >
-      <button type="submit" id="send-btn">Send</button>
+      <button type="submit" id="send-btn" aria-label="Send message">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 2L11 13"/>
+          <path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+        </svg>
+      </button>
     </form>
   </div>
 

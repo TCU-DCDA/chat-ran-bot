@@ -19,5 +19,11 @@ service cloud.firestore {
       allow create: if true;
       allow update, delete: if false;
     }
+
+    // Articles collection - read-only for chatbot
+    match /articles/{articleId} {
+      allow read: if true;
+      allow write: if false;
+    }
   }
 }

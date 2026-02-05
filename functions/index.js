@@ -173,12 +173,28 @@ exports.api = onRequest(
       const abbreviationsDoc = await db.collection("config").doc("abbreviations").get();
       const abbreviations = abbreviationsDoc.exists ? abbreviationsDoc.data() : {};
 
+      // Fetch approved articles from Firestore
+      const articlesSnapshot = await db.collection("articles")
+        .where("status", "==", "approved")
+        .orderBy("date", "desc")
+        .limit(10)
+        .get();
+      const articles = articlesSnapshot.docs.map(doc => doc.data());
+
       // Build context with program data from CSV
       const programContext = `\n\nAvailable AddRan programs:\n${programsData.map(p => `- ${p.name}: ${p.degrees} (${p.url})`).join("\n")}`;
 
       // Build abbreviations context
       const abbreviationsContext = Object.keys(abbreviations).length > 0
         ? `\n\nProgram abbreviations:\n${Object.entries(abbreviations).map(([abbr, full]) => `- ${abbr} = ${full}`).join("\n")}`
+        : "";
+
+      // Build articles context
+      const articlesContext = articles.length > 0
+        ? `\n\n## Articles on Liberal Arts Value\nUse these when students ask about the value of liberal arts or need talking points for skeptical family:\n${articles.map(a => {
+          const dateStr = a.date && a.date.toDate ? a.date.toDate().toLocaleDateString() : "recent";
+          return `- "${a.title}" (${a.source}, ${dateStr}): ${a.summary} [${a.url}]`;
+        }).join("\n")}\n\nIMPORTANT: Cite articles by title, source, and link. Do not synthesize claims across articles.`
         : "";
 
       // Build DCDA program details context from JSON data
@@ -244,7 +260,7 @@ For course descriptions and advising: https://addran.tcu.edu/english/academics/a
       const response = await anthropic.messages.create({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1024,
-        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext + englishContext + coreCurriculumContext,
+        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext + englishContext + coreCurriculumContext + articlesContext,
         messages: messages,
       });
 

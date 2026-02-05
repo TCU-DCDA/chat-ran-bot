@@ -13,15 +13,39 @@ conversationHistory.forEach(msg => addMessage(msg.content, msg.role));
 clearBtn.addEventListener("click", () => {
   conversationHistory = [];
   localStorage.removeItem("conversationHistory");
-  messagesContainer.innerHTML = `<div class="message assistant"><p>Hi! I'm here to help you explore programs in AddRan College of Liberal Arts. What would you like to know about our majors, minors, or certificates?</p></div>`;
+  messagesContainer.innerHTML = `
+    <div class="message assistant">
+      <span class="avatar">🎓</span>
+      <div class="message-content">
+        <p>Hi! I'm here to help you explore programs in AddRan College of Liberal Arts. What would you like to know?</p>
+      </div>
+    </div>
+    <div class="suggested-prompts" id="suggested-prompts">
+      <button class="prompt-chip" data-prompt="What majors do you offer?">What majors do you offer?</button>
+      <button class="prompt-chip" data-prompt="Tell me about the English program">English program</button>
+      <button class="prompt-chip" data-prompt="What can I do with a liberal arts degree?">Career paths</button>
+      <button class="prompt-chip" data-prompt="My parents think liberal arts is useless">Convince my parents</button>
+    </div>
+  `;
+  attachPromptChipListeners();
 });
 
-function addMessage(content, role) {
+function addMessage(content, role, scrollToElement = null) {
   const messageDiv = document.createElement("div");
   messageDiv.className = `message ${role}`;
-  messageDiv.innerHTML = role === "assistant" ? formatMarkdown(content) : `<p>${escapeHtml(content)}</p>`;
+  
+  const avatar = role === "assistant" ? "🎓" : "👤";
+  const contentHtml = role === "assistant" ? formatMarkdown(content) : `<p>${escapeHtml(content)}</p>`;
+  
+  messageDiv.innerHTML = `
+    <span class="avatar">${avatar}</span>
+    <div class="message-content">${contentHtml}</div>
+  `;
+  
   messagesContainer.appendChild(messageDiv);
-  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  // Scroll to the specified element (user's question) or this message
+  const target = scrollToElement || messageDiv;
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
   return messageDiv;
 }
 
@@ -85,9 +109,16 @@ function showLoading() {
   const loadingDiv = document.createElement("div");
   loadingDiv.className = "message assistant loading";
   loadingDiv.id = "loading-message";
-  loadingDiv.innerHTML = "<p>Thinking...</p>";
+  loadingDiv.innerHTML = `
+    <span class="avatar">🎓</span>
+    <div class="message-content">
+      <div class="typing-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  `;
   messagesContainer.appendChild(loadingDiv);
-  messagesContainer.scrollTop = messagesContainer.scrollHeight;
+  loadingDiv.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function hideLoading() {
@@ -138,8 +169,11 @@ chatForm.addEventListener("submit", async (e) => {
   userInput.disabled = true;
   sendBtn.disabled = true;
 
+  // Hide suggested prompts after first interaction
+  hideSuggestedPrompts();
+
   // Add user message to chat
-  addMessage(message, "user");
+  const userMessageDiv = addMessage(message, "user");
 
   // Show loading indicator
   showLoading();
@@ -147,7 +181,8 @@ chatForm.addEventListener("submit", async (e) => {
   try {
     const response = await sendMessage(message);
     hideLoading();
-    addMessage(response, "assistant");
+    // Scroll to user's question so it stays visible with the response
+    addMessage(response, "assistant", userMessageDiv);
     localStorage.setItem("conversationHistory", JSON.stringify(conversationHistory));
   } catch (error) {
     hideLoading();
@@ -159,3 +194,23 @@ chatForm.addEventListener("submit", async (e) => {
     userInput.focus();
   }
 });
+
+// Suggested prompts handling
+function attachPromptChipListeners() {
+  document.querySelectorAll(".prompt-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      const prompt = chip.dataset.prompt;
+      userInput.value = prompt;
+      chatForm.dispatchEvent(new Event("submit"));
+    });
+  });
+}
+
+// Hide suggested prompts after first message
+function hideSuggestedPrompts() {
+  const prompts = document.getElementById("suggested-prompts");
+  if (prompts) prompts.remove();
+}
+
+// Attach listeners on page load
+attachPromptChipListeners();
