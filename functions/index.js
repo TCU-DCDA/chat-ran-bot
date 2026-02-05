@@ -46,6 +46,47 @@ if (fs.existsSync(programDataDir)) {
   console.log(`Loaded ${programDetails.length} program detail files.`);
 }
 
+// Build program lookup map for detecting mentions in responses
+const programLookup = new Map();
+for (const p of programDetails) {
+  const key = p.name.toLowerCase();
+  const slim = {
+    name: p.name,
+    degree: p.degree || "",
+    totalHours: p.totalHours || 0,
+    url: p.url || "",
+    description: (p.descriptions && p.descriptions[0]) || "",
+    careerOptions: p.careerOptions || [],
+    contacts: (p.contacts || []).map(c => ({
+      role: c.role || "",
+      name: c.name || "",
+      email: c.email || "",
+    })),
+  };
+  // Group BA/BS variants under same base name
+  if (programLookup.has(key)) {
+    const existing = programLookup.get(key);
+    existing.degree = existing.degree + ", " + slim.degree;
+  } else {
+    programLookup.set(key, slim);
+  }
+}
+
+function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function detectProgramMentions(text) {
+  const mentions = [];
+  for (const [, program] of programLookup) {
+    const pattern = new RegExp(`\\b${escapeRegex(program.name)}\\b`, "i");
+    if (pattern.test(text)) {
+      mentions.push(program);
+    }
+  }
+  return mentions;
+}
+
 // Helper function to format Core Curriculum context
 function buildCoreCurriculumContext(data) {
   const categories = Object.values(data.requirements)
@@ -343,8 +384,11 @@ For course descriptions and advising: https://addran.tcu.edu/english/academics/a
         timestamp: new Date(),
       });
 
+      const programMentions = detectProgramMentions(assistantMessage);
+
       res.json({
         message: assistantMessage,
+        programMentions: programMentions,
         conversationHistory: [
           ...conversationHistory,
           { role: "user", content: message },

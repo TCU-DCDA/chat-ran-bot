@@ -33,7 +33,7 @@ const sessionId = localStorage.getItem("sessionId") || (() => {
 })();
 
 // Restore previous messages on page load
-conversationHistory.forEach(msg => addMessage(msg.content, msg.role));
+conversationHistory.forEach(msg => addMessage(msg.content, msg.role, null, null, msg.programMentions || null));
 
 // Clear chat button
 clearBtn.addEventListener("click", () => {
@@ -66,7 +66,7 @@ function formatTimestamp(date) {
   return `${h}:${minutes} ${ampm}`;
 }
 
-function addMessage(content, role, scrollToElement = null, userQuestion = null) {
+function addMessage(content, role, scrollToElement = null, userQuestion = null, programMentions = null) {
   const messageDiv = document.createElement("div");
   messageDiv.className = `message ${role}`;
   const messageId = "msg_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
@@ -75,6 +75,14 @@ function addMessage(content, role, scrollToElement = null, userQuestion = null) 
   const avatarClass = role === "assistant" ? "assistant-avatar" : "user-avatar";
   const contentHtml = role === "assistant" ? formatMarkdown(content) : `<p>${escapeHtml(content)}</p>`;
   const timestamp = formatTimestamp();
+
+  // Build program cards HTML if mentions exist
+  let cardsHtml = "";
+  if (role === "assistant" && programMentions && programMentions.length > 0) {
+    const autoExpand = programMentions.length === 1;
+    const cards = programMentions.map(p => renderProgramCard(p, autoExpand)).join("");
+    cardsHtml = `<div class="program-cards">${cards}</div>`;
+  }
 
   // Add feedback buttons for assistant messages (except initial greeting)
   const feedbackHtml = role === "assistant" && userQuestion ? `
@@ -96,6 +104,7 @@ function addMessage(content, role, scrollToElement = null, userQuestion = null) 
     <span class="avatar ${avatarClass}"></span>
     <div class="message-body">
       <div class="message-content">${contentHtml}</div>
+      ${cardsHtml}
       <span class="message-timestamp">${timestamp}</span>
       ${feedbackHtml}
     </div>
@@ -207,7 +216,7 @@ async function sendMessage(message) {
       },
       body: JSON.stringify({
         message: message,
-        conversationHistory: conversationHistory,
+        conversationHistory: conversationHistory.map(({ role, content }) => ({ role, content })),
       }),
     });
 
@@ -217,7 +226,7 @@ async function sendMessage(message) {
 
     const data = await response.json();
     conversationHistory = data.conversationHistory;
-    return data.message;
+    return data;
   } catch (error) {
     console.error("Error:", error);
     throw error;
@@ -249,10 +258,18 @@ chatForm.addEventListener("submit", async (e) => {
   showLoading();
 
   try {
-    const response = await sendMessage(message);
+    const data = await sendMessage(message);
     hideLoading();
+    const mentions = data.programMentions || null;
     // Scroll to user's question so it stays visible with the response
-    addMessage(response, "assistant", userMessageDiv, message);
+    addMessage(data.message, "assistant", userMessageDiv, message, mentions);
+    // Store programMentions in the last assistant message for history restoration
+    if (mentions && mentions.length > 0) {
+      const lastMsg = conversationHistory[conversationHistory.length - 1];
+      if (lastMsg && lastMsg.role === "assistant") {
+        lastMsg.programMentions = mentions;
+      }
+    }
     localStorage.setItem("conversationHistory", JSON.stringify(conversationHistory));
   } catch (error) {
     hideLoading();
@@ -284,6 +301,82 @@ function hideSuggestedPrompts() {
 
 // Attach listeners on page load
 attachPromptChipListeners();
+
+// Program card rendering
+function renderProgramCard(program, expanded = false) {
+  const expandedClass = expanded ? " expanded" : "";
+  const desc = program.description
+    ? `<p class="program-card-desc">${escapeHtml(program.description.length > 250 ? program.description.substring(0, 250) + "..." : program.description)}</p>`
+    : "";
+
+  let careersHtml = "";
+  if (program.careerOptions && program.careerOptions.length > 0) {
+    const tags = program.careerOptions.map(c => `<span class="program-card-tag">${escapeHtml(c)}</span>`).join("");
+    careersHtml = `<div class="program-card-section"><h4>Career Options</h4><div class="program-card-tags">${tags}</div></div>`;
+  }
+
+  let contactsHtml = "";
+  if (program.contacts && program.contacts.length > 0) {
+    const items = program.contacts.map(c => {
+      const parts = [escapeHtml(c.name)];
+      if (c.role) parts.unshift(`<strong>${escapeHtml(c.role)}</strong>`);
+      if (c.email) parts.push(`<a href="mailto:${escapeHtml(c.email)}">${escapeHtml(c.email)}</a>`);
+      return `<li>${parts.join(" &middot; ")}</li>`;
+    }).join("");
+    contactsHtml = `<div class="program-card-section"><h4>Contacts</h4><ul>${items}</ul></div>`;
+  }
+
+  let linkHtml = "";
+  if (program.url) {
+    linkHtml = `<a href="${escapeHtml(program.url)}" class="program-card-link" target="_blank" rel="noopener noreferrer">Visit Program Page &rarr;</a>`;
+  }
+
+  const meta = [program.degree, program.totalHours ? program.totalHours + " hours" : ""].filter(Boolean).join(" &middot; ");
+
+  return `
+    <div class="program-card${expandedClass}">
+      <div class="program-card-header" role="button" tabindex="0" aria-expanded="${expanded}">
+        <div class="program-card-title">
+          <strong>${escapeHtml(program.name)}</strong>
+          <span class="program-card-meta">${meta}</span>
+        </div>
+        <svg class="program-card-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </div>
+      <div class="program-card-body">
+        ${desc}
+        ${careersHtml}
+        ${contactsHtml}
+        ${linkHtml}
+      </div>
+    </div>
+  `;
+}
+
+// Program card expand/collapse
+function toggleProgramCard(headerEl) {
+  const card = headerEl.closest(".program-card");
+  if (!card) return;
+  const isExpanded = card.classList.toggle("expanded");
+  headerEl.setAttribute("aria-expanded", isExpanded);
+}
+
+// Event delegation for program card headers (click + keyboard)
+messagesContainer.addEventListener("click", (e) => {
+  const header = e.target.closest(".program-card-header");
+  if (header) toggleProgramCard(header);
+});
+
+messagesContainer.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") {
+    const header = e.target.closest(".program-card-header");
+    if (header) {
+      e.preventDefault();
+      toggleProgramCard(header);
+    }
+  }
+});
 
 // Feedback handling
 function attachFeedbackListeners(messageDiv) {
