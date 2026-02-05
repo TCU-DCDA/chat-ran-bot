@@ -14,11 +14,10 @@
 - [x] **TCU/AddRan logo** - SVG wordmark replacing emoji header
 - [x] **Dark mode toggle** - CSS custom properties with theme persistence
 - [x] **Feedback buttons** - Thumbs up/down on responses, logged to Firestore
-
-### 🔜 Next Up
-- [ ] **Fix horizontal drift on mobile** - Content overflows on smaller screens
-- [ ] **Mobile polish** - Larger touch targets, better keyboard handling
-- [ ] **Timestamp badges** - Subtle time indicators on messages
+- [x] **Fix horizontal drift on mobile** - Overflow containment, word-break, iOS zoom prevention
+- [x] **Mobile polish** - Tighter spacing, larger touch targets, responsive font sizes
+- [x] **Timestamp badges** - Hover-reveal time indicators on messages
+- [x] **Header redesign** - Left-aligned app-bar layout (logo + actions top, title below)
 
 ### 💡 Future Ideas
 - [ ] **Expandable program cards** - Interactive cards when listing majors
@@ -69,11 +68,12 @@
 - [x] **Scheduled RSS checking** - Cloud Function runs on schedule
 - [ ] **Google Alerts integration** - "liberal arts career" / "humanities AI"
 - [ ] **Weekly digest** - Email summary of new articles to review
-- [ ] **Auto-tagging** - Suggest tags based on content keywords
+- [x] **Auto-tagging** - Claude suggests tags when articles are ingested
 
-### 🔜 Phase 4: AI-Assisted Curation
+### ✅ Phase 4: AI-Assisted Curation (Partial)
+- [x] **Summary generation** - Claude auto-generates concise summaries for RSS/OpenAlex articles
+- [x] **Auto-tagging** - Claude suggests relevant tags from predefined list
 - [ ] **Relevance scoring** - Claude rates article fit (1-10)
-- [ ] **Summary generation** - Auto-generate article summaries
 - [ ] **Duplicate detection** - Flag similar articles
 - [ ] **Freshness tracking** - Alert when articles get stale (>1 year)
 - [ ] **Source credibility** - Weight established sources higher
@@ -126,11 +126,14 @@
 2. ~~Dark mode~~ ✅
 3. ~~RSS monitoring~~ ✅
 4. ~~Feedback buttons~~ ✅
-5. **Fix mobile horizontal drift** - Layout issue on small screens
-6. **Mobile polish** - Touch targets, keyboard handling
-7. **AI-assisted curation** - Scale the pipeline
-8. **Timestamp badges** - Time indicators on messages
-9. **Conversation history** - Returning student experience
+5. ~~Fix mobile horizontal drift~~ ✅
+6. ~~Mobile polish~~ ✅
+7. ~~AI-assisted curation~~ ✅
+8. ~~Timestamp badges~~ ✅
+9. ~~Header redesign~~ ✅
+10. **Relevance scoring** - Claude rates article fit (1-10)
+11. **Expandable program cards** - Interactive cards when listing majors
+12. **Conversation export** - Save chat as PDF for reference
 
 ---
 
