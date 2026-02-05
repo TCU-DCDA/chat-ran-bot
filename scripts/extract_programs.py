@@ -53,6 +53,8 @@ ABBREVIATIONS = {
     "Spanish & Hispanic Studies": "SPAN",
     "Women and Gender Studies": "WGST",
     "Women & Gender Studies": "WGST",
+    "Writing and Rhetoric": "WRIT",
+    "Writing & Rhetoric": "WRIT",
 }
 
 
