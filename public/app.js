@@ -4,6 +4,7 @@ const userInput = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 const clearBtn = document.getElementById("clear-btn");
 const themeToggle = document.getElementById("theme-toggle");
+const exportBtn = document.getElementById("export-btn");
 
 let conversationHistory = JSON.parse(localStorage.getItem("conversationHistory") || "[]");
 
@@ -34,6 +35,7 @@ const sessionId = localStorage.getItem("sessionId") || (() => {
 
 // Restore previous messages on page load
 conversationHistory.forEach(msg => addMessage(msg.content, msg.role, null, null, msg.programMentions || null));
+if (conversationHistory.length > 0) exportBtn.disabled = false;
 
 // Clear chat button
 clearBtn.addEventListener("click", () => {
@@ -54,6 +56,7 @@ clearBtn.addEventListener("click", () => {
     </div>
   `;
   attachPromptChipListeners();
+  exportBtn.disabled = true;
 });
 
 function formatTimestamp(date) {
@@ -271,6 +274,7 @@ chatForm.addEventListener("submit", async (e) => {
       }
     }
     localStorage.setItem("conversationHistory", JSON.stringify(conversationHistory));
+    exportBtn.disabled = false;
   } catch (error) {
     hideLoading();
     addMessage("Sorry, I encountered an error. Please try again.", "assistant", null, null);
@@ -422,3 +426,387 @@ async function sendFeedback(feedbackData) {
   if (!response.ok) throw new Error("Feedback submission failed");
   return response.json();
 }
+
+// PDF Export
+async function loadJsPDF() {
+  if (window.jspdf) return window.jspdf;
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    script.onload = () => resolve(window.jspdf);
+    script.onerror = () => reject(new Error("Failed to load PDF library"));
+    document.head.appendChild(script);
+  });
+}
+
+function getExportableMessages() {
+  const messageDivs = messagesContainer.querySelectorAll(".message:not(.loading)");
+  const messages = [];
+  messageDivs.forEach(div => {
+    const role = div.classList.contains("user") ? "user" : "assistant";
+    const contentEl = div.querySelector(".message-content");
+    const timestampEl = div.querySelector(".message-timestamp");
+    const timestamp = timestampEl ? timestampEl.textContent.trim() : "";
+    const htmlContent = contentEl ? contentEl.innerHTML : "";
+
+    // Extract program card data from DOM
+    const programs = [];
+    div.querySelectorAll(".program-card").forEach(card => {
+      const name = card.querySelector(".program-card-title strong")?.textContent || "";
+      const meta = card.querySelector(".program-card-meta")?.textContent || "";
+      const desc = card.querySelector(".program-card-desc")?.textContent || "";
+      const link = card.querySelector(".program-card-link")?.href || "";
+      const contacts = [];
+      card.querySelectorAll(".program-card-section:last-of-type li").forEach(li => {
+        contacts.push(li.textContent.trim());
+      });
+      const careers = [];
+      card.querySelectorAll(".program-card-tag").forEach(tag => {
+        careers.push(tag.textContent.trim());
+      });
+      programs.push({ name, meta, desc, link, contacts, careers });
+    });
+
+    messages.push({ role, htmlContent, timestamp, programs });
+  });
+  return messages;
+}
+
+function pdfEnsureSpace(doc, y, needed, pageHeight, margin) {
+  if (y + needed > pageHeight - margin) {
+    doc.addPage();
+    return margin;
+  }
+  return y;
+}
+
+function pdfDrawHeader(doc, y, pageWidth, margin, contentWidth) {
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(18);
+  doc.setTextColor(77, 25, 121);
+  doc.text("AddRan Advisor", margin, y + 8);
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(100, 100, 100);
+  const dateStr = new Date().toLocaleDateString("en-US", {
+    year: "numeric", month: "long", day: "numeric"
+  });
+  doc.text("Conversation Export \u00B7 " + dateStr, margin, y + 14);
+
+  doc.setDrawColor(77, 25, 121);
+  doc.setLineWidth(0.5);
+  doc.line(margin, y + 18, pageWidth - margin, y + 18);
+  return y + 24;
+}
+
+function pdfRenderText(doc, html, y, margin, contentWidth, pageHeight) {
+  const parser = new DOMParser();
+  const fragment = parser.parseFromString("<div>" + html + "</div>", "text/html");
+  const container = fragment.body.firstChild;
+
+  for (const node of container.childNodes) {
+    if (node.nodeName === "UL") {
+      for (const li of node.querySelectorAll("li")) {
+        y = pdfEnsureSpace(doc, y, 5, pageHeight, margin);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        doc.setTextColor(45, 45, 45);
+        const lines = doc.splitTextToSize("\u2022  " + li.textContent.trim(), contentWidth - 4);
+        for (const line of lines) {
+          y = pdfEnsureSpace(doc, y, 4.5, pageHeight, margin);
+          doc.text(line, margin + 2, y);
+          y += 4.5;
+        }
+        y += 0.5;
+      }
+      y += 1.5;
+    } else if (node.nodeName === "P" || (node.nodeType === 3 && node.textContent.trim())) {
+      const text = node.textContent.trim();
+      if (!text) continue;
+
+      // Check for bold segments
+      const strongs = node.nodeName === "P" ? node.querySelectorAll("strong") : [];
+      if (strongs.length === 0) {
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        doc.setTextColor(45, 45, 45);
+        const lines = doc.splitTextToSize(text, contentWidth);
+        for (const line of lines) {
+          y = pdfEnsureSpace(doc, y, 4.5, pageHeight, margin);
+          doc.text(line, margin, y);
+          y += 4.5;
+        }
+      } else {
+        // Render with inline bold
+        y = pdfRenderInlineBold(doc, node, y, margin, contentWidth, pageHeight);
+      }
+      y += 2;
+    }
+  }
+  return y;
+}
+
+function pdfRenderInlineBold(doc, pNode, y, margin, contentWidth, pageHeight) {
+  // Flatten child nodes into segments with bold flag
+  const segments = [];
+  for (const child of pNode.childNodes) {
+    if (child.nodeType === 3) {
+      const t = child.textContent;
+      if (t) segments.push({ text: t, bold: false });
+    } else if (child.nodeName === "STRONG") {
+      segments.push({ text: child.textContent, bold: true });
+    } else if (child.nodeName === "A") {
+      segments.push({ text: child.textContent, bold: false, url: child.href });
+    } else {
+      segments.push({ text: child.textContent, bold: false });
+    }
+  }
+
+  // Concatenate all text for line splitting, then render with formatting
+  const fullText = segments.map(s => s.text).join("");
+  const lines = doc.splitTextToSize(fullText, contentWidth);
+
+  doc.setFontSize(10);
+  let charIndex = 0;
+
+  for (const line of lines) {
+    y = pdfEnsureSpace(doc, y, 4.5, pageHeight, margin);
+    let x = margin;
+    let lineCharsLeft = line.length;
+    let segIdx = 0;
+    let segOffset = 0;
+
+    // Find which segment charIndex falls in
+    let cumLen = 0;
+    for (let i = 0; i < segments.length; i++) {
+      if (cumLen + segments[i].text.length > charIndex) {
+        segIdx = i;
+        segOffset = charIndex - cumLen;
+        break;
+      }
+      cumLen += segments[i].text.length;
+    }
+
+    while (lineCharsLeft > 0 && segIdx < segments.length) {
+      const seg = segments[segIdx];
+      const available = seg.text.length - segOffset;
+      const take = Math.min(available, lineCharsLeft);
+      const chunk = seg.text.substring(segOffset, segOffset + take);
+
+      doc.setFont("helvetica", seg.bold ? "bold" : "normal");
+      doc.setTextColor(45, 45, 45);
+
+      if (seg.url) {
+        doc.setTextColor(77, 25, 121);
+        doc.textWithLink(chunk, x, y, { url: seg.url });
+        doc.setTextColor(45, 45, 45);
+      } else {
+        doc.text(chunk, x, y);
+      }
+      x += doc.getTextWidth(chunk);
+
+      lineCharsLeft -= take;
+      charIndex += take;
+      segOffset += take;
+
+      if (segOffset >= seg.text.length) {
+        segIdx++;
+        segOffset = 0;
+      }
+    }
+    y += 4.5;
+  }
+  return y;
+}
+
+function pdfDrawProgramCard(doc, prog, y, margin, contentWidth, pageHeight) {
+  const cardMargin = margin + 2;
+  const cardWidth = contentWidth - 4;
+  const startY = y;
+
+  y += 5;
+
+  // Name + meta
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(10);
+  doc.setTextColor(45, 45, 45);
+  doc.text(prog.name, cardMargin + 3, y);
+
+  if (prog.meta) {
+    const nameWidth = doc.getTextWidth(prog.name + "  ");
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+    doc.text(prog.meta, cardMargin + 3 + nameWidth, y);
+  }
+  y += 5;
+
+  // Description
+  if (prog.desc) {
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+    const descLines = doc.splitTextToSize(prog.desc, cardWidth - 6);
+    for (const line of descLines) {
+      y = pdfEnsureSpace(doc, y, 4, pageHeight, margin);
+      doc.text(line, cardMargin + 3, y);
+      y += 3.5;
+    }
+    y += 2;
+  }
+
+  // Career options
+  if (prog.careers && prog.careers.length > 0) {
+    y = pdfEnsureSpace(doc, y, 8, pageHeight, margin);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8);
+    doc.setTextColor(136, 136, 136);
+    doc.text("CAREER OPTIONS", cardMargin + 3, y);
+    y += 3.5;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    const careerLines = doc.splitTextToSize(prog.careers.join(", "), cardWidth - 6);
+    for (const line of careerLines) {
+      doc.text(line, cardMargin + 3, y);
+      y += 3.5;
+    }
+    y += 2;
+  }
+
+  // Contacts
+  if (prog.contacts && prog.contacts.length > 0) {
+    y = pdfEnsureSpace(doc, y, 8, pageHeight, margin);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8);
+    doc.setTextColor(136, 136, 136);
+    doc.text("CONTACTS", cardMargin + 3, y);
+    y += 3.5;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8);
+    doc.setTextColor(100, 100, 100);
+    for (const contact of prog.contacts) {
+      const cLines = doc.splitTextToSize(contact, cardWidth - 6);
+      for (const line of cLines) {
+        y = pdfEnsureSpace(doc, y, 3.5, pageHeight, margin);
+        doc.text(line, cardMargin + 3, y);
+        y += 3.5;
+      }
+    }
+    y += 2;
+  }
+
+  // Link
+  if (prog.link) {
+    y = pdfEnsureSpace(doc, y, 5, pageHeight, margin);
+    doc.setFontSize(8);
+    doc.setTextColor(77, 25, 121);
+    doc.textWithLink("Visit Program Page \u2192", cardMargin + 3, y, { url: prog.link });
+    y += 5;
+  }
+
+  y += 2;
+
+  // Draw card border
+  doc.setDrawColor(224, 224, 224);
+  doc.setLineWidth(0.3);
+  doc.roundedRect(cardMargin, startY, cardWidth, y - startY, 2, 2);
+  return y + 2;
+}
+
+function pdfDrawDisclaimer(doc, y, margin, contentWidth) {
+  doc.setDrawColor(224, 224, 224);
+  doc.setLineWidth(0.3);
+  doc.line(margin, y, margin + contentWidth, y);
+  y += 5;
+
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(8);
+  doc.setTextColor(136, 136, 136);
+  const disclaimer = "AI-generated responses may contain errors. Program details reflect the most recent data update and may not match the latest catalog. Confirm details with your advisor or department.";
+  const lines = doc.splitTextToSize(disclaimer, contentWidth);
+  for (const line of lines) {
+    doc.text(line, margin, y);
+    y += 3.5;
+  }
+  return y;
+}
+
+async function exportConversationPDF() {
+  exportBtn.disabled = true;
+  const originalTitle = exportBtn.title;
+  exportBtn.title = "Generating PDF...";
+
+  try {
+    const { jsPDF } = await loadJsPDF();
+    const doc = new jsPDF({ unit: "mm", format: "letter" });
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 20;
+    const contentWidth = pageWidth - 2 * margin;
+    let y = margin;
+
+    // Header
+    y = pdfDrawHeader(doc, y, pageWidth, margin, contentWidth);
+
+    // Messages
+    const messages = getExportableMessages();
+    // Skip the initial greeting (first assistant message with no timestamp in history)
+    const startIdx = messages.length > 0 && messages[0].role === "assistant" && !messages[0].timestamp ? 1 : 0;
+
+    for (let i = startIdx; i < messages.length; i++) {
+      const msg = messages[i];
+      y = pdfEnsureSpace(doc, y, 20, pageHeight, margin);
+
+      const isUser = msg.role === "user";
+      const labelText = isUser ? "You" : "AddRan Advisor";
+
+      // Role label
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9);
+      doc.setTextColor(77, 25, 121);
+      doc.text(labelText, margin, y);
+
+      // Timestamp
+      if (msg.timestamp) {
+        const labelWidth = doc.getTextWidth(labelText + "  ");
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8);
+        doc.setTextColor(136, 136, 136);
+        doc.text(msg.timestamp, margin + labelWidth, y);
+      }
+      y += 5;
+
+      // Message body
+      y = pdfRenderText(doc, msg.htmlContent, y, margin, contentWidth, pageHeight);
+
+      // Program cards
+      if (msg.programs && msg.programs.length > 0) {
+        for (const prog of msg.programs) {
+          y = pdfEnsureSpace(doc, y, 20, pageHeight, margin);
+          y = pdfDrawProgramCard(doc, prog, y, margin, contentWidth, pageHeight);
+        }
+      }
+
+      y += 4;
+    }
+
+    // Disclaimer
+    y = pdfEnsureSpace(doc, y, 20, pageHeight, margin);
+    pdfDrawDisclaimer(doc, y, margin, contentWidth);
+
+    // Save
+    const dateStr = new Date().toISOString().split("T")[0];
+    doc.save("addran-advisor-" + dateStr + ".pdf");
+  } catch (error) {
+    console.error("PDF export failed:", error);
+    alert("Sorry, the PDF export failed. Please try again.");
+  } finally {
+    exportBtn.disabled = conversationHistory.length === 0;
+    exportBtn.title = originalTitle;
+  }
+}
+
+exportBtn.addEventListener("click", exportConversationPDF);

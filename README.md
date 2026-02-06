@@ -17,6 +17,7 @@ An interactive chatbot for students considering majors in AddRan College of Libe
 ## Timeline
 
 - **Start:** January 6, 2026
+- **Chancellor's Innovation Prize Submission:** March 30, 2026
 - **POC Deadline:** April 30, 2026
 - **Testing Group:** AddRan faculty, staff, and students
 
@@ -79,33 +80,39 @@ firebase deploy
 ├── firestore.rules        # Firestore security rules
 ├── functions/
 │   ├── index.js           # Cloud Function (API endpoint)
-│   ├── programs.csv       # Program data
+│   ├── programs.csv       # Program list (37 programs)
 │   ├── dcda-data.json     # DCDA program details
 │   ├── core-curriculum.json
-│   └── support-resources.csv
+│   ├── support-resources.csv
+│   └── program-data/      # 60 JSON files (auto-loaded at startup)
+│       ├── anthropology.json
+│       ├── english.json
+│       ├── ...
+│       └── writing-and-rhetoric-minor.json
 ├── public/
 │   ├── index.html         # Chat UI
+│   ├── admin.html         # Article admin dashboard
 │   ├── app.js             # Frontend JavaScript
 │   └── style.css
-└── files/
-    └── CLAUDE.md          # AI assistant reference
+└── other_programs/        # Source Excel spreadsheets (25 files)
 ```
 
 ## Content Status
 
 ### ✅ Have
 
-- 37 programs (majors, minors, certificates)
-- Program URLs and images
+- 60 program detail JSON files covering all 37 AddRan programs (BA, BS, Minor, Interdisciplinary Minor, Military Commission variants)
+- Program URLs, descriptions, requirements, career options, and contacts
 - DCDA and English department details
-- Core Curriculum requirements
+- Core Curriculum requirements (Fall 2025+)
 - Support resource redirects
+- Article curation pipeline (RSS feeds, OpenAlex, admin dashboard)
+- AI disclaimers (accuracy warning + data freshness notice)
 
 ### ❓ Still Needed
 
-- Talking points for skeptical family members
-- Advisor contact information
 - Career pathway examples (major + minor → career)
+- Data accuracy audit against source Excel spreadsheets
 
 ## Chatbot Personality
 

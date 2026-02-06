@@ -32,17 +32,26 @@
 ## Program Data
 
 ### ✅ Completed
-- [x] 23 program detail JSON files extracted from Excel spreadsheets
+- [x] 60 program detail JSON files covering all 37 AddRan programs
+  - 23 original BA/BS programs extracted from Excel spreadsheets
+  - 4 language BAs (Chinese, French, German, Italian) under Modern Language Studies
+  - 2 additional programs (International Relations Minor, Latin American Studies BA)
+  - 20 departmental minors (Anthropology, Chinese, CRES, Creative Writing, Criminology, Economics, English, French, Geography, German, History, International Economics, Italian, Philosophy, Political Science, Religion, Sociology, Spanish, W&GS, Writing & Rhetoric)
+  - 8 interdisciplinary minors (African American & Africana Studies, Asian Studies, British Colonial & Post-Colonial Studies, Classical Studies, Human-Animal Relationships, Latinx Studies, Middle East Studies, Urban Studies)
+  - 2 military commissions (Aerospace Studies/AFROTC, Military Science/Army ROTC)
+  - 1 Writing & Rhetoric BA from Excel extraction
 - [x] Extraction pipeline (`scripts/extract_programs.py`) with verification
 - [x] Program details wired into chatbot system prompt (~4,800 tokens)
 - [x] DCDA dedicated data file with full course listings
 - [x] Core Curriculum data (Fall 2025+) with rules and requirements
 - [x] English Department hand-curated Spring 2026 highlights
 - [x] Support resources CSV (career services, tutoring, etc.)
+- [x] W&GS and CRES files updated with June 2026 merger note (factual only)
+- [x] AI disclaimer in UI and system prompt (accuracy warning + data freshness)
 
 ### 🔜 Next Up
 - [ ] **Periodic re-extraction** - Update JSONs when Excel files change
-- [ ] **Minor programs** - Add minor/certificate data if available
+- [ ] **Data accuracy audit** - Cross-reference JSON files against source Excel spreadsheets in `other_programs/`
 
 ---
 
@@ -132,8 +141,11 @@
 8. ~~Timestamp badges~~ ✅
 9. ~~Header redesign~~ ✅
 10. ~~Expandable program cards~~ ✅
-11. **Relevance scoring** - Claude rates article fit (1-10)
-12. **Conversation export** - Save chat as PDF for reference
+11. ~~Complete program data (24 → 60 files)~~ ✅
+12. ~~AI disclaimers (UI + system prompt)~~ ✅
+13. **Data accuracy audit** - Cross-reference JSONs against Excel sources
+14. **Relevance scoring** - Claude rates article fit (1-10)
+15. **Conversation export** - Save chat as PDF for reference
 
 ---
 
