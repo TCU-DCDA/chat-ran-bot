@@ -1,0 +1,27 @@
+{
+  "name": "Sociology",
+  "abbreviation": "SOCI",
+  "degree": "Minor",
+  "totalHours": 16,
+  "url": "https://www.tcu.edu/academics/programs/sociology.php",
+  "descriptions": [
+    "The Sociology minor is an excellent option that fits with any major, providing analytical tools for understanding social structures, inequality, and human behavior in groups and institutions.",
+    "Students complete 16 hours including the introductory course. Any sociology course, including Contemporary Topics, can apply toward the minor."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 1,
+      "courses": [
+        "SOCI 20213 - Introductory Sociology - 1 hr."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "15 additional hours of sociology courses.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

@@ -1,0 +1,27 @@
+{
+  "name": "International Economics",
+  "abbreviation": "ECON",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/international-economics.php",
+  "descriptions": [
+    "The International Economics minor focuses on global economic systems, trade, and development. Students take 18 hours including at least one intermediate course and a concentration in international economics topics.",
+    "A minimum of 12 hours must be at the advanced level (30000 or above). At least 9 hours must be in international economics courses. This minor is not available to economics majors."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 3,
+      "courses": [
+        "One of: ECON 30223 - Intermediate Microeconomics, ECON 31223 - Intermediate Microeconomics: A Mathematical Approach, or ECON 30233 - Intermediate Macroeconomics - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "15 additional hours, with at least 9 hours in international economics courses and a minimum of 12 total hours at the 30000 level or above. Not available to economics majors.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

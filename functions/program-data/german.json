@@ -1,0 +1,56 @@
+{
+  "name": "German",
+  "abbreviation": "GRMN",
+  "degree": "BA",
+  "totalHours": 27,
+  "url": "https://www.tcu.edu/academics/programs/german.php",
+  "descriptions": [
+    "The German program at TCU combines language acquisition with cultural understanding, engaging students in German business, economy, politics, and cultural norms. The curriculum pairs German-language courses with interdisciplinary offerings in history, music, philosophy, business, communications, and politics.",
+    "German is the most widely spoken language in Europe, and Germany is the largest European economy and a major U.S. trading partner. Students can earn internationally recognized Goethe-Institut language certification through exams administered on campus in collaboration with the Dallas Goethe Center."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 12,
+      "courses": [
+        "GRMN 20053 - Intermediate German I - 3 hrs.",
+        "GRMN 20063 - Intermediate German II - 3 hrs.",
+        "MOLA 20003 - Cosmopolitanism: Thinking from a Global Perspective - 3 hrs. (gateway)",
+        "MOLA 40193 - Senior Seminar - 3 hrs. (capstone)"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "Three courses taught in German at the 30000+ level (at least one at 40000+), plus two courses with ARAB, CHIN, FREN, GRMN, ITAL, JAPN, or MOLA prefix (max one taught in English). May include one interdisciplinary course with advisor approval.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "International Business",
+    "Engineer at Multinational Company",
+    "Import/Export Specialist",
+    "International Human Resources",
+    "Diplomat or Foreign Service Officer",
+    "Teacher"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Nicholas Albanese",
+      "phone": "817-257-6360",
+      "email": "n.albanese@tcu.edu",
+      "office": "Scharbauer Hall 3203"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "German Language House with native graduate assistant",
+    "Goethe-Institut certification exams on campus",
+    "Study abroad opportunities in German-speaking countries"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "Philosophy",
+  "abbreviation": "PHIL",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/philosophy.php",
+  "descriptions": [
+    "The Philosophy minor develops rigorous analytical reasoning, ethical thinking, and argumentation skills. Students take courses across three areas: historical studies, logical studies, and topical studies.",
+    "At least 9 of the 18 hours must be at the 30000 level or higher, including at least 3 hours of topical studies at the 40000 level."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 9,
+      "courses": [
+        "3+ hours in historical studies",
+        "3+ hours in logical studies",
+        "3+ hours in topical studies at the 40000 level"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 9,
+      "description": "9 additional hours of philosophy courses. At least 9 total hours must be at the 30000 level or higher.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

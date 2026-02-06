@@ -1,0 +1,27 @@
+{
+  "name": "Comparative Race and Ethnic Studies",
+  "abbreviation": "CRES",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/comparative-race-ethnic-studies.php",
+  "descriptions": [
+    "The CRES minor provides an interdisciplinary examination of race, ethnicity, and their intersections with gender, class, sexuality, and nationality in the United States and globally.",
+    "All courses must be passed with a grade of C- or better. Maximum of 9 hours may be below the 30000 level. Note: Beginning after June 1, 2026, the Department of Comparative Race & Ethnic Studies will merge into the English department. Faculty, majors, minors, and courses will continue under that umbrella."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 18,
+      "courses": [
+        "18 hours of CRES-attributed courses from at least three departments"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

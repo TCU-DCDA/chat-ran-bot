@@ -1,0 +1,58 @@
+{
+  "name": "French",
+  "abbreviation": "FREN",
+  "degree": "BA",
+  "totalHours": 27,
+  "url": "https://www.tcu.edu/academics/programs/french.php",
+  "descriptions": [
+    "TCU's French Studies program emphasizes global engagement through language, literature, history, and culture. Students explore French-speaking and Francophone regions across Europe, the Caribbean, Africa, North America, Oceania, and Asia, developing critical thinking, emotional intelligence, and effective communication in French.",
+    "French reaches over 300 million speakers across 29 countries as an official language. Graduates demonstrate exceptional post-graduation placement in medical school, law school, graduate programs, K-12 education, and business careers including internships in Paris."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 12,
+      "courses": [
+        "FREN 20053 - Intermediate French I - 3 hrs.",
+        "FREN 20063 - Intermediate French II - 3 hrs.",
+        "MOLA 20003 - Cosmopolitanism: Thinking from a Global Perspective - 3 hrs. (gateway)",
+        "MOLA 40193 - Senior Seminar - 3 hrs. (capstone)"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "Three courses taught in French at the 30000+ level (at least one at 40000+), plus two courses with ARAB, CHIN, FREN, GRMN, ITAL, JAPN, or MOLA prefix (max one taught in English). May include one interdisciplinary course with advisor approval.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "International Business",
+    "Fashion/Merchandising",
+    "Diplomat or Foreign Service Officer",
+    "International Lawyer",
+    "Teacher",
+    "Medical Professional"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Nicholas Albanese",
+      "phone": "817-257-6360",
+      "email": "n.albanese@tcu.edu",
+      "office": "Scharbauer Hall 3203"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "French Language House residential immersion program",
+    "Ensemble en fran\u00e7ais student-led French club",
+    "Tourn\u00e9es French Film Festival",
+    "Pi Delta Phi (National French Honor Society) - Xi Theta chapter",
+    "Study abroad programs"
+  ]
+}

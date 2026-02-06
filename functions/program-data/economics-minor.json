@@ -1,0 +1,27 @@
+{
+  "name": "Economics",
+  "abbreviation": "ECON",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/economics.php",
+  "descriptions": [
+    "The Economics minor builds analytical and quantitative reasoning skills applicable across many fields. Students take 18 hours including at least one intermediate-level course in microeconomics or macroeconomics.",
+    "A minimum of 12 hours must be at the advanced level (30000 or above)."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 3,
+      "courses": [
+        "One of: ECON 30223 - Intermediate Microeconomics, ECON 31223 - Intermediate Microeconomics: A Mathematical Approach, or ECON 30233 - Intermediate Macroeconomics - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "15 additional hours of economics courses, with a minimum of 12 total hours at the 30000 level or above.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

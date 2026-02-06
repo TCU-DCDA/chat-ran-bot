@@ -1,0 +1,27 @@
+{
+  "name": "Political Science",
+  "abbreviation": "POSC",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/political-science.php",
+  "descriptions": [
+    "The Political Science minor provides a foundation in American government, political theory, comparative politics, and international relations. All courses must be passed with a grade of C- or higher.",
+    "No more than 3 hours at the 10000 level, no more than 10 hours below the 30000 level, and no more than 6 hours of internship credit may be counted."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 3,
+      "courses": [
+        "One of: POSC 20093 - Scope & Methods of Political Science or POSC 20203 - Introduction to Political Theory - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "15 additional hours of political science courses. Max 3 hours at 10000 level, max 10 hours below 30000 level, max 6 hours of internship credit.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

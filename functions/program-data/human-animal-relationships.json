@@ -1,0 +1,44 @@
+{
+  "name": "Human-Animal Relationships",
+  "abbreviation": "HARE",
+  "degree": "Interdisciplinary Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/human-animal-relationships.php",
+  "descriptions": [
+    "The Human-Animal Relationships minor gives insights into the crucial, diverse, and often overlooked aspects animals contribute daily to our society, economy, culture, and well-being. Courses are drawn from over a dozen programs including anthropology, art, biology, English, environmental science, and psychology.",
+    "The program develops skills in empathy and perspective-taking applicable to diverse fields including veterinary medicine, social work, wildlife management, law, and criminal justice."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 3,
+      "courses": [
+        "HARE/ANTH/SOCI 30403 - Perspectives on Human-Animal Relationships - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "Five electives from the approved course list. No more than 6 hours of electives from the same discipline. Other courses may qualify with permission from the minor director.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Veterinary Medicine",
+    "Wildlife Management",
+    "Social Worker",
+    "Animal-Assisted Therapy",
+    "Environmental Policy",
+    "Criminal Justice"
+  ],
+  "contacts": [
+    {
+      "role": "Director",
+      "name": "Dr. Dave Aftandilian",
+      "email": "d.aftandilian@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "Courses from 12+ programs including anthropology, art, biology, English, and psychology",
+    "Student organizations: People for Animal Well-Being (PAW), TCU Service Dog Organization, TCU Wildlife Society"
+  ]
+}

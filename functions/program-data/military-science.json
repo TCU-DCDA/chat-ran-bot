@@ -1,0 +1,49 @@
+{
+  "name": "Military Science",
+  "abbreviation": "MILS",
+  "degree": "Military Commission",
+  "totalHours": null,
+  "url": "https://www.tcu.edu/academics/programs/military-science.php",
+  "descriptions": [
+    "The Army ROTC program at TCU is both challenging and rewarding, offering students personal and professional development alongside their academic major. There is no military obligation during the first and sophomore years.",
+    "Graduates are commissioned as Second Lieutenants in the U.S. Army with guaranteed employment options in Active Duty, Army Reserve, or National Guard. The program develops leadership and life skills applicable to any career."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 0,
+      "courses": [
+        "Basic Leadership",
+        "Intermediate Leadership",
+        "Advanced Leadership"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "Students may major in any field while supplementing with military science coursework.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Army Officer",
+    "Active Duty Service",
+    "Army Reserve",
+    "National Guard",
+    "Military Intelligence",
+    "Military Engineering"
+  ],
+  "contacts": [
+    {
+      "role": "Army ROTC",
+      "name": "Army ROTC Program",
+      "phone": "817-257-7455",
+      "email": "army@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "No military obligation during first and sophomore years",
+    "Can be combined with any major",
+    "Graduates commissioned as Second Lieutenants in the U.S. Army",
+    "Guaranteed employment after graduation for Active Duty selectees"
+  ]
+}

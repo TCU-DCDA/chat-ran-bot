@@ -1,0 +1,28 @@
+{
+  "name": "English",
+  "abbreviation": "ENGL",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/english.php",
+  "descriptions": [
+    "The English minor develops close reading, critical thinking, and persuasive writing skills through the study of literature and language. Students take 18 hours with 12 at the upper-division level.",
+    "Distribution requirements ensure breadth across American and British literature traditions. Excludes ENGL 10803 and ENGL 20803."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 6,
+      "courses": [
+        "3 hours from the American Literature subcategory",
+        "3 hours from the British Literature subcategory"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 12,
+      "description": "12 additional hours of English courses. Total of 12 hours must be upper-division. ENGL 10803 and ENGL 20803 do not count.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

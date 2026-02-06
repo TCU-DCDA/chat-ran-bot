@@ -1,0 +1,60 @@
+{
+  "name": "International Relations",
+  "abbreviation": "POSC",
+  "degree": "Minor",
+  "totalHours": 18,
+  "status": "The BA with international relations emphasis is no longer available to new students (sunsetted Fall 2022). The interdisciplinary International Relations minor remains active.",
+  "url": "https://www.tcu.edu/academics/programs/international-relations.php",
+  "descriptions": [
+    "The International Relations minor examines the role of governments and politics in the development of different cultures and societies across the world. Housed in the Department of Political Science, it pairs well with any major for students interested in global affairs, diplomacy, and cross-cultural understanding.",
+    "The minor requires 18 hours of interdisciplinary study combining upper-division foreign language, international economics, and approved cross-cultural courses. Students interested in international relations as a primary focus should consider a Political Science BA with international coursework."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 18,
+      "courses": [
+        "6 hours upper-division foreign language",
+        "3 hours international economics",
+        "9 hours approved cross-cultural courses (max 6 hours per discipline)"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "An Asian Studies, Post-Colonial Studies, or Middle Eastern Studies minor may fulfill the interdisciplinary requirements.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Lawyer",
+    "Policy Analyst",
+    "Diplomat or Foreign Service Officer",
+    "Non-profit Manager",
+    "Government Administrator",
+    "Journalist"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Michael Strausz",
+      "phone": "817-257-6403",
+      "email": "michael.strausz@tcu.edu",
+      "office": "Scharbauer Hall 2007F"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "Washington Internship Program (POSC 40910), Civic Literacy Internships (POSC 40960) requiring 150 hours of service with a local governmental or nonprofit agency. Eligible interns can be reimbursed up to $500 for transportation and professional clothing costs."
+  },
+  "features": [
+    "Model United Nations",
+    "Moot Court",
+    "Washington Internship Program",
+    "Pi Sigma Alpha (political science honors society)",
+    "Requires 18-hour interdisciplinary international relations minor"
+  ]
+}

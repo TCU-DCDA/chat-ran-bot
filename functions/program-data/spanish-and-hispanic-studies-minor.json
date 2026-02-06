@@ -1,0 +1,29 @@
+{
+  "name": "Spanish and Hispanic Studies",
+  "abbreviation": "SPAN",
+  "degree": "Minor",
+  "totalHours": 21,
+  "url": "https://www.tcu.edu/academics/programs/spanish.php",
+  "descriptions": [
+    "The Spanish and Hispanic Studies minor is available in three tracks: Spanish and Hispanic Studies, Spanish for Health Professions, and Spanish for Business Professions. All tracks require 21 credits at the 20103 level or above.",
+    "No courses taught in English qualify for any track. Grades below C- and Pass/No-Credit courses do not count. This minor is not available to Spanish and Hispanic Studies majors."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 21,
+      "courses": [
+        "Track A (Spanish): 21 hours of Spanish courses at 20103 level or above, including upper-level electives",
+        "Track B (Health): Requires SPAN 31503 and SPAN 42503 plus additional Spanish courses",
+        "Track C (Business): Requires SPAN 31603 and SPAN 42603 plus additional Spanish courses"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "Any course taught in Spanish at the 30000 or 40000 level may be taken as an elective. Portuguese for Spanish Speakers (PORT 20503) may fulfill one elective in any track.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

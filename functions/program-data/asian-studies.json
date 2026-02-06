@@ -1,0 +1,46 @@
+{
+  "name": "Asian Studies",
+  "abbreviation": "ASIA",
+  "degree": "Interdisciplinary Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/asian-studies.php",
+  "descriptions": [
+    "The Asian Studies minor is an interdisciplinary program focused on the Asia Pacific region, engaging students through courses in Asian cultures, histories, languages, religions, and politics. It encompasses Asian American, Native Hawaiian, and Pacific Islander (AANHPI) studies.",
+    "One of the largest interdisciplinary minors in AddRan College, the program features award-winning faculty experts on the Asia Pacific and prepares students for careers in international business, government, law, and foreign affairs."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 18,
+      "courses": [
+        "18 hours selected from at least three departments, from courses focusing on the history and thought of the peoples in Asia"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "International Business",
+    "Government/Foreign Affairs",
+    "Lawyer",
+    "Diplomat or Foreign Service Officer",
+    "Graduate Study in Social Sciences or Humanities",
+    "Journalist"
+  ],
+  "contacts": [
+    {
+      "role": "Director",
+      "name": "Dr. Benjamin Hiramatsu Ireland",
+      "phone": "817-257-6356",
+      "email": "b.ireland@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "Among the largest interdisciplinary minors in AddRan College",
+    "Study abroad opportunities with cultural and linguistic immersion",
+    "Chinese language courses count toward this minor"
+  ]
+}

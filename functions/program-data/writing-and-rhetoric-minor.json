@@ -1,0 +1,29 @@
+{
+  "name": "Writing and Rhetoric",
+  "abbreviation": "WRIT",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/writing.php",
+  "descriptions": [
+    "The Writing and Rhetoric minor develops professional writing, rhetorical analysis, and digital communication skills. Students take 18 hours across three required subcategories plus electives.",
+    "Requires 9 hours at the upper-division level. Excludes ENGL 10803."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 9,
+      "courses": [
+        "3 hours from the Writing and Publishing subcategory",
+        "3 hours from the Rhetorics and Cultures subcategory",
+        "3 hours from the Digital Rhetorics and Design subcategory"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 9,
+      "description": "9 hours from any courses in the three subcategories above or any upper-division WRIT, CRWT, or ENGL courses.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

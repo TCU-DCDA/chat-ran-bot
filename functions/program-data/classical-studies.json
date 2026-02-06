@@ -1,0 +1,45 @@
+{
+  "name": "Classical Studies",
+  "abbreviation": "CLAS",
+  "degree": "Interdisciplinary Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/classical-studies.php",
+  "descriptions": [
+    "The Classical Studies minor offers the chance to engage with the highly influential history and cultures of the ancient Greco-Roman world. The program explores all facets of the ancient world, including language, religion, philosophy, and literature.",
+    "Students examine the thoughts, ideas, histories, and stories that formed the backbone of modern society, developing a deep understanding of contemporary systems and forward-thinking perspectives applicable to any career field."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 18,
+      "courses": [
+        "18 hours selected from at least three areas, with a minimum of 6 hours of upper-division courses"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Lawyer",
+    "Educator",
+    "Museum Curator",
+    "Historian",
+    "Writer",
+    "Graduate Study in Humanities"
+  ],
+  "contacts": [
+    {
+      "role": "Program Director",
+      "name": "Dr. Patricia Duncan",
+      "phone": "817-257-7160",
+      "email": "p.duncan@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "Study abroad in Greece or Italy may qualify for program credit with director approval",
+    "Courses drawn from Religion, Philosophy, History, and English departments"
+  ]
+}

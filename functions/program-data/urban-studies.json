@@ -1,0 +1,48 @@
+{
+  "name": "Urban Studies",
+  "abbreviation": "URBS",
+  "degree": "Interdisciplinary Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/urban-studies.php",
+  "descriptions": [
+    "The Urban Studies minor develops a multi-disciplinary exploration of cities by examining the organization of urban space, the varied dimensions of urban life, and the challenges of 21st-century urban change.",
+    "Through a partnership with the Center for Urban Studies, students explore real-world problems affecting the local community. The minor benefits students across all majors with understanding of strategic city composition, applicable to business development, social change, and real estate."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 3,
+      "courses": [
+        "GEOG 10013 - An Urban World: Introduction to Urban Studies - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "6 hours from core courses (ECON 40463 Regional and Urban Economics, GEOG 30713 Urban Geography, POSC 30103 Urban Politics, HIST 30803 Urban History), 3 hours from service learning/internship/research options, and 6 hours from approved Urban Studies courses. Must select from at least 3 disciplines, max 9 hours from any single discipline.",
+      "courses": [
+        "ECON 40463 - Regional and Urban Economics",
+        "GEOG 30713 - Urban Geography",
+        "POSC 30103 - Urban Politics",
+        "HIST 30803 - Urban History",
+        "URBS 30013 - Internship in Urban Studies",
+        "GEOG 40323 - Urban & Business Applications of GIS"
+      ]
+    }
+  },
+  "careerOptions": [
+    "Urban Planner",
+    "Real Estate Development",
+    "Policy Analyst",
+    "Community Development",
+    "Government Administrator",
+    "Non-profit Manager"
+  ],
+  "contacts": [],
+  "internship": {
+    "description": "URBS 30013 - Internship in Urban Studies, or POSC 40960 - Civic Literacy Internships. Service learning options also available through SOCI 30213 Applied Sociology and HIST 30813 Texas Communities Oral History Project."
+  },
+  "features": [
+    "Partnership with Center for Urban Studies",
+    "Service learning and internship component built into requirements",
+    "Courses drawn from Geography, Economics, Political Science, History, Criminal Justice, and Sociology"
+  ]
+}

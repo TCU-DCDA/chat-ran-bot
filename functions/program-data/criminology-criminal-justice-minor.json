@@ -1,0 +1,28 @@
+{
+  "name": "Criminology & Criminal Justice",
+  "abbreviation": "CRJU",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/criminal-justice.php",
+  "descriptions": [
+    "The Criminology & Criminal Justice minor provides foundational knowledge of the criminal justice system, criminological theory, and related policy. It pairs well with majors in political science, sociology, psychology, and social work.",
+    "Students complete two required courses and 12 hours of electives from the CRJU course catalog."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 6,
+      "courses": [
+        "CRJU 20413 - Introduction to Criminal Justice - 3 hrs.",
+        "CRJU 30333 - Criminological Theory - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 12,
+      "description": "12 hours of CRJU electives.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

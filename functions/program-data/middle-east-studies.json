@@ -1,0 +1,44 @@
+{
+  "name": "Middle East Studies",
+  "abbreviation": "MES",
+  "degree": "Interdisciplinary Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/middle-east-studies.php",
+  "descriptions": [
+    "The Middle East Studies minor provides a comprehensive understanding of the history, religion, culture, languages, and politics of the Middle East and North Africa, enabling students to move beyond surface-level news coverage to grasp complex global issues.",
+    "The program prepares students for careers in politics, international economics, and international markets through a multi-perspective approach to studying the region."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 18,
+      "courses": [
+        "18 hours from interdisciplinary courses focusing on the Middle East and North Africa"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Diplomat or Foreign Service Officer",
+    "International Business",
+    "Policy Analyst",
+    "Intelligence Analyst",
+    "Journalist",
+    "Non-profit Manager"
+  ],
+  "contacts": [
+    {
+      "role": "Director",
+      "name": "Dr. Hadi Hosainy",
+      "email": "hadi.hosainy@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "Includes Arabic language courses",
+    "Fulfills interdisciplinary minor requirement for International Relations emphasis"
+  ]
+}

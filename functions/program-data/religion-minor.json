@@ -1,0 +1,27 @@
+{
+  "name": "Religion",
+  "abbreviation": "RELI",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/religion.php",
+  "descriptions": [
+    "The Religion minor explores the world's religious traditions, ethical systems, and the role of religion in society and culture. Students take 18 hours with a balance of introductory and upper-level courses.",
+    "A minimum of 3 hours at the introductory level (10000) and a maximum of 6 hours at that level. At least 9 hours must be at the upper level (30000 or 40000)."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 3,
+      "courses": [
+        "3-6 hours at the 10000 (introductory) level"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "15 additional hours, with at least 9 total hours at the 30000 or 40000 level.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

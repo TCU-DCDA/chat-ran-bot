@@ -1,0 +1,45 @@
+{
+  "name": "British Colonial and Post-Colonial Studies",
+  "abbreviation": "BCPC",
+  "degree": "Interdisciplinary Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/british-studies.php",
+  "descriptions": [
+    "The British Colonial and Post-Colonial Studies minor focuses on the culture and history of Great Britain and its impact on the world, especially its former and current colonies. The curriculum provides frameworks for examining globalization and how British institutions have shaped world affairs.",
+    "Faculty from multiple departments across campus contribute to this interdisciplinary minor, offering comprehensive coverage of British history, contemporary society, and the lasting effects of colonialism."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 18,
+      "courses": [
+        "18 hours from interdisciplinary courses focusing on British culture, history, and colonial/post-colonial studies"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "International Relations",
+    "Diplomat or Foreign Service Officer",
+    "Journalist",
+    "Historian",
+    "Lawyer",
+    "Policy Analyst"
+  ],
+  "contacts": [
+    {
+      "role": "Director",
+      "name": "Dr. Jill C. Havens",
+      "phone": "817-257-6259",
+      "email": "j.havens@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "Faculty from multiple departments across campus",
+    "Fulfills interdisciplinary minor requirement for International Relations emphasis"
+  ]
+}

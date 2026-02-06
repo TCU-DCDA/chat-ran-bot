@@ -1,0 +1,47 @@
+{
+  "name": "African American and Africana Studies",
+  "abbreviation": "AAAS",
+  "degree": "Interdisciplinary Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/african-studies.php",
+  "descriptions": [
+    "The African American and Africana Studies minor is an interdisciplinary program that enables students to investigate the role of Africans and African Americans in the broader global community. Courses are drawn from multiple departments including History, Religion, Sociology, and Political Science.",
+    "Understanding and navigating successfully across cultural differences prepares graduates for success across various professional pathways, particularly as American workforce diversity increases."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 6,
+      "courses": [
+        "Choose two: AAAS 10103 - Engaging Difference and Diversity in America - 3 hrs.",
+        "AAAS 10203 - Introduction to African American Studies - 3 hrs.",
+        "ENGL 20593 - Introduction to Literatures of the Global African Diaspora - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 12,
+      "description": "12 hours from courses carrying the AAAS attribute, from at least three different departments. No more than 9 hours from any one department. At least 9 hours must be at the 30000 level or above.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Social Worker",
+    "Policy Analyst",
+    "Journalist",
+    "Non-profit Manager",
+    "Educator",
+    "Community Organizer"
+  ],
+  "contacts": [
+    {
+      "role": "Co-Director",
+      "name": "Claire Sanders",
+      "phone": "817-257-6289",
+      "email": "c.sanders@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "Interdisciplinary coursework across History, Religion, Sociology, and Political Science",
+    "Also available as an emphasis (area of study)"
+  ]
+}

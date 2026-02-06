@@ -1,0 +1,59 @@
+{
+  "name": "Latin American Studies",
+  "abbreviation": "SPAN",
+  "degree": "BA",
+  "totalHours": 33,
+  "url": "https://www.tcu.edu/academics/programs/latin-american-studies.php",
+  "descriptions": [
+    "Latin American Studies is a language-based, multidisciplinary program that critically examines the societies of Latin America, including Brazil, through a wide range of literary and non-literary texts. It is offered as Track 3 within the Spanish and Hispanic Studies BA.",
+    "Students develop deep cultural competency through Spanish language coursework combined with interdisciplinary electives drawn from anthropology, art history, economics, geography, history, political science, and religion — all focused on Latin America."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 18,
+      "courses": [
+        "SPAN 20103 or 20113 - Intermediate Spanish I - 3 hrs.",
+        "SPAN 20203 or 20213 - Intermediate Spanish II - 3 hrs.",
+        "Two courses from advanced Spanish/Portuguese options - 6 hrs.",
+        "Two courses from culture/literature options (including Cinema of Latin America) - 6 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "One upper-level Spanish elective (one must be a 40000-level literature or cultural studies course), plus four interdisciplinary electives (12 hrs) from approved departments (Anthropology, Art History, Economics, English, Geography, History, Political Science, Religion) when the course topic focuses on Latin America.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Diplomat or Foreign Service Officer",
+    "International Development Worker",
+    "NGO Officer",
+    "Immigration Lawyer",
+    "Journalist",
+    "Teacher"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Sohyun Lee",
+      "phone": "817-257-5402",
+      "email": "sohyun.lee@tcu.edu",
+      "office": "Scharbauer Hall 3105"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {
+    "description": "SPAN 41000 - Internship in Spanish. Prerequisites: 2 upper-level courses. Internship Coordinator: Dr. Maria Ciriza Lope (maria.ciriza@tcu.edu)."
+  },
+  "features": [
+    "Track 3 of the Spanish and Hispanic Studies BA",
+    "Interdisciplinary electives across 8+ departments",
+    "Study abroad programs through TCU Global",
+    "Shares department resources with Spanish and Hispanic Studies"
+  ]
+}

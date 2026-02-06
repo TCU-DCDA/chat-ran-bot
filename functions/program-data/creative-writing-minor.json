@@ -1,0 +1,27 @@
+{
+  "name": "Creative Writing",
+  "abbreviation": "CRWT",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/creative-writing.php",
+  "descriptions": [
+    "The Creative Writing minor develops skills in fiction, poetry, and other creative forms through workshop-based courses. Students take 18 hours in Writing, English, or Creative Writing with 12 hours at the upper-division level.",
+    "Students who major in English or Writing may count no more than 6 hours of creative writing toward their major."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 18,
+      "courses": [
+        "18 hours in Writing, English, or Creative Writing (excluding ENGL 10803 and ENGL 20803), with 12 hours in upper-division courses"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

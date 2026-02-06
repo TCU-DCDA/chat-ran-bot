@@ -1,0 +1,31 @@
+{
+  "name": "Anthropology",
+  "abbreviation": "ANTH",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/anthropology.php",
+  "descriptions": [
+    "The Anthropology minor provides a broad understanding of human diversity across cultures, time periods, and biological variation. Students choose from four subfields: physical anthropology, cultural anthropology, archaeology, and linguistics.",
+    "The minor pairs well with any major for students interested in understanding human behavior, cultural systems, and global perspectives."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 6,
+      "courses": [
+        "Two of the following four introductory courses:",
+        "ANTH 20613 - Introduction to Physical Anthropology - 3 hrs.",
+        "ANTH 20623 - Introduction to Cultural Anthropology - 3 hrs.",
+        "ANTH 20633 - Introduction to Archaeology - 3 hrs.",
+        "ANTH 20643 - Language and Culture - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 12,
+      "description": "12 hours of anthropology electives.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

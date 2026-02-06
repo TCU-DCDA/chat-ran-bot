@@ -1,0 +1,49 @@
+{
+  "name": "Aerospace Studies",
+  "abbreviation": "AERO",
+  "degree": "Military Commission",
+  "totalHours": null,
+  "url": "https://www.tcu.edu/academics/programs/aerospace-studies.php",
+  "descriptions": [
+    "TCU's Aerospace Studies program is the Air Force ROTC (Detachment 845), designed to develop leadership skills for professional and personal growth within a military framework. The program emphasizes values of true leadership and service to the greater good.",
+    "TCU's Detachment 845 ranks highly nationally in GPA and physical fitness assessments and was recognized as the best small Detachment in the Nation, maintaining regional excellence for three consecutive years."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 0,
+      "courses": [
+        "Foundations of the United States Air Force",
+        "Leadership Studies",
+        "National Security Affairs"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "Specific entry requirements apply. Students may pursue any major while completing AFROTC coursework.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Air Force Officer",
+    "Pilot",
+    "Intelligence Officer",
+    "Cyber Operations",
+    "Space Operations",
+    "Engineering"
+  ],
+  "contacts": [
+    {
+      "role": "Detachment 845",
+      "name": "Air Force ROTC",
+      "phone": "817-257-7461",
+      "email": "tcuafrotc@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "Air Force ROTC Detachment 845",
+    "Recognized as best small Detachment in the Nation",
+    "Can be combined with any major",
+    "Graduates commissioned as Second Lieutenants in the Air Force"
+  ]
+}

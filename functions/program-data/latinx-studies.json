@@ -1,0 +1,45 @@
+{
+  "name": "Latinx Studies",
+  "abbreviation": "LTNX",
+  "degree": "Interdisciplinary Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/latinx-studies.php",
+  "descriptions": [
+    "The Latinx Studies minor offers a deeper understanding of the cultures and traditions of the Latin world and its significance on American life. This interdisciplinary program develops critical thinking about culture's role in the global community.",
+    "With Latinx populations comprising approximately 18% of the U.S. population, understanding these communities prepares graduates for careers in policy, marketing, law, and business sectors."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 3,
+      "courses": [
+        "Introduction to Latinx Studies - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "15 hours from courses across at least three different departments. Other relevant courses may count pending approval from the Director of the Latinx Studies Program.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "Policy Analyst",
+    "Marketing Professional",
+    "Lawyer",
+    "Social Worker",
+    "Community Organizer",
+    "Educator"
+  ],
+  "contacts": [
+    {
+      "role": "Associate Professor",
+      "name": "Santiago Pi\u00f1\u00f3n",
+      "phone": "817-257-6596",
+      "email": "s.pinon@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "Interdisciplinary curriculum spanning arts, humanities, and social sciences",
+    "Connected to Comparative Race & Ethnic Studies department"
+  ]
+}

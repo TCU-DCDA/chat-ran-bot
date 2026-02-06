@@ -1,0 +1,27 @@
+{
+  "name": "History",
+  "abbreviation": "HIST",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/history.php",
+  "descriptions": [
+    "The History minor develops critical analysis of the past across diverse regions and time periods. Students select survey courses from at least three of six geographic categories: U.S., Europe, Latin America, Asia, Middle East, and World History.",
+    "A minimum of 6 hours must be at the 30000 level or above. Cumulative GPA of at least 2.0 required in all minor courses to graduate."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 9,
+      "courses": [
+        "Survey courses from at least three of six categories: U.S. History, Europe, Latin America, Asia, Middle East, World History - 9 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 9,
+      "description": "9 additional hours of history courses, with at least 6 total hours at the 30000 level or above.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

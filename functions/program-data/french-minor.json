@@ -1,0 +1,28 @@
+{
+  "name": "French",
+  "abbreviation": "FREN",
+  "degree": "Minor",
+  "totalHours": 21,
+  "url": "https://www.tcu.edu/academics/programs/french.php",
+  "descriptions": [
+    "The French minor develops French language proficiency and cultural competency through 21 hours of coursework in the Department of Modern Language Studies.",
+    "Students take 9-12 hours from language-sequence courses and 9-12 hours from French or MOLA prefix courses, with at least 6 hours at the 30000 level or higher. Maximum 3 hours in English-taught courses."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 21,
+      "courses": [
+        "9-12 hours from language-sequence courses (FREN 10153, 10163, 20053, 20063)",
+        "9-12 hours from FREN or MOLA prefix courses (min 6 hrs at 30000+ level, max 3 hrs in English)"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 0,
+      "description": "Maximum 6 credit hours may be transferred from study abroad or other universities.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

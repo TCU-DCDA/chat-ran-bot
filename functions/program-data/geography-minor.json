@@ -1,0 +1,27 @@
+{
+  "name": "Geography",
+  "abbreviation": "GEOG",
+  "degree": "Minor",
+  "totalHours": 18,
+  "url": "https://www.tcu.edu/academics/programs/geography.php",
+  "descriptions": [
+    "The Geography minor develops spatial thinking and analytical skills through courses in human geography, physical geography, GIS, and regional studies.",
+    "Students complete a foundation course and upper-division electives selected in consultation with a departmental advisor."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 3,
+      "courses": [
+        "One of: GEOG 10003 - World Regional Geography or GEOG 10023 - An Urban World - 3 hrs."
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "15 additional hours including 6 hours from upper-division courses. Courses pre-approved by departmental advisor.",
+      "courses": []
+    }
+  },
+  "careerOptions": [],
+  "contacts": [],
+  "internship": {}
+}

@@ -1,0 +1,56 @@
+{
+  "name": "Italian",
+  "abbreviation": "ITAL",
+  "degree": "BA",
+  "totalHours": 27,
+  "url": "https://www.tcu.edu/academics/programs/italian.php",
+  "descriptions": [
+    "The Italian program allows students to immerse themselves in Italian culture through courses in advanced grammar and composition, conversation, culture, cinema, and literature. All upper-level courses are taught in Italian, providing deep linguistic and cultural competency.",
+    "Italy is one of the most visited countries in the world, and Italian language skills enhance competitiveness in fields from art and design to international business. Students explore Italian theatrical, cinematic, and literary traditions spanning centuries of cultural history."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 12,
+      "courses": [
+        "ITAL 20053 - Intermediate Italian I - 3 hrs.",
+        "ITAL 20063 - Intermediate Italian II - 3 hrs.",
+        "MOLA 20003 - Cosmopolitanism: Thinking from a Global Perspective - 3 hrs. (gateway)",
+        "MOLA 40193 - Senior Seminar - 3 hrs. (capstone)"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "Three courses taught in Italian at the 30000+ level (at least one at 40000+), plus two courses with ARAB, CHIN, FREN, GRMN, ITAL, JAPN, or MOLA prefix (max one taught in English). May include one interdisciplinary course with advisor approval.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "International Business",
+    "Translator/Interpreter",
+    "Cultural Affairs Officer",
+    "Travel and Hospitality Industry",
+    "Diplomat or Foreign Service Officer",
+    "Teacher"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Nicholas Albanese",
+      "phone": "817-257-6360",
+      "email": "n.albanese@tcu.edu",
+      "office": "Scharbauer Hall 3203"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "Italian Club with conversation gatherings and cultural outings",
+    "Trips to Dallas Opera and local gelaterias",
+    "Study abroad through TCU Global semester and year-long programs"
+  ]
+}

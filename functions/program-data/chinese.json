@@ -1,0 +1,57 @@
+{
+  "name": "Chinese",
+  "abbreviation": "CHIN",
+  "degree": "BA",
+  "totalHours": 27,
+  "url": "https://www.tcu.edu/academics/programs/chinese.php",
+  "descriptions": [
+    "The Chinese program develops competence in using Mandarin Chinese to conduct appropriate Sino-American intercultural communication. Students learn language across three instructional levels alongside dedicated culture courses, connecting with over one billion Chinese speakers globally.",
+    "China is the second-largest economy in the world and a major U.S. trading partner. Chinese speakers have a significant advantage in understanding Chinese culture and navigating international markets. Courses also satisfy requirements for the Asian Studies minor."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 12,
+      "courses": [
+        "CHIN 20053 - Intermediate Chinese I - 3 hrs.",
+        "CHIN 20063 - Intermediate Chinese II - 3 hrs.",
+        "MOLA 20003 - Cosmopolitanism: Thinking from a Global Perspective - 3 hrs. (gateway)",
+        "MOLA 40193 - Senior Seminar - 3 hrs. (capstone)"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 15,
+      "description": "Three courses taught in Chinese at the 30000+ level (at least one at 40000+), plus two courses with ARAB, CHIN, FREN, GRMN, ITAL, JAPN, or MOLA prefix (max one taught in English). May include one interdisciplinary course with advisor approval.",
+      "courses": []
+    }
+  },
+  "careerOptions": [
+    "International Business",
+    "Import/Export Specialist",
+    "Translator/Interpreter",
+    "Cultural Affairs Officer",
+    "Diplomat or Foreign Service Officer",
+    "ESL/EFL Teacher"
+  ],
+  "contacts": [
+    {
+      "role": "Department Chair",
+      "name": "Dr. Nicholas Albanese",
+      "phone": "817-257-6360",
+      "email": "n.albanese@tcu.edu",
+      "office": "Scharbauer Hall 3203"
+    },
+    {
+      "role": "AddRan Career Consultant",
+      "name": "Dr. Emmanuel Garcia",
+      "phone": "817-257-2222",
+      "email": "EMM.GARCIA@tcu.edu"
+    }
+  ],
+  "internship": {},
+  "features": [
+    "Chinese Language House residential immersion program",
+    "Mid-Autumn Festival and Chinese New Year celebrations",
+    "Chinese Speech Contests",
+    "Courses count toward Asian Studies minor"
+  ]
+}
