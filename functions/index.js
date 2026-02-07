@@ -749,10 +749,7 @@ exports.adminFeedback = onRequest(
     }
 
     try {
-      const snapshot = await db.collection("feedback")
-        .orderBy("timestamp", "desc")
-        .limit(1000)
-        .get();
+      const snapshot = await db.collection("feedback").get();
 
       const feedback = snapshot.docs.map(doc => ({
         id: doc.id,

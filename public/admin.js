@@ -69,6 +69,9 @@ const rssStatus = document.getElementById("rss-status");
 const openalexCheckBtn = document.getElementById("openalex-check-btn");
 const openalexStatus = document.getElementById("openalex-status");
 
+// Export button
+const exportCsvBtn = document.getElementById("export-csv-btn");
+
 // State
 let articles = [];
 let feedback = [];
@@ -762,4 +765,37 @@ function escapeHtml(text) {
   const div = document.createElement("div");
   div.textContent = text;
   return div.innerHTML;
+}
+
+// CSV Export
+exportCsvBtn.addEventListener("click", exportConversationsCsv);
+
+function exportConversationsCsv() {
+  if (conversations.length === 0) {
+    alert("No conversations to export.");
+    return;
+  }
+
+  const headers = ["Timestamp", "Session ID", "Question", "Response", "Feedback"];
+  const rows = conversations.map(c => {
+    const ts = c.timestamp;
+    const date = ts ? new Date((ts._seconds || ts.seconds) * 1000).toISOString() : "";
+    const sessionId = c.sessionId || "";
+    const question = c.userMessage || "";
+    const response = c.assistantMessage || "";
+    const feedback = c.feedback ? c.feedback.rating : "";
+    return [date, sessionId, question, response, feedback];
+  });
+
+  const csvContent = [headers, ...rows]
+    .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(","))
+    .join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `addran-conversations-${new Date().toISOString().slice(0, 10)}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
 }
