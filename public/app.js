@@ -234,6 +234,16 @@ async function sendMessage(message) {
       }),
     });
 
+    if (response.status === 429) {
+      const data = await response.json();
+      const minutes = Math.ceil((data.retryAfterSeconds || 60) / 60);
+      const err = new Error(
+        `You've sent a lot of messages! Please wait about ${minutes} minute${minutes === 1 ? "" : "s"} and try again.`
+      );
+      err.isRateLimit = true;
+      throw err;
+    }
+
     if (!response.ok) {
       throw new Error("Failed to get response");
     }
@@ -288,7 +298,10 @@ chatForm.addEventListener("submit", async (e) => {
     exportBtn.disabled = false;
   } catch (error) {
     hideLoading();
-    addMessage("Sorry, I encountered an error. Please try again.", "assistant", null, null);
+    const msg = error.isRateLimit
+      ? error.message
+      : "Sorry, I encountered an error. Please try again.";
+    addMessage(msg, "assistant", null, null);
   } finally {
     // Re-enable form
     userInput.disabled = false;
@@ -297,25 +310,52 @@ chatForm.addEventListener("submit", async (e) => {
   }
 });
 
-// Suggested prompts handling
-function attachPromptChipListeners() {
-  document.querySelectorAll(".prompt-chip").forEach(chip => {
+// Suggested prompts — randomly pick 4 from a larger pool on each load
+const PROMPT_POOL = [
+  { label: "What majors do you offer?", prompt: "What majors do you offer?" },
+  { label: "English program", prompt: "Tell me about the English program" },
+  { label: "Career paths", prompt: "What can I do with a liberal arts degree?" },
+  { label: "Convince my parents", prompt: "My parents think liberal arts is useless" },
+  { label: "Minors available", prompt: "What minors can I add to my degree?" },
+  { label: "Political Science", prompt: "Tell me about the Political Science program" },
+  { label: "Double major?", prompt: "Can I double major in AddRan?" },
+  { label: "Psychology program", prompt: "Tell me about the Psychology program" },
+  { label: "Study abroad", prompt: "Are there study abroad options for liberal arts majors?" },
+  { label: "Core Curriculum", prompt: "How does the Core Curriculum work?" },
+  { label: "Pre-law options", prompt: "What programs are good for pre-law?" },
+  { label: "History program", prompt: "Tell me about the History program" },
+  { label: "Internships", prompt: "What internship opportunities are available?" },
+  { label: "Economics program", prompt: "Tell me about the Economics program" },
+  { label: "AI & liberal arts", prompt: "How do liberal arts skills help in the AI era?" },
+  { label: "Writing & Rhetoric", prompt: "Tell me about the Writing and Rhetoric program" },
+];
+
+function renderSuggestedPrompts() {
+  const container = document.getElementById("suggested-prompts");
+  if (!container) return;
+
+  // Shuffle and pick 4
+  const shuffled = [...PROMPT_POOL].sort(() => Math.random() - 0.5);
+  const selected = shuffled.slice(0, 4);
+
+  container.innerHTML = selected.map(p =>
+    `<button class="prompt-chip" data-prompt="${p.prompt}">${p.label}</button>`
+  ).join("");
+
+  container.querySelectorAll(".prompt-chip").forEach(chip => {
     chip.addEventListener("click", () => {
-      const prompt = chip.dataset.prompt;
-      userInput.value = prompt;
+      userInput.value = chip.dataset.prompt;
       chatForm.dispatchEvent(new Event("submit"));
     });
   });
 }
 
-// Hide suggested prompts after first message
 function hideSuggestedPrompts() {
   const prompts = document.getElementById("suggested-prompts");
   if (prompts) prompts.remove();
 }
 
-// Attach listeners on page load
-attachPromptChipListeners();
+renderSuggestedPrompts();
 
 // Program card rendering
 function renderProgramCard(program, expanded = false) {

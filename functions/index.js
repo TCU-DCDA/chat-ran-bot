@@ -1,7 +1,8 @@
 const { onRequest } = require("firebase-functions/v2/https");
 const { onSchedule } = require("firebase-functions/v2/scheduler");
 const { initializeApp } = require("firebase-admin/app");
-const { getFirestore } = require("firebase-admin/firestore");
+const { getFirestore, FieldValue } = require("firebase-admin/firestore");
+const { getAuth } = require("firebase-admin/auth");
 const Anthropic = require("@anthropic-ai/sdk");
 const fs = require("fs");
 const path = require("path");
@@ -264,6 +265,86 @@ function buildProgramDetailsContext(programs) {
 initializeApp();
 const db = getFirestore();
 
+// Rate limiting — per-IP, fixed-window, Firestore-backed
+const RATE_LIMITS = {
+  api: { windowMs: 60 * 60 * 1000, maxRequests: 30 },       // 30/hour
+  feedback: { windowMs: 60 * 60 * 1000, maxRequests: 60 },   // 60/hour
+};
+
+function getClientIp(req) {
+  const forwarded = req.headers["x-forwarded-for"];
+  if (forwarded) return forwarded.split(",")[0].trim();
+  return req.ip || "unknown";
+}
+
+async function checkRateLimit(endpoint, ip) {
+  const config = RATE_LIMITS[endpoint];
+  if (!config) return { allowed: true };
+
+  const now = Date.now();
+  const windowStart = new Date(Math.floor(now / config.windowMs) * config.windowMs);
+  const windowKey = windowStart.toISOString().substring(0, 13);
+  const sanitizedIp = ip.replace(/[.:]/g, "_");
+  const docRef = db.collection("rateLimits").doc(`${endpoint}:${sanitizedIp}:${windowKey}`);
+
+  try {
+    const doc = await docRef.get();
+
+    if (!doc.exists) {
+      await docRef.set({
+        count: 1,
+        endpoint,
+        ip,
+        windowStart,
+        expiresAt: new Date(windowStart.getTime() + config.windowMs),
+      });
+      return { allowed: true };
+    }
+
+    if (doc.data().count >= config.maxRequests) {
+      const retryAfterSeconds = Math.ceil((windowStart.getTime() + config.windowMs - now) / 1000);
+      return { allowed: false, retryAfterSeconds };
+    }
+
+    await docRef.update({ count: FieldValue.increment(1) });
+    return { allowed: true };
+  } catch (error) {
+    console.error(`Rate limit check failed for ${endpoint}/${ip}:`, error.message);
+    return { allowed: true }; // fail open
+  }
+}
+
+// Admin email whitelist — only these accounts can access admin endpoints
+const ADMIN_EMAILS = ["c.rode@tcu.edu", "0expatriate0@gmail.com"];
+
+async function verifyAdmin(req) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    const err = new Error("Missing or invalid Authorization header");
+    err.status = 401;
+    throw err;
+  }
+
+  const idToken = authHeader.split("Bearer ")[1];
+
+  let decodedToken;
+  try {
+    decodedToken = await getAuth().verifyIdToken(idToken);
+  } catch (error) {
+    const err = new Error("Invalid or expired token");
+    err.status = 401;
+    throw err;
+  }
+
+  if (!decodedToken.email || !ADMIN_EMAILS.includes(decodedToken.email.toLowerCase())) {
+    const err = new Error("Forbidden: email not authorized");
+    err.status = 403;
+    throw err;
+  }
+
+  return decodedToken;
+}
+
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
@@ -285,6 +366,7 @@ CRITICAL RULES:
 - ONLY provide information from the program data you have been given — NEVER make up building locations, office locations, phone numbers, or other details
 - When mentioning a program or contact, include the URL or email address if available in your data
 - Program data is current as of your most recent training update and may not reflect the latest catalog changes — encourage students to confirm details with their advisor or the relevant department
+- Do NOT offer or volunteer information about graduate programs — AddRan only offers undergraduate degrees. If a student asks about graduate programs, let them know AddRan focuses on undergraduate education and suggest they check tcu.edu or contact the relevant graduate department directly
 
 SENSITIVE TOPICS — redirect with care and empathy:
 - Mental health, anxiety, depression, crisis → Counseling & Mental Health
@@ -306,6 +388,18 @@ exports.api = onRequest(
   async (req, res) => {
     if (req.method !== "POST") {
       res.status(405).send("Method not allowed");
+      return;
+    }
+
+    // Rate limiting
+    const clientIp = getClientIp(req);
+    const rateCheck = await checkRateLimit("api", clientIp);
+    if (!rateCheck.allowed) {
+      res.set("Retry-After", String(rateCheck.retryAfterSeconds));
+      res.status(429).json({
+        error: "You've sent too many messages. Please wait a bit before trying again.",
+        retryAfterSeconds: rateCheck.retryAfterSeconds,
+      });
       return;
     }
 
@@ -465,6 +559,18 @@ exports.feedback = onRequest(
       return;
     }
 
+    // Rate limiting
+    const clientIp = getClientIp(req);
+    const rateCheck = await checkRateLimit("feedback", clientIp);
+    if (!rateCheck.allowed) {
+      res.set("Retry-After", String(rateCheck.retryAfterSeconds));
+      res.status(429).json({
+        error: "Too many requests. Please try again later.",
+        retryAfterSeconds: rateCheck.retryAfterSeconds,
+      });
+      return;
+    }
+
     try {
       const { messageId, userQuestion, assistantResponse, rating, sessionId, timestamp } = req.body;
 
@@ -498,10 +604,16 @@ exports.feedback = onRequest(
 );
 
 // Admin API - Articles CRUD
-// TODO: Add proper authentication (Firebase Auth) for production
 exports.adminArticles = onRequest(
   { cors: true, invoker: "public" },
   async (req, res) => {
+    try {
+      await verifyAdmin(req);
+    } catch (err) {
+      res.status(err.status || 401).json({ error: err.message });
+      return;
+    }
+
     const { method } = req;
 
     try {
@@ -555,6 +667,13 @@ exports.adminArticles = onRequest(
 exports.adminArticle = onRequest(
   { cors: true, invoker: "public" },
   async (req, res) => {
+    try {
+      await verifyAdmin(req);
+    } catch (err) {
+      res.status(err.status || 401).json({ error: err.message });
+      return;
+    }
+
     const { method } = req;
 
     // Extract article ID from path (e.g., /admin/articles/abc123)
@@ -617,6 +736,13 @@ exports.adminArticle = onRequest(
 exports.adminFeedback = onRequest(
   { cors: true, invoker: "public" },
   async (req, res) => {
+    try {
+      await verifyAdmin(req);
+    } catch (err) {
+      res.status(err.status || 401).json({ error: err.message });
+      return;
+    }
+
     if (req.method !== "GET") {
       res.status(405).send("Method not allowed");
       return;
@@ -625,7 +751,7 @@ exports.adminFeedback = onRequest(
     try {
       const snapshot = await db.collection("feedback")
         .orderBy("timestamp", "desc")
-        .limit(100)
+        .limit(1000)
         .get();
 
       const feedback = snapshot.docs.map(doc => ({
@@ -645,6 +771,13 @@ exports.adminFeedback = onRequest(
 exports.adminConversations = onRequest(
   { cors: true, invoker: "public" },
   async (req, res) => {
+    try {
+      await verifyAdmin(req);
+    } catch (err) {
+      res.status(err.status || 401).json({ error: err.message });
+      return;
+    }
+
     if (req.method !== "GET") {
       res.status(405).send("Method not allowed");
       return;
@@ -673,6 +806,13 @@ exports.adminConversations = onRequest(
 exports.fetchUrlMetadata = onRequest(
   { cors: true, invoker: "public" },
   async (req, res) => {
+    try {
+      await verifyAdmin(req);
+    } catch (err) {
+      res.status(err.status || 401).json({ error: err.message });
+      return;
+    }
+
     if (req.method !== "POST") {
       res.status(405).send("Method not allowed");
       return;
@@ -1047,6 +1187,13 @@ exports.checkRssFeeds = onSchedule(
 exports.triggerRssCheck = onRequest(
   { cors: true, invoker: "public" },
   async (req, res) => {
+    try {
+      await verifyAdmin(req);
+    } catch (err) {
+      res.status(err.status || 401).json({ error: err.message });
+      return;
+    }
+
     if (req.method !== "POST") {
       res.status(405).send("Method not allowed");
       return;
@@ -1237,6 +1384,13 @@ exports.checkOpenAlex = onSchedule(
 exports.triggerOpenAlexCheck = onRequest(
   { cors: true, invoker: "public" },
   async (req, res) => {
+    try {
+      await verifyAdmin(req);
+    } catch (err) {
+      res.status(err.status || 401).json({ error: err.message });
+      return;
+    }
+
     if (req.method !== "POST") {
       res.status(405).send("Method not allowed");
       return;

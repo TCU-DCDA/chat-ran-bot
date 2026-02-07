@@ -69,6 +69,7 @@
 - [x] AI-assisted curation — Claude auto-generates summaries and suggests tags on ingestion
 - [x] Article dedup by URL (rejected articles preserved as dedup records, no delete)
 - [x] **Relevance scoring** - Claude rates article fit (1-10) during ingestion, color-coded badge in admin, sort by relevance
+- [x] **Conversation analytics tab** - Admin dashboard shows anonymous conversation logs, stats (total/today/week), topic keyword detection (14 categories), program name detection (46 programs), side-by-side bar charts
 
 ### 🔜 Next Up
 - [ ] **Duplicate detection** - Flag articles with similar titles/content beyond URL match
@@ -78,6 +79,20 @@
 - [ ] **Weekly digest** - Email summary of new pending articles
 - [ ] **Auto-approval threshold** - High-confidence articles go live without manual review
 - [ ] **Feedback loop** - Demote articles that get negative student reactions
+
+---
+
+## Security / Infrastructure
+
+### ✅ Completed
+- [x] **Firebase Auth for admin** - Google sign-in with email whitelist; server-side ID token verification on all 7 admin endpoints
+- [x] **Rate limiting on chat API** - Per-IP fixed-window rate limiting (30/hr chat, 60/hr feedback) via Firestore counters; 429 with friendly UI message
+
+### 🔜 Next Up
+
+### 💡 Future Ideas
+- [ ] **SSRF protection on fetchUrlMetadata** - Validate URLs against allowlist / block private IP ranges
+- [ ] **Server-side conversation history** - Store history by session instead of trusting client-submitted data
 
 ---
 

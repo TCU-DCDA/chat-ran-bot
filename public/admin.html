@@ -10,15 +10,18 @@
   <div class="admin-container">
     <header class="admin-header">
       <h1>AddRan Advisor Admin</h1>
-      <p>Manage articles and view feedback</p>
+      <p>Manage articles and view conversations</p>
+      <button id="sign-out-btn" class="sign-out-btn hidden">Sign Out</button>
     </header>
 
-    <!-- Simple password gate (not secure - just prevents casual access) -->
     <div id="auth-gate" class="auth-gate">
       <div class="auth-box">
         <h2>Admin Access</h2>
-        <input type="password" id="admin-password" placeholder="Enter admin password">
-        <button id="auth-btn">Enter</button>
+        <p class="auth-subtitle">Sign in with your TCU Google account</p>
+        <button id="google-sign-in-btn" class="google-sign-in-btn">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="" width="18" height="18">
+          Sign in with Google
+        </button>
         <p class="auth-error" id="auth-error"></p>
       </div>
     </div>
@@ -27,7 +30,6 @@
       <!-- Tabs -->
       <nav class="admin-tabs">
         <button class="tab-btn active" data-tab="articles">Articles</button>
-        <button class="tab-btn" data-tab="feedback">Feedback</button>
         <button class="tab-btn" data-tab="conversations">Conversations</button>
       </nav>
 
@@ -120,48 +122,21 @@
         </div>
       </section>
 
-      <!-- Feedback Tab -->
-      <section id="feedback-tab" class="tab-content hidden">
+      <!-- Conversations Tab (unified with feedback) -->
+      <section id="conversations-tab" class="tab-content hidden">
         <div class="section-header">
-          <h2>Feedback</h2>
+          <h2>Conversations</h2>
           <div class="filter-controls">
-            <select id="feedback-filter">
-              <option value="all">All Feedback</option>
-              <option value="positive">Positive Only</option>
-              <option value="negative">Negative Only</option>
+            <select id="conversation-filter">
+              <option value="all">All Conversations</option>
+              <option value="has-feedback">Has Feedback</option>
+              <option value="positive">Positive Feedback</option>
+              <option value="negative">Negative Feedback</option>
             </select>
           </div>
         </div>
 
-        <!-- Feedback Stats -->
-        <div id="feedback-stats" class="feedback-stats">
-          <div class="stat-box">
-            <span class="stat-value" id="total-feedback">-</span>
-            <span class="stat-label">Total</span>
-          </div>
-          <div class="stat-box positive">
-            <span class="stat-value" id="positive-feedback">-</span>
-            <span class="stat-label">Positive</span>
-          </div>
-          <div class="stat-box negative">
-            <span class="stat-value" id="negative-feedback">-</span>
-            <span class="stat-label">Negative</span>
-          </div>
-        </div>
-
-        <!-- Feedback List -->
-        <div id="feedback-list" class="feedback-list">
-          <p class="loading">Loading feedback...</p>
-        </div>
-      </section>
-      <!-- Conversations Tab -->
-      <section id="conversations-tab" class="tab-content hidden">
-        <div class="section-header">
-          <h2>Conversations</h2>
-          <span class="conversation-count" id="conversation-count"></span>
-        </div>
-
-        <!-- Conversation Stats -->
+        <!-- Unified Stats -->
         <div class="conversation-stats">
           <div class="stat-box">
             <span class="stat-value" id="total-conversations">-</span>
@@ -175,12 +150,26 @@
             <span class="stat-value" id="week-conversations">-</span>
             <span class="stat-label">This Week</span>
           </div>
+          <div class="stat-box positive">
+            <span class="stat-value" id="positive-feedback">-</span>
+            <span class="stat-label">Thumbs Up</span>
+          </div>
+          <div class="stat-box negative">
+            <span class="stat-value" id="negative-feedback">-</span>
+            <span class="stat-label">Thumbs Down</span>
+          </div>
         </div>
 
-        <!-- Top Topics -->
-        <div class="top-topics" id="top-topics">
-          <h3>Common Topics</h3>
-          <div class="topic-list" id="topic-list"></div>
+        <!-- Analytics: Topics + Programs side by side -->
+        <div class="analytics-grid">
+          <div class="top-topics" id="top-topics">
+            <h3>Common Topics</h3>
+            <div class="topic-list" id="topic-list"></div>
+          </div>
+          <div class="top-topics" id="top-programs">
+            <h3>Programs Asked About</h3>
+            <div class="topic-list" id="program-list"></div>
+          </div>
         </div>
 
         <!-- Conversations List -->
@@ -192,6 +181,16 @@
     </main>
   </div>
 
+  <!-- Firebase SDK (Auth only) -->
+  <script src="https://www.gstatic.com/firebasejs/11.3.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.3.0/firebase-auth-compat.js"></script>
+  <script>
+    firebase.initializeApp({
+      apiKey: "AIzaSyCgjkzAOHeIrheeMEcjBPCiPpZ4mmyb2OY",
+      authDomain: "addran-advisor-9125e.firebaseapp.com",
+      projectId: "addran-advisor-9125e",
+    });
+  </script>
   <script src="admin.js"></script>
 </body>
 </html>

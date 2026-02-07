@@ -1,26 +1,50 @@
-// Simple admin password (not secure - just prevents casual access)
-// TODO: Replace with Firebase Auth for production
-const ADMIN_PASSWORD = "addran2026";
+// Firebase Auth — only these emails can access admin (server enforces this too)
+const ALLOWED_ADMIN_EMAILS = ["c.rode@tcu.edu", "0expatriate0@gmail.com"];
+
+const auth = firebase.auth();
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
+
+// Current user's ID token for API calls
+let currentIdToken = null;
+
+// Authenticated fetch helper — adds Firebase ID token to admin API calls
+async function adminFetch(url, options = {}) {
+  if (firebase.auth().currentUser) {
+    currentIdToken = await firebase.auth().currentUser.getIdToken();
+  }
+  if (!currentIdToken) {
+    throw new Error("Not authenticated");
+  }
+  const headers = {
+    ...options.headers,
+    "Authorization": `Bearer ${currentIdToken}`,
+  };
+  return fetch(url, { ...options, headers });
+}
 
 // DOM Elements
 const authGate = document.getElementById("auth-gate");
 const adminMain = document.getElementById("admin-main");
-const authBtn = document.getElementById("auth-btn");
-const adminPassword = document.getElementById("admin-password");
 const authError = document.getElementById("auth-error");
+const googleSignInBtn = document.getElementById("google-sign-in-btn");
+const signOutBtn = document.getElementById("sign-out-btn");
 
 // Tab elements
 const tabBtns = document.querySelectorAll(".tab-btn");
 const articlesTab = document.getElementById("articles-tab");
-const feedbackTab = document.getElementById("feedback-tab");
 const conversationsTab = document.getElementById("conversations-tab");
 
 // Conversations elements
 const conversationsList = document.getElementById("conversations-list");
+const conversationFilter = document.getElementById("conversation-filter");
 const totalConversations = document.getElementById("total-conversations");
 const todayConversations = document.getElementById("today-conversations");
 const weekConversations = document.getElementById("week-conversations");
+const positiveFeedbackStat = document.getElementById("positive-feedback");
+const negativeFeedbackStat = document.getElementById("negative-feedback");
 const topicList = document.getElementById("topic-list");
+const programList = document.getElementById("program-list");
 
 // Articles elements
 const addArticleBtn = document.getElementById("add-article-btn");
@@ -29,13 +53,6 @@ const formTitle = document.getElementById("form-title");
 const saveArticleBtn = document.getElementById("save-article-btn");
 const cancelArticleBtn = document.getElementById("cancel-article-btn");
 const articlesList = document.getElementById("articles-list");
-
-// Feedback elements
-const feedbackFilter = document.getElementById("feedback-filter");
-const feedbackList = document.getElementById("feedback-list");
-const totalFeedback = document.getElementById("total-feedback");
-const positiveFeedback = document.getElementById("positive-feedback");
-const negativeFeedback = document.getElementById("negative-feedback");
 
 // URL fetch elements
 const fetchUrlBtn = document.getElementById("fetch-url-btn");
@@ -58,34 +75,43 @@ let feedback = [];
 let conversations = [];
 let editingArticleId = null;
 
-// Auth
-authBtn.addEventListener("click", authenticate);
-adminPassword.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") authenticate();
+// Google Sign-In
+googleSignInBtn.addEventListener("click", async () => {
+  authError.textContent = "";
+  try {
+    const result = await auth.signInWithPopup(googleProvider);
+    if (!ALLOWED_ADMIN_EMAILS.includes(result.user.email.toLowerCase())) {
+      authError.textContent = "Access denied. This account is not authorized for admin access.";
+      await auth.signOut();
+    }
+  } catch (error) {
+    if (error.code === "auth/popup-closed-by-user") return;
+    console.error("Sign-in error:", error);
+    authError.textContent = "Sign-in failed. Please try again.";
+  }
 });
 
-function authenticate() {
-  if (adminPassword.value === ADMIN_PASSWORD) {
+// Sign Out
+signOutBtn.addEventListener("click", async () => {
+  await auth.signOut();
+});
+
+// Auth state listener — handles sign-in, sign-out, and page refresh
+auth.onAuthStateChanged(async (user) => {
+  if (user && ALLOWED_ADMIN_EMAILS.includes(user.email.toLowerCase())) {
+    currentIdToken = await user.getIdToken();
     authGate.classList.add("hidden");
     adminMain.classList.remove("hidden");
+    signOutBtn.classList.remove("hidden");
     loadArticles();
-    loadFeedback();
-    loadConversations();
-    sessionStorage.setItem("adminAuth", "true");
+    loadConversationsWithFeedback();
   } else {
-    authError.textContent = "Incorrect password";
-    adminPassword.value = "";
+    currentIdToken = null;
+    authGate.classList.remove("hidden");
+    adminMain.classList.add("hidden");
+    signOutBtn.classList.add("hidden");
   }
-}
-
-// Check for existing session
-if (sessionStorage.getItem("adminAuth") === "true") {
-  authGate.classList.add("hidden");
-  adminMain.classList.remove("hidden");
-  loadArticles();
-  loadFeedback();
-  loadConversations();
-}
+});
 
 // Tabs
 tabBtns.forEach(btn => {
@@ -94,7 +120,7 @@ tabBtns.forEach(btn => {
     btn.classList.add("active");
 
     const tab = btn.dataset.tab;
-    const allTabs = { articles: articlesTab, feedback: feedbackTab, conversations: conversationsTab };
+    const allTabs = { articles: articlesTab, conversations: conversationsTab };
     for (const [name, el] of Object.entries(allTabs)) {
       if (name === tab) {
         el.classList.remove("hidden");
@@ -136,7 +162,7 @@ async function checkRssFeeds() {
   rssCheckBtn.disabled = true;
 
   try {
-    const response = await fetch("/admin/rss-check", {
+    const response = await adminFetch("/admin/rss-check", {
       method: "POST",
       headers: { "Content-Type": "application/json" }
     });
@@ -176,7 +202,7 @@ async function checkOpenAlex() {
   openalexCheckBtn.disabled = true;
 
   try {
-    const response = await fetch("/admin/openalex-check", {
+    const response = await adminFetch("/admin/openalex-check", {
       method: "POST",
       headers: { "Content-Type": "application/json" }
     });
@@ -235,7 +261,7 @@ async function fetchUrlMetadata() {
   fetchUrlBtn.disabled = true;
 
   try {
-    const response = await fetch("/admin/fetch-url", {
+    const response = await adminFetch("/admin/fetch-url", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ url })
@@ -340,7 +366,7 @@ async function loadArticles() {
   articlesList.innerHTML = '<p class="loading">Loading articles...</p>';
 
   try {
-    const response = await fetch("/admin/articles");
+    const response = await adminFetch("/admin/articles");
     if (!response.ok) throw new Error("Failed to load articles");
     articles = await response.json();
     renderArticles();
@@ -419,7 +445,7 @@ async function saveArticle() {
     const method = editingArticleId ? "PUT" : "POST";
     const url = editingArticleId ? `/admin/articles/${editingArticleId}` : "/admin/articles";
 
-    const response = await fetch(url, {
+    const response = await adminFetch(url, {
       method,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(articleData)
@@ -447,70 +473,28 @@ window.editArticle = function(id) {
   articleForm.classList.remove("hidden");
 };
 
-// Feedback
-feedbackFilter.addEventListener("change", renderFeedback);
+// Conversations (unified with feedback)
+conversationFilter.addEventListener("change", renderConversations);
 
-async function loadFeedback() {
-  feedbackList.innerHTML = '<p class="loading">Loading feedback...</p>';
-
-  try {
-    const response = await fetch("/admin/feedback");
-    if (!response.ok) throw new Error("Failed to load feedback");
-    feedback = await response.json();
-    updateFeedbackStats();
-    renderFeedback();
-  } catch (error) {
-    console.error("Error loading feedback:", error);
-    feedbackList.innerHTML = '<p class="empty-state">Failed to load feedback. Try refreshing.</p>';
-  }
-}
-
-function updateFeedbackStats() {
-  const positive = feedback.filter(f => f.rating === "positive").length;
-  const negative = feedback.filter(f => f.rating === "negative").length;
-
-  totalFeedback.textContent = feedback.length;
-  positiveFeedback.textContent = positive;
-  negativeFeedback.textContent = negative;
-}
-
-function renderFeedback() {
-  const filter = feedbackFilter.value;
-  let filtered = feedback;
-
-  if (filter === "positive") {
-    filtered = feedback.filter(f => f.rating === "positive");
-  } else if (filter === "negative") {
-    filtered = feedback.filter(f => f.rating === "negative");
-  }
-
-  if (filtered.length === 0) {
-    feedbackList.innerHTML = '<p class="empty-state">No feedback yet.</p>';
-    return;
-  }
-
-  feedbackList.innerHTML = filtered.map(f => `
-    <div class="feedback-card ${f.rating}">
-      <div class="feedback-header">
-        <span class="feedback-rating">${f.rating === "positive" ? "Positive" : "Negative"}</span>
-        <span class="feedback-date">${formatDate(f.timestamp)}</span>
-      </div>
-      <p class="feedback-question"><strong>Q:</strong> ${escapeHtml(f.userQuestion || "—")}</p>
-      <div class="feedback-response">${escapeHtml(f.assistantResponse || "—")}</div>
-    </div>
-  `).join("");
-}
-
-// Conversations
-async function loadConversations() {
+async function loadConversationsWithFeedback() {
   conversationsList.innerHTML = '<p class="loading">Loading conversations...</p>';
 
   try {
-    const response = await fetch("/admin/conversations");
-    if (!response.ok) throw new Error("Failed to load conversations");
-    conversations = await response.json();
-    updateConversationStats();
+    const [convResponse, fbResponse] = await Promise.all([
+      adminFetch("/admin/conversations"),
+      adminFetch("/admin/feedback")
+    ]);
+
+    if (!convResponse.ok) throw new Error("Failed to load conversations");
+    if (!fbResponse.ok) throw new Error("Failed to load feedback");
+
+    conversations = await convResponse.json();
+    feedback = await fbResponse.json();
+
+    joinFeedbackToConversations();
+    updateUnifiedStats();
     computeTopTopics();
+    computeTopPrograms();
     renderConversations();
   } catch (error) {
     console.error("Error loading conversations:", error);
@@ -518,7 +502,56 @@ async function loadConversations() {
   }
 }
 
-function updateConversationStats() {
+function getTimestampMs(ts) {
+  if (!ts) return 0;
+  if (ts._seconds || ts.seconds) {
+    return (ts._seconds || ts.seconds) * 1000;
+  }
+  return new Date(ts).getTime();
+}
+
+function joinFeedbackToConversations() {
+  // Build map: normalized question text -> array of feedback entries
+  const feedbackByQuestion = {};
+  for (const fb of feedback) {
+    const key = (fb.userQuestion || "").trim().toLowerCase();
+    if (!key) continue;
+    if (!feedbackByQuestion[key]) feedbackByQuestion[key] = [];
+    feedbackByQuestion[key].push(fb);
+  }
+
+  // Match feedback to conversations by question text
+  for (const conv of conversations) {
+    const key = (conv.userMessage || "").trim().toLowerCase();
+    const candidates = feedbackByQuestion[key];
+
+    if (!candidates || candidates.length === 0) {
+      conv.feedback = null;
+      continue;
+    }
+
+    if (candidates.length === 1) {
+      conv.feedback = candidates[0];
+      continue;
+    }
+
+    // Multiple matches — pick closest in timestamp
+    const convTs = getTimestampMs(conv.timestamp);
+    let best = candidates[0];
+    let bestDiff = Math.abs(getTimestampMs(best.timestamp) - convTs);
+
+    for (let i = 1; i < candidates.length; i++) {
+      const diff = Math.abs(getTimestampMs(candidates[i].timestamp) - convTs);
+      if (diff < bestDiff) {
+        best = candidates[i];
+        bestDiff = diff;
+      }
+    }
+    conv.feedback = best;
+  }
+}
+
+function updateUnifiedStats() {
   const now = new Date();
   const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const weekStart = new Date(todayStart);
@@ -535,9 +568,14 @@ function updateConversationStats() {
     if (date >= weekStart) weekCount++;
   }
 
+  const positiveCount = feedback.filter(f => f.rating === "positive").length;
+  const negativeCount = feedback.filter(f => f.rating === "negative").length;
+
   totalConversations.textContent = conversations.length;
   todayConversations.textContent = todayCount;
   weekConversations.textContent = weekCount;
+  positiveFeedbackStat.textContent = positiveCount;
+  negativeFeedbackStat.textContent = negativeCount;
 }
 
 function computeTopTopics() {
@@ -597,28 +635,127 @@ function computeTopTopics() {
   }).join("");
 }
 
-function renderConversations() {
-  if (conversations.length === 0) {
-    conversationsList.innerHTML = '<p class="empty-state">No conversations yet.</p>';
+// AddRan program names to detect in user messages
+const PROGRAM_NAMES = [
+  "English", "History", "Political Science", "Psychology", "Sociology",
+  "Economics", "Anthropology", "Biology", "Chemistry", "Philosophy",
+  "Religion", "Spanish", "French", "German", "Chinese", "Italian",
+  "Geography", "Criminology", "Criminal Justice",
+  "Writing", "Rhetoric", "Creative Writing",
+  "DCDA", "Digital Culture", "Data Analytics",
+  "International Relations", "Latin American Studies",
+  "Women", "Gender", "WGSS", "W&GS",
+  "African American", "Africana", "CRES",
+  "Asian Studies", "Middle East", "Urban Studies",
+  "Classical Studies", "Latinx",
+  "AFROTC", "ROTC", "Military Science", "Aerospace",
+];
+
+function computeTopPrograms() {
+  const counts = {};
+
+  for (const c of conversations) {
+    const msg = (c.userMessage || "");
+    for (const name of PROGRAM_NAMES) {
+      const pattern = new RegExp("\\b" + name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
+      if (pattern.test(msg)) {
+        counts[name] = (counts[name] || 0) + 1;
+      }
+    }
+  }
+
+  const sorted = Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8);
+
+  if (sorted.length === 0) {
+    programList.innerHTML = '<span class="empty-state" style="padding: 0.5rem 0;">Not enough data yet.</span>';
     return;
   }
 
-  conversationsList.innerHTML = conversations.map(c => {
-    const question = escapeHtml(c.userMessage || "—");
-    const response = escapeHtml(c.assistantMessage || "—");
-    const truncatedResponse = response.length > 200 ? response.substring(0, 200) + "..." : response;
+  const maxCount = sorted[0][1];
+  programList.innerHTML = sorted.map(([name, count]) => {
+    const pct = Math.round((count / maxCount) * 100);
+    return `
+      <div class="topic-row">
+        <span class="topic-name">${escapeHtml(name)}</span>
+        <div class="topic-bar-bg">
+          <div class="topic-bar" style="width: ${pct}%"></div>
+        </div>
+        <span class="topic-count">${count}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderConversations() {
+  const filter = conversationFilter.value;
+  let filtered = conversations;
+
+  if (filter === "has-feedback") {
+    filtered = conversations.filter(c => c.feedback != null);
+  } else if (filter === "positive") {
+    filtered = conversations.filter(c => c.feedback && c.feedback.rating === "positive");
+  } else if (filter === "negative") {
+    filtered = conversations.filter(c => c.feedback && c.feedback.rating === "negative");
+  }
+
+  if (filtered.length === 0) {
+    conversationsList.innerHTML = '<p class="empty-state">No conversations match this filter.</p>';
+    return;
+  }
+
+  conversationsList.innerHTML = filtered.map(c => {
+    const question = escapeHtml(c.userMessage || "\u2014");
+    const response = escapeHtml(c.assistantMessage || "\u2014");
+    const truncatedResponse = response.length > 200 ? response.substring(0, 200) + "\u2026" : response;
+    const needsExpand = response.length > 200;
+
+    // Determine border color and badge based on feedback
+    let borderClass = "border-none";
+    let feedbackBadge = "";
+    if (c.feedback) {
+      if (c.feedback.rating === "positive") {
+        borderClass = "border-positive";
+        feedbackBadge = '<span class="feedback-indicator positive" title="Positive feedback">\uD83D\uDC4D</span>';
+      } else {
+        borderClass = "border-negative";
+        feedbackBadge = '<span class="feedback-indicator negative" title="Negative feedback">\uD83D\uDC4E</span>';
+      }
+    }
 
     return `
-    <div class="conversation-card">
+    <div class="conversation-card ${borderClass}">
       <div class="conversation-header">
+        ${feedbackBadge}
         <span class="conversation-date">${formatDate(c.timestamp)}</span>
       </div>
       <p class="conversation-question"><strong>Q:</strong> ${question}</p>
-      <div class="conversation-response">${truncatedResponse}</div>
+      <div class="conversation-response conversation-truncated">${truncatedResponse}</div>
+      ${needsExpand ? `<div class="conversation-response conversation-full hidden">${response}</div>` : ""}
+      ${needsExpand ? '<button class="expand-btn" onclick="toggleExpand(this)">Show full response</button>' : ""}
     </div>
   `;
   }).join("");
 }
+
+window.toggleExpand = function(btn) {
+  const card = btn.closest(".conversation-card");
+  const truncated = card.querySelector(".conversation-truncated");
+  const full = card.querySelector(".conversation-full");
+
+  if (full.classList.contains("hidden")) {
+    truncated.classList.add("hidden");
+    full.classList.remove("hidden");
+    btn.textContent = "Show less";
+    card.classList.add("expanded");
+  } else {
+    full.classList.add("hidden");
+    truncated.classList.remove("hidden");
+    btn.textContent = "Show full response";
+    card.classList.remove("expanded");
+  }
+};
 
 function escapeHtml(text) {
   if (!text) return "";

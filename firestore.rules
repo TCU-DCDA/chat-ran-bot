@@ -25,5 +25,10 @@ service cloud.firestore {
       allow read: if true;
       allow write: if false;
     }
+
+    // Rate limit counters - server-only (Admin SDK bypasses rules)
+    match /rateLimits/{docId} {
+      allow read, write: if false;
+    }
   }
 }
