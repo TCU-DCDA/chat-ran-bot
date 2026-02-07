@@ -18,7 +18,6 @@
 - [x] **Mobile polish** - Tighter spacing, larger touch targets, responsive font sizes
 - [x] **Timestamp badges** - Hover-reveal time indicators on messages
 - [x] **Header redesign** - Left-aligned app-bar layout (logo + actions top, title below)
-
 - [x] **Expandable program cards** - Interactive cards when listing majors (backend detection + client rendering)
 - [x] **Conversation export** - Save chat as PDF (jsPDF, header/footer, program cards, disclaimer)
 - [x] **Markdown heading support** - `###` headings rendered as bold text in chat bubbles
@@ -51,110 +50,51 @@
 - [x] Support resources CSV (career services, tutoring, etc.)
 - [x] W&GS and CRES files updated with June 2026 merger note (factual only)
 - [x] AI disclaimer in UI and system prompt (accuracy warning + data freshness)
-- [x] Liberal arts value research knowledge base (`la-value-research.json`) — 29 authoritative sources (Georgetown CEW, BLS, NBER, Brookings, etc.) organized by category, wired into system prompt with cite-don't-paraphrase instructions
+- [x] Liberal arts value research knowledge base (`la-value-research.json`) — 30 sources across 5 categories (economic ROI, career outcomes, employer demand, job satisfaction, AI era), wired into system prompt with cite-don't-paraphrase instructions
 
 ### 🔜 Next Up
 - [ ] **Periodic re-extraction** - Update JSONs when Excel files change
 - [ ] **Data accuracy audit** - Cross-reference JSON files against source Excel spreadsheets in `other_programs/`
-- [ ] **Review 3 perspective sources** - Guardian debate pieces and Chronicle article flagged `needs_review` in `la-value-research.json`
 
 ---
 
 ## Article Collection & Curation Pipeline
 
-### ✅ Phase 1: Manual Curation
-- [x] Firestore `articles` collection schema
-- [x] Seed script for adding articles
-- [x] Status field (`approved`, `pending`, `rejected`)
-- [x] Tags for filtering by topic
+### ✅ Completed
+- [x] Firestore `articles` collection schema with status (`approved`/`pending`/`rejected`) and tags
+- [x] Admin dashboard at `/admin.html` — add/edit articles, URL auto-fetch, tag checkboxes
+- [x] RSS feed monitoring — Fast Company, HBR, NYT (with AI-related keywords)
+- [x] OpenAlex academic search — 4 query categories including AI + liberal arts
+- [x] Scheduled RSS checking via Cloud Function
+- [x] AI-assisted curation — Claude auto-generates summaries and suggests tags on ingestion
+- [x] Article dedup by URL (rejected articles preserved as dedup records, no delete)
 
-### ✅ Phase 2: Streamlined Admin
-- [x] **Admin dashboard** - Full CRUD for articles at `/admin.html`
-  - URL input with auto-fetch title, source, date
-  - Tag checkboxes (use case + soft skill tags)
-  - Approve/reject/pending status
-- [ ] **Article preview** - See how article will appear in responses
-- [ ] **Bulk import** - CSV upload for multiple articles
+### 🔜 Next Up
+- [ ] **Relevance scoring** - Claude rates article fit (1-10) during ingestion
+- [ ] **Duplicate detection** - Flag articles with similar titles/content beyond URL match
+- [ ] **Freshness tracking** - Surface articles older than 1 year for review
 
-### ✅ Phase 3: Semi-Automated Discovery (Partial)
-- [x] **RSS feed monitoring** - Fast Company, Harvard Business Review, NYT
-- [x] **OpenAlex academic search** - Finds relevant scholarly papers
-- [x] **Scheduled RSS checking** - Cloud Function runs on schedule
-- [ ] **Google Alerts integration** - "liberal arts career" / "humanities AI"
-- [ ] **Weekly digest** - Email summary of new articles to review
-- [x] **Auto-tagging** - Claude suggests tags when articles are ingested
-
-### ✅ Phase 4: AI-Assisted Curation (Partial)
-- [x] **Summary generation** - Claude auto-generates concise summaries for RSS/OpenAlex articles
-- [x] **Auto-tagging** - Claude suggests relevant tags from predefined list
-- [ ] **Relevance scoring** - Claude rates article fit (1-10)
-- [ ] **Duplicate detection** - Flag similar articles
-- [ ] **Freshness tracking** - Alert when articles get stale (>1 year)
-- [ ] **Source credibility** - Weight established sources higher
-
-### 💡 Phase 5: Full Automation (Future)
-- [ ] **Scheduled scraping** - Daily check of target sources
-- [ ] **Auto-approval threshold** - High-confidence articles go live
-- [ ] **A/B testing** - Track which articles students engage with
-- [ ] **Feedback loop** - Demote articles that get negative reactions
+### 💡 Future Ideas
+- [ ] **Weekly digest** - Email summary of new pending articles
+- [ ] **Auto-approval threshold** - High-confidence articles go live without manual review
+- [ ] **Feedback loop** - Demote articles that get negative student reactions
 
 ---
 
-## Article Sources to Monitor
+## Article Sources
 
-### Higher Education
-- Chronicle of Higher Education
+### Active
+- Fast Company (RSS)
+- Harvard Business Review (RSS)
+- New York Times Education (RSS)
+- OpenAlex (API)
+
+### Potential
+- WEF: `https://www.weforum.org/feed/`
+- Chronicle of Higher Education: `https://www.chronicle.com/feed`
 - Inside Higher Ed
-- Times Higher Education
-- AAC&U (Association of American Colleges & Universities)
-
-### Career & Workforce
-- World Economic Forum (Future of Jobs)
-- LinkedIn Economic Graph
 - NACE (National Association of Colleges and Employers)
-- Bureau of Labor Statistics
-
-### Business & Leadership
-- Harvard Business Review ✅ (RSS active)
-- Fast Company ✅ (RSS active)
-- Forbes (Education section)
-- McKinsey Insights
-
-### News
-- New York Times ✅ (RSS active)
-
-### Academic
-- OpenAlex ✅ (API active)
-
-### Tech & AI
 - MIT Technology Review
-- Wired
-- The Verge
-- Ars Technica
-
----
-
-## Priority Order
-
-1. ~~Admin page for articles~~ ✅
-2. ~~Dark mode~~ ✅
-3. ~~RSS monitoring~~ ✅
-4. ~~Feedback buttons~~ ✅
-5. ~~Fix mobile horizontal drift~~ ✅
-6. ~~Mobile polish~~ ✅
-7. ~~AI-assisted curation~~ ✅
-8. ~~Timestamp badges~~ ✅
-9. ~~Header redesign~~ ✅
-10. ~~Expandable program cards~~ ✅
-11. ~~Complete program data (24 → 60 files)~~ ✅
-12. ~~AI disclaimers (UI + system prompt)~~ ✅
-13. ~~Conversation export (PDF)~~ ✅
-14. ~~Liberal arts value research knowledge base~~ ✅
-15. ~~Markdown heading rendering~~ ✅
-16. ~~Smarter program card detection~~ ✅
-17. **Data accuracy audit** - Cross-reference JSONs against Excel sources
-18. **Review perspective sources** - 3 opinion pieces flagged `needs_review`
-19. **Relevance scoring** - Claude rates article fit (1-10)
 
 ---
 
@@ -171,8 +111,7 @@
   tags: ["family-talking-points", "employer-data"],
   status: "approved" | "pending" | "rejected",
   created_at: Timestamp,
-  reviewed_at: Timestamp,
-  reviewed_by: "admin-email" // future
+  reviewed_at: Timestamp
 }
 ```
 
@@ -196,10 +135,12 @@
 ```
 
 ### Active RSS Endpoints
-- Fast Company: `https://www.fastcompany.com/latest/rss?truncated=true`
+- Fast Company: `https://www.fastcompany.com/section/work-life/rss`
 - Harvard Business Review: `https://feeds.hbr.org/harvardbusiness`
 - New York Times (Education): `https://rss.nytimes.com/services/xml/rss/nyt/Education.xml`
 
-### Potential RSS Endpoints
-- WEF: `https://www.weforum.org/feed/`
-- Chronicle: `https://www.chronicle.com/feed`
+### Infrastructure
+- Firebase Hosting + Cloud Functions (Node.js 22, firebase-functions v7)
+- Firestore for articles, feedback, conversations
+- Claude Sonnet via Anthropic API (system prompt + program data + research KB + articles)
+- Static knowledge: `la-value-research.json` (30 institutional sources), 60 program JSONs, Core Curriculum, DCDA, support resources

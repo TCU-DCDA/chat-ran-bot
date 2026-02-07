@@ -234,8 +234,7 @@
           "year": 2025,
           "url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/",
           "type": "report",
-          "note": "1,000+ employers surveyed; 39% of key skills will change by 2030; analytical thinking, creative thinking, resilience rank alongside AI as top rising skills",
-          "verified": false
+          "note": "1,000+ employers surveyed; 39% of key skills will change by 2030; analytical thinking, creative thinking, resilience rank alongside AI as top rising skills"
         },
         {
           "id": "stanford-hai-2025",
@@ -271,8 +270,7 @@
           "year": 2025,
           "url": "https://www.bls.gov/opub/mlr/2025/article/incorporating-ai-impacts-in-bls-employment-projections.htm",
           "type": "report",
-          "note": "Official U.S. government analysis of AI impact on 2023-2033 employment projections",
-          "verified": false
+          "note": "Official U.S. government analysis of AI impact on 2023-2033 employment projections"
         },
         {
           "id": "oecd-ai-skills-gap-2025",
@@ -281,8 +279,7 @@
           "year": 2025,
           "url": "https://www.oecd.org/en/publications/bridging-the-ai-skills-gap_66d0702e-en.html",
           "type": "report",
-          "note": "Most workers exposed to AI need general AI literacy, not specialist skills; current training skewed toward AI professionals",
-          "verified": false
+          "note": "Most workers exposed to AI need general AI literacy, not specialist skills; current training skewed toward AI professionals"
         },
         {
           "id": "wef-human-advantage-2026",
@@ -291,8 +288,7 @@
           "year": 2026,
           "url": "https://www.weforum.org/publications/the-human-advantage-stronger-brains-in-the-age-of-ai/",
           "type": "report",
-          "note": "Makes the case that brain capital (critical thinking, creativity, empathy) is the strategic foundation for competitiveness in the AI age",
-          "verified": false
+          "note": "Makes the case that brain capital (critical thinking, creativity, empathy) is the strategic foundation for competitiveness in the AI age"
         },
         {
           "id": "brookings-workers-ai",
@@ -301,43 +297,7 @@
           "year": 2025,
           "url": "https://www.brookings.edu/collection/workers-and-ai/",
           "type": "collection",
-          "note": "30%+ of workers could see 50%+ of tasks affected by generative AI; unlike previous automation, AI disrupts cognitive and non-routine tasks",
-          "verified": false
-        }
-      ]
-    },
-    "perspective": {
-      "name": "Perspectives & Commentary",
-      "description": "Opinion pieces and debates about liberal arts value",
-      "sources": [
-        {
-          "id": "chronicle-hidden-utility",
-          "title": "The Hidden Utility of the Liberal Arts",
-          "source": "Chronicle of Higher Education",
-          "url": "https://www.chronicle.com/article/the-hidden-utility-of-the-liberal-arts",
-          "type": "article",
-          "note": "May require subscription",
-          "needs_review": true
-        },
-        {
-          "id": "guardian-skeptical",
-          "title": "It's time to stop worshipping the liberal arts",
-          "source": "The Guardian",
-          "year": 2025,
-          "url": "https://www.theguardian.com/education/2025/nov/25/its-time-to-stop-worshipping-the-liberal-arts",
-          "type": "opinion",
-          "note": "Skeptical perspective - useful for acknowledging counterarguments",
-          "needs_review": true
-        },
-        {
-          "id": "guardian-response",
-          "title": "Liberal arts and critical thinking (letters)",
-          "source": "The Guardian",
-          "year": 2025,
-          "url": "https://www.theguardian.com/education/2025/dec/02/liberal-arts-and-critical-thinking",
-          "type": "opinion",
-          "note": "Responses defending liberal arts",
-          "needs_review": true
+          "note": "30%+ of workers could see 50%+ of tasks affected by generative AI; unlike previous automation, AI disrupts cognitive and non-routine tasks"
         }
       ]
     }
