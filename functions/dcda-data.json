@@ -83,6 +83,12 @@
           "description": "Three general elective courses from approved list"
         }
       }
+    },
+    "internship": {
+      "code": "DCDA 40273",
+      "title": "DCDA Internship",
+      "hours": 3,
+      "description": "Students apply digital culture and data analytics skills in a professional setting. The internship can count as either a Digital Culture or Data Analytics elective. Students work with the DCDA internship coordinator to identify and arrange placements."
     }
   },
   "approvedCourses": {
