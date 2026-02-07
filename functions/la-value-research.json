@@ -1,0 +1,345 @@
+{
+  "description": "Authoritative research on liberal arts value, career outcomes, employer demand, and the AI era. Used to support student questions about the value of their degree.",
+  "lastUpdated": "2026-02-07",
+  "usage": "Cite by title and link. Do not paraphrase claims — direct students to the source.",
+  "categories": {
+    "economic-roi": {
+      "name": "Economic Value & ROI",
+      "description": "Research on earnings, ROI, and long-term financial outcomes for liberal arts graduates",
+      "sources": [
+        {
+          "id": "ithaka-2025",
+          "title": "Measuring the Economic Value of a Liberal Education",
+          "source": "Ithaka S+R",
+          "year": 2025,
+          "url": "https://sr.ithaka.org/publications/measuring-the-economic-value-of-a-liberal-education/",
+          "pdfUrl": "https://sr.ithaka.org/wp-content/uploads/2025/07/SR-Report-Measuring-the-Economic-Value-of-a-Liberal-Education.20250716.pdf",
+          "type": "report"
+        },
+        {
+          "id": "georgetown-roi",
+          "title": "ROI of Liberal Arts Colleges",
+          "source": "Georgetown Center on Education and the Workforce",
+          "year": 2020,
+          "url": "https://cew.georgetown.edu/wp-content/uploads/Liberal-Arts-ROI.pdf",
+          "type": "report"
+        },
+        {
+          "id": "georgetown-college-roi",
+          "title": "A First Try at ROI: Ranking 4,500 Colleges",
+          "source": "Georgetown Center on Education and the Workforce",
+          "url": "https://cew.georgetown.edu/cew-reports/CollegeROI/",
+          "type": "report"
+        },
+        {
+          "id": "burning-glass-long-game",
+          "title": "The Long Game: How College Rankings Change Over the Career Lifecycle",
+          "source": "Burning Glass Institute",
+          "url": "https://www.burningglassinstitute.org/bginsights/the-long-game-how-college-rankings-change-over-the-career-lifecycle",
+          "type": "report"
+        },
+        {
+          "id": "strada-long-term",
+          "title": "The Real, Long-term Outcomes of Liberal Arts Graduates",
+          "source": "Strada Education Foundation",
+          "url": "https://www.strada.org/reports/the-real-long-term-outcomes-of-liberal-arts-graduates",
+          "type": "report"
+        },
+        {
+          "id": "georgetown-major-payoff",
+          "title": "The Major Payoff",
+          "source": "Georgetown Center on Education and the Workforce",
+          "url": "https://cew.georgetown.edu/cew-reports/major-payoff/",
+          "type": "report"
+        },
+        {
+          "id": "brookings-value",
+          "title": "Don't knock the economic value of majoring in the liberal arts",
+          "source": "Brookings Institution",
+          "url": "https://www.brookings.edu/articles/dont-knock-the-economic-value-of-majoring-in-the-liberal-arts/",
+          "type": "article"
+        },
+        {
+          "id": "nber-earnings-trajectories",
+          "title": "Major Earnings Trajectories",
+          "source": "National Bureau of Economic Research",
+          "year": 2022,
+          "url": "https://www.nber.org/system/files/working_papers/w30331/w30331.pdf",
+          "type": "working-paper",
+          "note": "NBER Working Paper 30331"
+        }
+      ]
+    },
+    "career-outcomes": {
+      "name": "Career & Employment Outcomes",
+      "description": "Data on employment rates, job types, and career paths for humanities and liberal arts graduates",
+      "sources": [
+        {
+          "id": "nyfed-labor-market",
+          "title": "Labor Market for Recent College Graduates",
+          "source": "Federal Reserve Bank of New York",
+          "url": "https://www.newyorkfed.org/research/college-labor-market",
+          "type": "data-dashboard",
+          "note": "Updated regularly with employment and wage data by major"
+        },
+        {
+          "id": "stlfed-underemployment",
+          "title": "Jobs and Degrees: Which College Graduates Are Underemployed?",
+          "source": "Federal Reserve Bank of St. Louis",
+          "year": 2025,
+          "url": "https://www.stlouisfed.org/open-vault/2025/aug/jobs-degrees-underemployed-college-graduates-have",
+          "type": "article"
+        },
+        {
+          "id": "stlfed-labor-shifts",
+          "title": "Recent College Grads Bear Brunt of Labor Market Shifts",
+          "source": "Federal Reserve Bank of St. Louis",
+          "year": 2025,
+          "url": "https://www.stlouisfed.org/on-the-economy/2025/aug/recent-college-grads-bear-brunt-labor-market-shifts",
+          "type": "article"
+        },
+        {
+          "id": "strada-talent-disrupted",
+          "title": "Talent Disrupted",
+          "source": "Strada Education Foundation",
+          "url": "https://www.strada.org/reports/talent-disrupted",
+          "type": "report"
+        },
+        {
+          "id": "nyfed-college-worth",
+          "title": "When College Might Not Be Worth It",
+          "source": "Federal Reserve Bank of New York",
+          "year": 2025,
+          "url": "https://libertystreeteconomics.newyorkfed.org/2025/04/when-college-might-not-be-worth-it/",
+          "type": "article"
+        },
+        {
+          "id": "bls-liberal-arts",
+          "title": "Field of Degree: Liberal Arts",
+          "source": "Bureau of Labor Statistics",
+          "url": "https://www.bls.gov/ooh/field-of-degree/liberal-arts/liberal-arts-field-of-degree.htm",
+          "type": "data-page"
+        },
+        {
+          "id": "bls-humanities",
+          "title": "Humanities Employment and Wages",
+          "source": "Bureau of Labor Statistics",
+          "year": 2025,
+          "url": "https://www.bls.gov/careeroutlook/2025/data-on-display/field-of-degree-humanities-employment-and-wages.htm",
+          "type": "data-page"
+        },
+        {
+          "id": "amacad-state-profiles",
+          "title": "Employment Outcomes of Humanities Majors: State Profiles",
+          "source": "American Academy of Arts & Sciences",
+          "url": "https://www.amacad.org/publication/employment-outcomes-humanities-majors-state-profiles",
+          "type": "report"
+        },
+        {
+          "id": "amacad-earnings",
+          "title": "US Humanities Majors: What They Earn & What They Do",
+          "source": "American Academy of Arts & Sciences",
+          "year": 2023,
+          "url": "https://www.amacad.org/sites/default/files/publication/downloads/us-profiles_2023_web.pdf",
+          "type": "report"
+        },
+        {
+          "id": "amacad-employment-status",
+          "title": "Employment Status of Humanities Majors",
+          "source": "American Academy of Arts & Sciences",
+          "url": "https://www.amacad.org/humanities-indicators/workforce/employment-status-humanities-majors",
+          "type": "data-page"
+        }
+      ]
+    },
+    "employer-demand": {
+      "name": "Employer Perspectives & Skills Demand",
+      "description": "What employers say they want from college graduates",
+      "sources": [
+        {
+          "id": "aacu-employer-2023",
+          "title": "2023 Employer Report",
+          "source": "Association of American Colleges & Universities",
+          "year": 2023,
+          "url": "https://dgmg81phhvh63.cloudfront.net/content/user-photos/Research/PDFs/AACU-2023-Employer-Report.pdf",
+          "type": "report",
+          "note": "Survey of employer priorities for hiring"
+        },
+        {
+          "id": "hbr-employers-value",
+          "title": "Yes, Employers Do Value Liberal Arts Degrees",
+          "source": "Harvard Business Review",
+          "year": 2019,
+          "url": "https://hbr.org/2019/09/yes-employers-do-value-liberal-arts-degrees",
+          "type": "article",
+          "note": "May require subscription"
+        }
+      ]
+    },
+    "job-satisfaction": {
+      "name": "Job Satisfaction & Life Outcomes",
+      "description": "Research on career satisfaction, meaning, and quality of life for liberal arts graduates",
+      "sources": [
+        {
+          "id": "amacad-job-satisfaction",
+          "title": "Job Satisfaction of Humanities Majors",
+          "source": "American Academy of Arts & Sciences",
+          "url": "https://www.amacad.org/humanities-indicators/workforce/job-satisfaction-humanities-majors",
+          "type": "data-page"
+        },
+        {
+          "id": "nsf-nscg-2023",
+          "title": "National Survey of College Graduates 2023",
+          "source": "National Science Foundation / NCSES",
+          "year": 2023,
+          "url": "https://ncses.nsf.gov/pubs/nsf25322/assets/nsf25322.pdf",
+          "type": "report",
+          "note": "NSF 25-322"
+        },
+        {
+          "id": "nber-job-satisfaction",
+          "title": "Effects of Advanced Degrees on Wage Rates, Hours, Earnings, and Job Satisfaction",
+          "source": "National Bureau of Economic Research",
+          "year": 2022,
+          "url": "https://www.nber.org/system/files/working_papers/w30105/w30105.pdf",
+          "type": "working-paper",
+          "note": "NBER Working Paper 30105"
+        },
+        {
+          "id": "yale-tobin-summary",
+          "title": "Effects of Advanced Degrees on Job Satisfaction (Summary)",
+          "source": "Yale Tobin Center for Economic Policy",
+          "url": "https://tobin.yale.edu/research/effects-advanced-degrees-wage-rates-hours-earnings-and-job-satisfaction-women-and-men",
+          "type": "summary"
+        },
+        {
+          "id": "gallup-purdue-2014",
+          "title": "Gallup-Purdue Index Report 2014",
+          "source": "Gallup / Lumina Foundation",
+          "year": 2014,
+          "url": "https://www.luminafoundation.org/files/resources/galluppurdueindex-report-2014.pdf",
+          "type": "report",
+          "note": "Landmark study on college experience and life outcomes"
+        }
+      ]
+    },
+    "ai-era": {
+      "name": "Liberal Arts in the AI Age",
+      "description": "Research on how liberal arts skills relate to AI, automation, and the future of work",
+      "sources": [
+        {
+          "id": "wef-future-jobs-2025",
+          "title": "The Future of Jobs Report 2025",
+          "source": "World Economic Forum",
+          "year": 2025,
+          "url": "https://www.weforum.org/publications/the-future-of-jobs-report-2025/",
+          "type": "report",
+          "note": "1,000+ employers surveyed; 39% of key skills will change by 2030; analytical thinking, creative thinking, resilience rank alongside AI as top rising skills",
+          "verified": false
+        },
+        {
+          "id": "stanford-hai-2025",
+          "title": "AI Index Report 2025",
+          "source": "Stanford Institute for Human-Centered AI",
+          "year": 2025,
+          "url": "https://hai.stanford.edu/ai-index/2025-ai-index-report",
+          "type": "report",
+          "note": "Annual report tracking AI across economy, education, and policy; 78% of organizations used AI in 2024"
+        },
+        {
+          "id": "brookings-ai-students-2026",
+          "title": "A New Direction for Students in an AI World: Prosper, Prepare, Protect",
+          "source": "Brookings Center for Universal Education",
+          "year": 2026,
+          "url": "https://www.brookings.edu/articles/a-new-direction-for-students-in-an-ai-world-prosper-prepare-protect/",
+          "type": "report",
+          "note": "Global study across 50+ countries on student development in the AI age"
+        },
+        {
+          "id": "microsoft-future-work-2025",
+          "title": "New Future of Work Report 2025",
+          "source": "Microsoft Research",
+          "year": 2025,
+          "url": "https://www.microsoft.com/en-us/research/publication/new-future-of-work-report-2025/",
+          "type": "report",
+          "note": "Finds AI shifts work from 'doing' to 'choosing'; warns workers risk losing planning, judgment, and domain expertise without training"
+        },
+        {
+          "id": "bls-ai-projections-2025",
+          "title": "Incorporating AI Impacts in BLS Employment Projections",
+          "source": "Bureau of Labor Statistics",
+          "year": 2025,
+          "url": "https://www.bls.gov/opub/mlr/2025/article/incorporating-ai-impacts-in-bls-employment-projections.htm",
+          "type": "report",
+          "note": "Official U.S. government analysis of AI impact on 2023-2033 employment projections",
+          "verified": false
+        },
+        {
+          "id": "oecd-ai-skills-gap-2025",
+          "title": "Bridging the AI Skills Gap: Is Training Keeping Up?",
+          "source": "OECD",
+          "year": 2025,
+          "url": "https://www.oecd.org/en/publications/bridging-the-ai-skills-gap_66d0702e-en.html",
+          "type": "report",
+          "note": "Most workers exposed to AI need general AI literacy, not specialist skills; current training skewed toward AI professionals",
+          "verified": false
+        },
+        {
+          "id": "wef-human-advantage-2026",
+          "title": "The Human Advantage: Stronger Brains in the Age of AI",
+          "source": "World Economic Forum / McKinsey Health Institute",
+          "year": 2026,
+          "url": "https://www.weforum.org/publications/the-human-advantage-stronger-brains-in-the-age-of-ai/",
+          "type": "report",
+          "note": "Makes the case that brain capital (critical thinking, creativity, empathy) is the strategic foundation for competitiveness in the AI age",
+          "verified": false
+        },
+        {
+          "id": "brookings-workers-ai",
+          "title": "Workers and AI Research Collection",
+          "source": "Brookings Institution",
+          "year": 2025,
+          "url": "https://www.brookings.edu/collection/workers-and-ai/",
+          "type": "collection",
+          "note": "30%+ of workers could see 50%+ of tasks affected by generative AI; unlike previous automation, AI disrupts cognitive and non-routine tasks",
+          "verified": false
+        }
+      ]
+    },
+    "perspective": {
+      "name": "Perspectives & Commentary",
+      "description": "Opinion pieces and debates about liberal arts value",
+      "sources": [
+        {
+          "id": "chronicle-hidden-utility",
+          "title": "The Hidden Utility of the Liberal Arts",
+          "source": "Chronicle of Higher Education",
+          "url": "https://www.chronicle.com/article/the-hidden-utility-of-the-liberal-arts",
+          "type": "article",
+          "note": "May require subscription",
+          "needs_review": true
+        },
+        {
+          "id": "guardian-skeptical",
+          "title": "It's time to stop worshipping the liberal arts",
+          "source": "The Guardian",
+          "year": 2025,
+          "url": "https://www.theguardian.com/education/2025/nov/25/its-time-to-stop-worshipping-the-liberal-arts",
+          "type": "opinion",
+          "note": "Skeptical perspective - useful for acknowledging counterarguments",
+          "needs_review": true
+        },
+        {
+          "id": "guardian-response",
+          "title": "Liberal arts and critical thinking (letters)",
+          "source": "The Guardian",
+          "year": 2025,
+          "url": "https://www.theguardian.com/education/2025/dec/02/liberal-arts-and-critical-thinking",
+          "type": "opinion",
+          "note": "Responses defending liberal arts",
+          "needs_review": true
+        }
+      ]
+    }
+  }
+}

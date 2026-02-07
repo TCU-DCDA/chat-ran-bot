@@ -30,6 +30,10 @@ const supportResources = supportCsv.split("\n").slice(1).filter(line => line.tri
 const coreCurriculumPath = path.join(__dirname, "core-curriculum.json");
 const coreCurriculumData = JSON.parse(fs.readFileSync(coreCurriculumPath, "utf8"));
 
+// Load liberal arts value research
+const laResearchPath = path.join(__dirname, "la-value-research.json");
+const laResearchData = JSON.parse(fs.readFileSync(laResearchPath, "utf8"));
+
 // Load all program detail JSON files from program-data directory
 const programDataDir = path.join(__dirname, "program-data");
 const programDetails = [];
@@ -76,13 +80,29 @@ function escapeRegex(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
+// Single-word program names (e.g., "English", "History") only match
+// when they appear near a program-related keyword to avoid false positives
+// from casual mentions like "if you're interested in English..."
+const PROGRAM_KEYWORDS_PATTERN = /\b(major|minor|program|degree|BA\b|BS\b|B\.A\.|B\.S\.)/i;
+
 function detectProgramMentions(text) {
   const mentions = [];
   for (const [, program] of programLookup) {
+    const isSingleWord = program.name.split(/\s+/).length === 1;
     const pattern = new RegExp(`\\b${escapeRegex(program.name)}\\b`, "i");
-    if (pattern.test(text)) {
-      mentions.push(program);
+    const match = pattern.exec(text);
+
+    if (!match) continue;
+
+    if (isSingleWord) {
+      // Check surrounding context (~80 chars) for a program keyword
+      const start = Math.max(0, match.index - 80);
+      const end = Math.min(text.length, match.index + match[0].length + 80);
+      const context = text.substring(start, end);
+      if (!PROGRAM_KEYWORDS_PATTERN.test(context)) continue;
     }
+
+    mentions.push(program);
   }
   return mentions;
 }
@@ -115,6 +135,30 @@ Policies:
 
 Contact: ${data.contact.name} (${data.contact.email})
 More info: ${data.url}`;
+}
+
+// Helper function to format liberal arts value research context
+function buildLaResearchContext(data) {
+  const sections = [];
+
+  for (const [categoryId, category] of Object.entries(data.categories)) {
+    const sources = category.sources
+      .filter(s => !s.needs_review) // Exclude sources needing review
+      .map(s => {
+        const year = s.year ? ` (${s.year})` : "";
+        return `- "${s.title}"${year} — ${s.source}: ${s.url}`;
+      })
+      .join("\n");
+
+    if (sources) {
+      sections.push(`### ${category.name}\n${sources}`);
+    }
+  }
+
+  return `\n\n## Research on Liberal Arts Value
+When students ask about the value of liberal arts, career outcomes, AI and the future of work, or need talking points for skeptical family, cite these authoritative sources by title and link. Do NOT paraphrase claims — direct students to read the source.
+
+${sections.join("\n\n")}`;
 }
 
 // Helper function to format DCDA context from JSON data
@@ -369,10 +413,13 @@ For course descriptions and advising: https://addran.tcu.edu/english/academics/a
       // Build program details context
       const programDetailsContext = buildProgramDetailsContext(programDetails);
 
+      // Build liberal arts value research context
+      const laResearchContext = buildLaResearchContext(laResearchData);
+
       const response = await anthropic.messages.create({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1024,
-        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext + englishContext + programDetailsContext + coreCurriculumContext + articlesContext,
+        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext + englishContext + programDetailsContext + coreCurriculumContext + laResearchContext + articlesContext,
         messages: messages,
       });
 
@@ -558,19 +605,6 @@ exports.adminArticle = onRequest(
         return;
       }
 
-      // DELETE - Delete article
-      if (method === "DELETE") {
-        const doc = await docRef.get();
-        if (!doc.exists) {
-          res.status(404).json({ error: "Article not found" });
-          return;
-        }
-
-        await docRef.delete();
-        res.json({ success: true });
-        return;
-      }
-
       res.status(405).send("Method not allowed");
     } catch (error) {
       console.error("Admin article error:", error);
@@ -724,17 +758,17 @@ const RSS_FEEDS = [
   {
     url: "https://www.fastcompany.com/section/work-life/rss",
     name: "Fast Company",
-    keywords: ["liberal arts", "degree", "college", "university", "graduate", "soft skills", "communication skills", "critical thinking", "creativity", "problem solving", "humanities"]
+    keywords: ["liberal arts", "degree", "college", "university", "graduate", "soft skills", "communication skills", "critical thinking", "creativity", "problem solving", "humanities", "AI workforce", "artificial intelligence jobs", "automation skills", "future of work"]
   },
   {
     url: "https://feeds.hbr.org/harvardbusiness",
     name: "Harvard Business Review",
-    keywords: ["liberal arts", "degree", "college", "graduate", "soft skills", "communication", "critical thinking", "humanities", "education", "workforce skills"]
+    keywords: ["liberal arts", "degree", "college", "graduate", "soft skills", "communication", "critical thinking", "humanities", "education", "workforce skills", "AI workforce", "artificial intelligence skills", "human skills AI", "future of work"]
   },
   {
     url: "https://rss.nytimes.com/services/xml/rss/nyt/Education.xml",
     name: "New York Times Education",
-    keywords: ["liberal arts", "humanities", "college", "university", "degree", "major", "career", "graduate"]
+    keywords: ["liberal arts", "humanities", "college", "university", "degree", "major", "career", "graduate", "AI education", "artificial intelligence college", "automation jobs"]
   }
 ];
 
@@ -1024,6 +1058,11 @@ const OPENALEX_SEARCHES = [
     name: "Humanities Career Preparation",
     query: "humanities degree career preparation employment",
     keywords: ["humanities", "career", "preparation", "employment", "graduate"]
+  },
+  {
+    name: "AI and Liberal Arts Skills",
+    query: "artificial intelligence liberal arts human skills workforce",
+    keywords: ["artificial intelligence", "AI", "automation", "liberal arts", "human skills", "future of work", "critical thinking"]
   }
 ];
 

@@ -348,7 +348,6 @@ function renderArticles() {
         <div class="article-actions">
           <span class="status-badge status-${article.status}">${article.status}</span>
           <button class="btn-secondary btn-small" onclick="editArticle('${article.id}')">Edit</button>
-          <button class="btn-danger btn-small" onclick="deleteArticle('${article.id}')">Delete</button>
         </div>
       </div>
       <p class="summary">${escapeHtml(article.summary || "")}</p>
@@ -406,19 +405,6 @@ window.editArticle = function(id) {
   formTitle.textContent = "Edit Article";
   populateArticleForm(article);
   articleForm.classList.remove("hidden");
-};
-
-window.deleteArticle = async function(id) {
-  if (!confirm("Delete this article?")) return;
-
-  try {
-    const response = await fetch(`/admin/articles/${id}`, { method: "DELETE" });
-    if (!response.ok) throw new Error("Failed to delete article");
-    loadArticles();
-  } catch (error) {
-    console.error("Error deleting article:", error);
-    alert("Failed to delete article. Try again.");
-  }
 };
 
 // Feedback

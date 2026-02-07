@@ -17,6 +17,18 @@ ui-debug.log
 files/other_programs/*.xlsx
 files/other_programs/~$*
 
+# Research notes & working files
+research/
+
+# Generated output (PDF exports, etc.)
+output/
+
+# Firebase emulator logs (inside functions/)
+functions/firebase-debug.log
+
+# Claude Code
+.claude/
+
 # OS
 .DS_Store
 Thumbs.db

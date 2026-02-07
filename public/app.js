@@ -162,6 +162,17 @@ function formatMarkdown(text) {
   let result = [];
 
   for (let line of lines) {
+    // Convert markdown headings to bold paragraphs
+    const headingMatch = line.match(/^#{1,4}\s+(.+)$/);
+    if (headingMatch) {
+      if (inList) {
+        result.push('</ul>');
+        inList = false;
+      }
+      result.push(`<p><strong>${headingMatch[1]}</strong></p>`);
+      continue;
+    }
+
     const bulletMatch = line.match(/^[•\-\*]\s+(.+)$/);
     if (bulletMatch) {
       if (!inList) {

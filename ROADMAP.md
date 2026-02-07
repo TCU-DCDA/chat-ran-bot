@@ -19,10 +19,13 @@
 - [x] **Timestamp badges** - Hover-reveal time indicators on messages
 - [x] **Header redesign** - Left-aligned app-bar layout (logo + actions top, title below)
 
-### 💡 Future Ideas
 - [x] **Expandable program cards** - Interactive cards when listing majors (backend detection + client rendering)
+- [x] **Conversation export** - Save chat as PDF (jsPDF, header/footer, program cards, disclaimer)
+- [x] **Markdown heading support** - `###` headings rendered as bold text in chat bubbles
+- [x] **Smarter program card detection** - Single-word names (English, History) require nearby keyword context to avoid false positives
+
+### 💡 Future Ideas
 - [ ] **Advisor photos** - When suggesting "talk to an advisor"
-- [ ] **Conversation export** - Save chat as PDF for reference
 - [ ] **Voice input** - Microphone button for accessibility
 - [ ] **Progress indicator** - Show when fetching program data
 - [ ] **Conversation history** - Let returning students pick up where they left off
@@ -48,10 +51,12 @@
 - [x] Support resources CSV (career services, tutoring, etc.)
 - [x] W&GS and CRES files updated with June 2026 merger note (factual only)
 - [x] AI disclaimer in UI and system prompt (accuracy warning + data freshness)
+- [x] Liberal arts value research knowledge base (`la-value-research.json`) — 29 authoritative sources (Georgetown CEW, BLS, NBER, Brookings, etc.) organized by category, wired into system prompt with cite-don't-paraphrase instructions
 
 ### 🔜 Next Up
 - [ ] **Periodic re-extraction** - Update JSONs when Excel files change
 - [ ] **Data accuracy audit** - Cross-reference JSON files against source Excel spreadsheets in `other_programs/`
+- [ ] **Review 3 perspective sources** - Guardian debate pieces and Chronicle article flagged `needs_review` in `la-value-research.json`
 
 ---
 
@@ -143,9 +148,13 @@
 10. ~~Expandable program cards~~ ✅
 11. ~~Complete program data (24 → 60 files)~~ ✅
 12. ~~AI disclaimers (UI + system prompt)~~ ✅
-13. **Data accuracy audit** - Cross-reference JSONs against Excel sources
-14. **Relevance scoring** - Claude rates article fit (1-10)
-15. **Conversation export** - Save chat as PDF for reference
+13. ~~Conversation export (PDF)~~ ✅
+14. ~~Liberal arts value research knowledge base~~ ✅
+15. ~~Markdown heading rendering~~ ✅
+16. ~~Smarter program card detection~~ ✅
+17. **Data accuracy audit** - Cross-reference JSONs against Excel sources
+18. **Review perspective sources** - 3 opinion pieces flagged `needs_review`
+19. **Relevance scoring** - Claude rates article fit (1-10)
 
 ---
 
