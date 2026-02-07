@@ -13,6 +13,14 @@ const authError = document.getElementById("auth-error");
 const tabBtns = document.querySelectorAll(".tab-btn");
 const articlesTab = document.getElementById("articles-tab");
 const feedbackTab = document.getElementById("feedback-tab");
+const conversationsTab = document.getElementById("conversations-tab");
+
+// Conversations elements
+const conversationsList = document.getElementById("conversations-list");
+const totalConversations = document.getElementById("total-conversations");
+const todayConversations = document.getElementById("today-conversations");
+const weekConversations = document.getElementById("week-conversations");
+const topicList = document.getElementById("topic-list");
 
 // Articles elements
 const addArticleBtn = document.getElementById("add-article-btn");
@@ -33,6 +41,9 @@ const negativeFeedback = document.getElementById("negative-feedback");
 const fetchUrlBtn = document.getElementById("fetch-url-btn");
 const fetchStatus = document.getElementById("fetch-status");
 
+// Sort element
+const articleSort = document.getElementById("article-sort");
+
 // RSS elements
 const rssCheckBtn = document.getElementById("rss-check-btn");
 const rssStatus = document.getElementById("rss-status");
@@ -44,6 +55,7 @@ const openalexStatus = document.getElementById("openalex-status");
 // State
 let articles = [];
 let feedback = [];
+let conversations = [];
 let editingArticleId = null;
 
 // Auth
@@ -58,6 +70,7 @@ function authenticate() {
     adminMain.classList.remove("hidden");
     loadArticles();
     loadFeedback();
+    loadConversations();
     sessionStorage.setItem("adminAuth", "true");
   } else {
     authError.textContent = "Incorrect password";
@@ -71,6 +84,7 @@ if (sessionStorage.getItem("adminAuth") === "true") {
   adminMain.classList.remove("hidden");
   loadArticles();
   loadFeedback();
+  loadConversations();
 }
 
 // Tabs
@@ -80,12 +94,13 @@ tabBtns.forEach(btn => {
     btn.classList.add("active");
 
     const tab = btn.dataset.tab;
-    if (tab === "articles") {
-      articlesTab.classList.remove("hidden");
-      feedbackTab.classList.add("hidden");
-    } else {
-      articlesTab.classList.add("hidden");
-      feedbackTab.classList.remove("hidden");
+    const allTabs = { articles: articlesTab, feedback: feedbackTab, conversations: conversationsTab };
+    for (const [name, el] of Object.entries(allTabs)) {
+      if (name === tab) {
+        el.classList.remove("hidden");
+      } else {
+        el.classList.add("hidden");
+      }
     }
   });
 });
@@ -105,6 +120,9 @@ cancelArticleBtn.addEventListener("click", () => {
 });
 
 saveArticleBtn.addEventListener("click", saveArticle);
+
+// Sort change
+articleSort.addEventListener("change", renderArticles);
 
 // RSS check
 rssCheckBtn.addEventListener("click", checkRssFeeds);
@@ -338,7 +356,27 @@ function renderArticles() {
     return;
   }
 
-  articlesList.innerHTML = articles.map(article => `
+  // Sort articles based on selected sort option
+  const sortValue = articleSort ? articleSort.value : "newest";
+  const sorted = [...articles];
+  if (sortValue === "relevance") {
+    sorted.sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
+  } else if (sortValue === "oldest") {
+    sorted.sort((a, b) => {
+      const dateA = a.date ? (a.date._seconds || a.date.seconds || 0) : 0;
+      const dateB = b.date ? (b.date._seconds || b.date.seconds || 0) : 0;
+      return dateA - dateB;
+    });
+  }
+  // "newest" is the default from the API (created_at desc)
+
+  articlesList.innerHTML = sorted.map(article => {
+    const score = article.relevanceScore;
+    const scoreBadge = score != null
+      ? `<span class="relevance-badge relevance-${score >= 7 ? 'high' : score >= 4 ? 'mid' : 'low'}" title="${escapeHtml(article.relevanceReason || '')}">${score}/10</span>`
+      : "";
+
+    return `
     <div class="article-card">
       <div class="article-card-header">
         <div>
@@ -346,6 +384,7 @@ function renderArticles() {
           <span class="source">${escapeHtml(article.source)} · ${formatDate(article.date)}</span>
         </div>
         <div class="article-actions">
+          ${scoreBadge}
           <span class="status-badge status-${article.status}">${article.status}</span>
           <button class="btn-secondary btn-small" onclick="editArticle('${article.id}')">Edit</button>
         </div>
@@ -356,7 +395,8 @@ function renderArticles() {
       </div>
       <a href="${escapeHtml(article.url)}" target="_blank" style="font-size: 0.75rem; color: #4d1979;">View article</a>
     </div>
-  `).join("");
+  `;
+  }).join("");
 }
 
 async function saveArticle() {
@@ -459,6 +499,125 @@ function renderFeedback() {
       <div class="feedback-response">${escapeHtml(f.assistantResponse || "—")}</div>
     </div>
   `).join("");
+}
+
+// Conversations
+async function loadConversations() {
+  conversationsList.innerHTML = '<p class="loading">Loading conversations...</p>';
+
+  try {
+    const response = await fetch("/admin/conversations");
+    if (!response.ok) throw new Error("Failed to load conversations");
+    conversations = await response.json();
+    updateConversationStats();
+    computeTopTopics();
+    renderConversations();
+  } catch (error) {
+    console.error("Error loading conversations:", error);
+    conversationsList.innerHTML = '<p class="empty-state">Failed to load conversations. Try refreshing.</p>';
+  }
+}
+
+function updateConversationStats() {
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const weekStart = new Date(todayStart);
+  weekStart.setDate(weekStart.getDate() - 7);
+
+  let todayCount = 0;
+  let weekCount = 0;
+
+  for (const c of conversations) {
+    const ts = c.timestamp;
+    if (!ts) continue;
+    const date = new Date((ts._seconds || ts.seconds) * 1000);
+    if (date >= todayStart) todayCount++;
+    if (date >= weekStart) weekCount++;
+  }
+
+  totalConversations.textContent = conversations.length;
+  todayConversations.textContent = todayCount;
+  weekConversations.textContent = weekCount;
+}
+
+function computeTopTopics() {
+  // Common advising-related terms to look for in user messages
+  const topicKeywords = {
+    "major": /\bmajor(s|ing)?\b/i,
+    "minor": /\bminor(s|ing)?\b/i,
+    "career": /\bcareer(s)?\b/i,
+    "requirements": /\brequire(ment|ments|d)?\b/i,
+    "courses": /\bcourse(s)?\b|\bclass(es)?\b/i,
+    "advising": /\badvis(or|ing|e)\b/i,
+    "core curriculum": /\bcore\b/i,
+    "internship": /\binternship(s)?\b/i,
+    "AI / future of work": /\b(ai|artificial intelligence|automation|future of work)\b/i,
+    "liberal arts value": /\b(value|worth|why)\b.*\b(liberal arts|degree|humanities)\b/i,
+    "transfer": /\btransfer(ring)?\b/i,
+    "study abroad": /\bstudy abroad\b|\babroad\b/i,
+    "graduate school": /\bgrad(uate)?\s*(school|program)\b/i,
+    "DCDA": /\bdcda\b|\bdigital culture\b|\bdata analytics\b/i,
+  };
+
+  const counts = {};
+  for (const topic of Object.keys(topicKeywords)) {
+    counts[topic] = 0;
+  }
+
+  for (const c of conversations) {
+    const msg = (c.userMessage || "").toLowerCase();
+    for (const [topic, pattern] of Object.entries(topicKeywords)) {
+      if (pattern.test(msg)) counts[topic]++;
+    }
+  }
+
+  // Sort by count descending, take top 8 with count > 0
+  const sorted = Object.entries(counts)
+    .filter(([, count]) => count > 0)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 8);
+
+  if (sorted.length === 0) {
+    topicList.innerHTML = '<span class="empty-state" style="padding: 0.5rem 0;">Not enough data yet.</span>';
+    return;
+  }
+
+  const maxCount = sorted[0][1];
+  topicList.innerHTML = sorted.map(([topic, count]) => {
+    const pct = Math.round((count / maxCount) * 100);
+    return `
+      <div class="topic-row">
+        <span class="topic-name">${escapeHtml(topic)}</span>
+        <div class="topic-bar-bg">
+          <div class="topic-bar" style="width: ${pct}%"></div>
+        </div>
+        <span class="topic-count">${count}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderConversations() {
+  if (conversations.length === 0) {
+    conversationsList.innerHTML = '<p class="empty-state">No conversations yet.</p>';
+    return;
+  }
+
+  conversationsList.innerHTML = conversations.map(c => {
+    const question = escapeHtml(c.userMessage || "—");
+    const response = escapeHtml(c.assistantMessage || "—");
+    const truncatedResponse = response.length > 200 ? response.substring(0, 200) + "..." : response;
+
+    return `
+    <div class="conversation-card">
+      <div class="conversation-header">
+        <span class="conversation-date">${formatDate(c.timestamp)}</span>
+      </div>
+      <p class="conversation-question"><strong>Q:</strong> ${question}</p>
+      <div class="conversation-response">${truncatedResponse}</div>
+    </div>
+  `;
+  }).join("");
 }
 
 function escapeHtml(text) {

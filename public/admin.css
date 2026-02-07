@@ -388,6 +388,38 @@ body {
 .article-actions {
   display: flex;
   gap: 0.25rem;
+  align-items: center;
+}
+
+.relevance-badge {
+  padding: 0.125rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: help;
+}
+
+.relevance-high {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.relevance-mid {
+  background: #fff3e0;
+  color: #e65100;
+}
+
+.relevance-low {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.sort-select {
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  background: white;
 }
 
 /* Feedback */
@@ -504,6 +536,115 @@ body {
   padding: 0.5rem;
   border-radius: 4px;
   max-height: 100px;
+  overflow-y: auto;
+}
+
+/* Conversations */
+.conversation-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.conversation-count {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.top-topics {
+  margin-bottom: 1.5rem;
+}
+
+.top-topics h3 {
+  font-size: 0.95rem;
+  color: #4d1979;
+  margin-bottom: 0.75rem;
+}
+
+.topic-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.topic-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.topic-name {
+  font-size: 0.8rem;
+  color: #333;
+  min-width: 120px;
+  text-transform: capitalize;
+}
+
+.topic-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.topic-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4d1979, #6b2a9e);
+  border-radius: 4px;
+  transition: width 0.3s;
+}
+
+.topic-count {
+  font-size: 0.75rem;
+  color: #666;
+  min-width: 24px;
+  text-align: right;
+}
+
+.conversations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.conversation-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  background: white;
+  border-left: 4px solid #4d1979;
+}
+
+.conversation-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.5rem;
+}
+
+.conversation-date {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.conversation-question {
+  font-size: 0.875rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.conversation-question strong {
+  color: #4d1979;
+}
+
+.conversation-response {
+  font-size: 0.8rem;
+  color: #666;
+  background: #f9f9f9;
+  padding: 0.5rem;
+  border-radius: 4px;
+  max-height: 80px;
   overflow-y: auto;
 }
 

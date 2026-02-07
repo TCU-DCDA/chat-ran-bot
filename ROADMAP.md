@@ -68,9 +68,9 @@
 - [x] Scheduled RSS checking via Cloud Function
 - [x] AI-assisted curation — Claude auto-generates summaries and suggests tags on ingestion
 - [x] Article dedup by URL (rejected articles preserved as dedup records, no delete)
+- [x] **Relevance scoring** - Claude rates article fit (1-10) during ingestion, color-coded badge in admin, sort by relevance
 
 ### 🔜 Next Up
-- [ ] **Relevance scoring** - Claude rates article fit (1-10) during ingestion
 - [ ] **Duplicate detection** - Flag articles with similar titles/content beyond URL match
 - [ ] **Freshness tracking** - Surface articles older than 1 year for review
 
@@ -110,6 +110,9 @@
   summary: "2-3 sentence summary for context",
   tags: ["family-talking-points", "employer-data"],
   status: "approved" | "pending" | "rejected",
+  relevanceScore: 1-10,        // AI-assigned fit rating
+  relevanceReason: "string",   // One-sentence explanation
+  ai_curated: boolean,
   created_at: Timestamp,
   reviewed_at: Timestamp
 }

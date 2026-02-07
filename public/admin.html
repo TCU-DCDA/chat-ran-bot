@@ -28,6 +28,7 @@
       <nav class="admin-tabs">
         <button class="tab-btn active" data-tab="articles">Articles</button>
         <button class="tab-btn" data-tab="feedback">Feedback</button>
+        <button class="tab-btn" data-tab="conversations">Conversations</button>
       </nav>
 
       <!-- Articles Tab -->
@@ -35,6 +36,11 @@
         <div class="section-header">
           <h2>Articles</h2>
           <div class="header-actions">
+            <select id="article-sort" class="sort-select" title="Sort articles">
+              <option value="newest">Newest</option>
+              <option value="relevance">Relevance</option>
+              <option value="oldest">Oldest</option>
+            </select>
             <button id="rss-check-btn" class="btn-secondary" title="Check RSS feeds for new articles">Check RSS</button>
             <button id="openalex-check-btn" class="btn-secondary" title="Search OpenAlex for academic papers">Check Academic</button>
             <button id="add-article-btn" class="btn-primary">Add Article</button>
@@ -148,6 +154,41 @@
           <p class="loading">Loading feedback...</p>
         </div>
       </section>
+      <!-- Conversations Tab -->
+      <section id="conversations-tab" class="tab-content hidden">
+        <div class="section-header">
+          <h2>Conversations</h2>
+          <span class="conversation-count" id="conversation-count"></span>
+        </div>
+
+        <!-- Conversation Stats -->
+        <div class="conversation-stats">
+          <div class="stat-box">
+            <span class="stat-value" id="total-conversations">-</span>
+            <span class="stat-label">Total</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-value" id="today-conversations">-</span>
+            <span class="stat-label">Today</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-value" id="week-conversations">-</span>
+            <span class="stat-label">This Week</span>
+          </div>
+        </div>
+
+        <!-- Top Topics -->
+        <div class="top-topics" id="top-topics">
+          <h3>Common Topics</h3>
+          <div class="topic-list" id="topic-list"></div>
+        </div>
+
+        <!-- Conversations List -->
+        <div id="conversations-list" class="conversations-list">
+          <p class="loading">Loading conversations...</p>
+        </div>
+      </section>
+
     </main>
   </div>
 

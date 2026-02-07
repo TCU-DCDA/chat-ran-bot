@@ -641,6 +641,34 @@ exports.adminFeedback = onRequest(
   }
 );
 
+// Admin API - Conversations (read-only, anonymous analytics)
+exports.adminConversations = onRequest(
+  { cors: true, invoker: "public" },
+  async (req, res) => {
+    if (req.method !== "GET") {
+      res.status(405).send("Method not allowed");
+      return;
+    }
+
+    try {
+      const snapshot = await db.collection("conversations")
+        .orderBy("timestamp", "desc")
+        .limit(200)
+        .get();
+
+      const conversations = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+
+      res.json(conversations);
+    } catch (error) {
+      console.error("Admin conversations error:", error);
+      res.status(500).json({ error: "Failed to load conversations" });
+    }
+  }
+);
+
 // URL metadata fetch - extracts title, source, and date from a URL
 exports.fetchUrlMetadata = onRequest(
   { cors: true, invoker: "public" },
@@ -875,10 +903,17 @@ async function aiCurateArticle(articleDocId, title, rawSummary, source) {
   try {
     const response = await anthropic.messages.create({
       model: "claude-sonnet-4-20250514",
-      max_tokens: 300,
+      max_tokens: 400,
       system: `You are a content curator for an academic advising chatbot at AddRan College of Liberal Arts (TCU). Given an article title, source, and raw summary, return a JSON object with:
 1. "summary": A concise 2-3 sentence summary useful for a chatbot context window. Focus on why this matters for liberal arts students.
 2. "tags": An array of relevant tags from this list: ${AVAILABLE_TAGS.join(", ")}. Pick 1-4 tags that best fit.
+3. "relevanceScore": An integer from 1-10 rating how useful this article is for an AddRan advising chatbot. Use this rubric:
+   - 9-10: Directly about liberal arts value, career outcomes, or skills employers want from LA grads
+   - 7-8: Strongly related (higher ed trends, AI + workforce skills, humanities advocacy)
+   - 5-6: Moderately related (general career advice, education policy, soft skills)
+   - 3-4: Tangentially related (general news mentioning college/degrees)
+   - 1-2: Not relevant (off-topic, clickbait, or too narrow/technical)
+4. "relevanceReason": One sentence explaining the score.
 
 Return ONLY valid JSON, no markdown fences.`,
       messages: [
@@ -895,15 +930,22 @@ Return ONLY valid JSON, no markdown fences.`,
     // Validate tags
     const validTags = (parsed.tags || []).filter(t => AVAILABLE_TAGS.includes(t));
 
+    // Validate relevance score
+    const relevanceScore = Number.isInteger(parsed.relevanceScore) && parsed.relevanceScore >= 1 && parsed.relevanceScore <= 10
+      ? parsed.relevanceScore
+      : null;
+
     // Update the Firestore document
     await db.collection("articles").doc(articleDocId).update({
       summary: parsed.summary || rawSummary,
       tags: validTags.length > 0 ? validTags : ["research"],
+      relevanceScore: relevanceScore,
+      relevanceReason: parsed.relevanceReason || null,
       ai_curated: true,
       updated_at: new Date()
     });
 
-    console.log(`AI curated article "${title}" with tags: ${validTags.join(", ")}`);
+    console.log(`AI curated article "${title}" — score: ${relevanceScore}/10, tags: ${validTags.join(", ")}`);
     return true;
   } catch (error) {
     console.warn(`AI curation failed for "${title}":`, error.message);

@@ -43,6 +43,13 @@
         }
       },
       {
+        "source": "/admin/conversations",
+        "function": {
+          "functionId": "adminConversations",
+          "region": "us-central1"
+        }
+      },
+      {
         "source": "/admin/fetch-url",
         "function": {
           "functionId": "fetchUrlMetadata",
