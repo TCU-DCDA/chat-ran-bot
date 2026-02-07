@@ -258,6 +258,12 @@ async function backfillRelevanceScores() {
     });
 
     if (!response.ok) {
+      // 502/504 likely means the function is still running (hosting proxy timeout)
+      if (response.status === 502 || response.status === 504) {
+        alert("Scoring is running in the background. Refresh the page in a minute to see updated scores.");
+        setTimeout(() => loadArticles(), 60000);
+        return;
+      }
       throw new Error("Failed to backfill scores");
     }
 
