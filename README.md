@@ -1,6 +1,6 @@
 # AddRan Advising Chatbot
 
-**Live Site:** https://addran-advisor-9125e.web.app
+**Live Site:** https://sandra.digitcu.org
 
 An interactive chatbot for students considering majors in AddRan College of Liberal Arts at TCU (https://addran.tcu.edu/). The bot is warm, conversational, encouraging, and knowledgeable about liberal arts education.
 
@@ -91,9 +91,11 @@ firebase deploy
 │       └── writing-and-rhetoric-minor.json
 ├── public/
 │   ├── index.html         # Chat UI
-│   ├── admin.html         # Article admin dashboard
-│   ├── app.js             # Frontend JavaScript
-│   └── style.css
+│   ├── admin.html         # Admin dashboard
+│   ├── app.js             # Chat frontend JavaScript
+│   ├── admin.js           # Admin dashboard JavaScript
+│   ├── style.css          # Chat styles
+│   └── admin.css          # Admin styles
 └── other_programs/        # Source Excel spreadsheets (25 files)
 ```
 
@@ -107,6 +109,7 @@ firebase deploy
 - Core Curriculum requirements (Fall 2025+)
 - Support resource redirects
 - Article curation pipeline (RSS feeds, OpenAlex, admin dashboard)
+- Admin dashboard with article management, conversation analytics, feedback tracking, and CSV export
 - AI disclaimers (accuracy warning + data freshness notice)
 
 ### ❓ Still Needed

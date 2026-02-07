@@ -58,8 +58,9 @@ const articlesList = document.getElementById("articles-list");
 const fetchUrlBtn = document.getElementById("fetch-url-btn");
 const fetchStatus = document.getElementById("fetch-status");
 
-// Sort element
+// Sort/filter elements
 const articleSort = document.getElementById("article-sort");
+const articleFilter = document.getElementById("article-filter");
 
 // RSS elements
 const rssCheckBtn = document.getElementById("rss-check-btn");
@@ -68,6 +69,9 @@ const rssStatus = document.getElementById("rss-status");
 // OpenAlex elements
 const openalexCheckBtn = document.getElementById("openalex-check-btn");
 const openalexStatus = document.getElementById("openalex-status");
+
+// Backfill button
+const backfillScoresBtn = document.getElementById("backfill-scores-btn");
 
 // Export button
 const exportCsvBtn = document.getElementById("export-csv-btn");
@@ -150,14 +154,18 @@ cancelArticleBtn.addEventListener("click", () => {
 
 saveArticleBtn.addEventListener("click", saveArticle);
 
-// Sort change
+// Sort/filter change
 articleSort.addEventListener("change", renderArticles);
+articleFilter.addEventListener("change", renderArticles);
 
 // RSS check
 rssCheckBtn.addEventListener("click", checkRssFeeds);
 
 // OpenAlex check
 openalexCheckBtn.addEventListener("click", checkOpenAlex);
+
+// Backfill relevance scores
+backfillScoresBtn.addEventListener("click", backfillRelevanceScores);
 
 async function checkRssFeeds() {
   rssStatus.textContent = "Checking RSS feeds...";
@@ -235,6 +243,38 @@ async function checkOpenAlex() {
     openalexStatus.className = "source-status error";
   } finally {
     openalexCheckBtn.disabled = false;
+  }
+}
+
+// Backfill relevance scores for unscored articles
+async function backfillRelevanceScores() {
+  backfillScoresBtn.disabled = true;
+  backfillScoresBtn.textContent = "Scoring...";
+
+  try {
+    const response = await adminFetch("/admin/backfill-scores", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" }
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to backfill scores");
+    }
+
+    const data = await response.json();
+
+    if (data.scored > 0) {
+      alert(`Scored ${data.scored} article${data.scored > 1 ? "s" : ""}${data.failed > 0 ? ` (${data.failed} failed)` : ""}.`);
+      loadArticles();
+    } else {
+      alert(data.message || "No articles needed scoring.");
+    }
+  } catch (error) {
+    console.error("Backfill error:", error);
+    alert("Failed to backfill scores. Try again.");
+  } finally {
+    backfillScoresBtn.disabled = false;
+    backfillScoresBtn.textContent = "Backfill Scores";
   }
 }
 
@@ -380,14 +420,20 @@ async function loadArticles() {
 }
 
 function renderArticles() {
-  if (articles.length === 0) {
-    articlesList.innerHTML = '<p class="empty-state">No articles yet. Add one above!</p>';
+  // Filter by status
+  const filterValue = articleFilter ? articleFilter.value : "all";
+  const filtered = filterValue === "all"
+    ? articles
+    : articles.filter(a => a.status === filterValue);
+
+  if (filtered.length === 0) {
+    articlesList.innerHTML = `<p class="empty-state">${articles.length === 0 ? 'No articles yet. Add one above!' : 'No articles match this filter.'}</p>`;
     return;
   }
 
   // Sort articles based on selected sort option
   const sortValue = articleSort ? articleSort.value : "newest";
-  const sorted = [...articles];
+  const sorted = [...filtered];
   if (sortValue === "relevance") {
     sorted.sort((a, b) => (b.relevanceScore || 0) - (a.relevanceScore || 0));
   } else if (sortValue === "oldest") {

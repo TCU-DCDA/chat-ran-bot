@@ -70,6 +70,8 @@
 - [x] Article dedup by URL (rejected articles preserved as dedup records, no delete)
 - [x] **Relevance scoring** - Claude rates article fit (1-10) during ingestion, color-coded badge in admin, sort by relevance
 - [x] **Conversation analytics tab** - Admin dashboard shows anonymous conversation logs, stats (total/today/week), topic keyword detection (14 categories), program name detection (46 programs), side-by-side bar charts
+- [x] **Unified conversations + feedback tab** - Merged separate Feedback and Conversations tabs into one; feedback matched to conversations client-side by question text; colored left borders (green=positive, red=negative, purple=none); expandable response accordion; filter dropdown (all/has-feedback/positive/negative); 5 stat boxes (total/today/week/thumbs up/thumbs down)
+- [x] **CSV export** - Export all conversations with feedback ratings as CSV for text analysis
 
 ### 🔜 Next Up
 - [ ] **Duplicate detection** - Flag articles with similar titles/content beyond URL match
@@ -87,6 +89,7 @@
 ### ✅ Completed
 - [x] **Firebase Auth for admin** - Google sign-in with email whitelist; server-side ID token verification on all 7 admin endpoints
 - [x] **Rate limiting on chat API** - Per-IP fixed-window rate limiting (30/hr chat, 60/hr feedback) via Firestore counters; 429 with friendly UI message
+- [x] **Custom domain** - `sandra.digitcu.org` via Cloudflare DNS → Firebase Hosting
 
 ### 🔜 Next Up
 

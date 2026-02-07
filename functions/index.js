@@ -1419,3 +1419,59 @@ exports.triggerOpenAlexCheck = onRequest(
     });
   }
 );
+
+// Backfill relevance scores for articles that lack them
+exports.backfillRelevanceScores = onRequest(
+  { cors: true, invoker: "public", timeoutSeconds: 300 },
+  async (req, res) => {
+    try {
+      await verifyAdmin(req);
+    } catch (err) {
+      res.status(err.status || 401).json({ error: err.message });
+      return;
+    }
+
+    if (req.method !== "POST") {
+      res.status(405).send("Method not allowed");
+      return;
+    }
+
+    // Find articles without a relevance score
+    const snapshot = await db.collection("articles").get();
+    const toScore = [];
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      if (data.relevanceScore == null) {
+        toScore.push({ id: doc.id, ...data });
+      }
+    });
+
+    if (toScore.length === 0) {
+      res.json({ success: true, message: "All articles already have relevance scores.", scored: 0 });
+      return;
+    }
+
+    let scored = 0;
+    let failed = 0;
+    const results = [];
+
+    for (const article of toScore) {
+      const ok = await aiCurateArticle(article.id, article.title, article.summary || "", article.source || "Unknown");
+      if (ok) {
+        scored++;
+        results.push({ title: article.title, status: "scored" });
+      } else {
+        failed++;
+        results.push({ title: article.title, status: "failed" });
+      }
+    }
+
+    res.json({
+      success: true,
+      total: toScore.length,
+      scored,
+      failed,
+      results
+    });
+  }
+);

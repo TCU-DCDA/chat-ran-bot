@@ -38,6 +38,12 @@
         <div class="section-header">
           <h2>Articles</h2>
           <div class="header-actions">
+            <select id="article-filter" class="sort-select" title="Filter by status">
+              <option value="all">All Status</option>
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="rejected">Rejected</option>
+            </select>
             <select id="article-sort" class="sort-select" title="Sort articles">
               <option value="newest">Newest</option>
               <option value="relevance">Relevance</option>
@@ -45,6 +51,7 @@
             </select>
             <button id="rss-check-btn" class="btn-secondary" title="Check RSS feeds for new articles">Check RSS</button>
             <button id="openalex-check-btn" class="btn-secondary" title="Search OpenAlex for academic papers">Check Academic</button>
+            <button id="backfill-scores-btn" class="btn-secondary" title="Re-score articles missing relevance scores">Backfill Scores</button>
             <button id="add-article-btn" class="btn-primary">Add Article</button>
           </div>
         </div>
