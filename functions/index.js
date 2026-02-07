@@ -204,6 +204,9 @@ ${minorReqs}
 
 Plus ${minor.requirements.generalElectives.hours} hours of general electives from approved list
 
+### DCDA Internship (${programs.internship.code}, ${programs.internship.hours} hours)
+${programs.internship.description}
+
 ### Notable DCDA Courses:
 ${notableList}
 
