@@ -2,11 +2,11 @@
 
 ## Context
 
-This brief captures planning from a conversation about TCU's Chancellor's Innovation Prize and enhancements to the AddRan Advising Chatbot. Use this as context when working in the `chat-ran-bot` repo.
+This brief captures planning from a conversation about TCU's Chancellor's Innovation Prize and enhancements to the AddRan Advising Chatbot. Use this as context when working in the `addran-advisor-chat` repo.
 
 ## The Project
 
-**Repo:** https://github.com/TCU-DCDA/chat-ran-bot
+**Repo:** https://github.com/TCU-DCDA/addran-advisor-chat
 **Live:** https://addran-advisor-9125e.web.app
 **Stack:** Firebase Hosting + Functions + Firestore, Claude API (Sonnet)
 **What it does:** AI-powered chatbot for students considering majors in AddRan College of Liberal Arts at TCU. Covers 37 programs with requirements, URLs, and program details.
@@ -118,7 +118,7 @@ These were identified as strong candidates during planning:
 
 ## Other Related Projects
 
-- **TCU English Advising App:** https://github.com/curtrode/tcu-english-advising (React/Vite/Tailwind, requirements tracking for English department)
+- **English Advising Wizard:** https://github.com/TCU-DCDA/english-advising-wizard (React/Vite/Tailwind, requirements tracking for English department)
 - **DCDA Advising Chat:** https://dcda-advisor-chat.web.app/ (separate tool, DCDA-specific)
 - **CDEx Inventory Management:** https://inventory.digitcu.org/
 
