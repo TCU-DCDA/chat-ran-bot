@@ -345,7 +345,8 @@ function log(event, data) {
     severity:
       event.includes("failure") ||
       event.includes("rejected") ||
-      event.includes("mismatch")
+      event.includes("mismatch") ||
+      event.includes("invalid")
         ? "WARNING"
         : "INFO",
     message: event,

@@ -127,7 +127,8 @@ function formatProgram(program) {
 function buildFallbackContext(manifest) {
   const sections = manifest.programs.map((p) => {
     const lines = [];
-    lines.push(`### ${p.name} (${p.degree}, ${p.totalHours} hours)`);
+    const degreeStr = p.degree ? `${p.degree}, ` : "";
+    lines.push(`### ${p.name} (${degreeStr}${p.totalHours} hours)`);
     if (p.url) lines.push(p.url);
 
     if (p.descriptions && p.descriptions[0]) {
