@@ -345,7 +345,7 @@ function renderSuggestedPrompts() {
   container.querySelectorAll(".prompt-chip").forEach(chip => {
     chip.addEventListener("click", () => {
       userInput.value = chip.dataset.prompt;
-      chatForm.dispatchEvent(new Event("submit"));
+      chatForm.requestSubmit();
     });
   });
 }
@@ -353,6 +353,17 @@ function renderSuggestedPrompts() {
 function hideSuggestedPrompts() {
   const prompts = document.getElementById("suggested-prompts");
   if (prompts) prompts.remove();
+}
+
+function attachPromptChipListeners() {
+  const container = document.getElementById("suggested-prompts");
+  if (!container) return;
+  container.querySelectorAll(".prompt-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      userInput.value = chip.dataset.prompt;
+      chatForm.requestSubmit();
+    });
+  });
 }
 
 renderSuggestedPrompts();
@@ -775,7 +786,7 @@ function pdfDrawDisclaimer(doc, y, margin, contentWidth) {
   doc.setFont("helvetica", "italic");
   doc.setFontSize(8);
   doc.setTextColor(136, 136, 136);
-  const disclaimer = "AI-generated responses may contain errors. Program details reflect the most recent data update and may not match the latest catalog. Confirm details with your advisor or department.";
+  const disclaimer = "AI-generated responses may contain errors. Program details reflect the most recent data update and may not match the latest catalog. Confirm details with your advisor or department. Conversations are anonymous and not linked to your student records.";
   const lines = doc.splitTextToSize(disclaimer, contentWidth);
   for (const line of lines) {
     doc.text(line, margin, y);
