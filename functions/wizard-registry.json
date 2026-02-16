@@ -1,0 +1,13 @@
+{
+  "registryVersion": "1.0",
+  "departments": {
+    "English": {
+      "manifestUrl": "https://tcu-dcda.github.io/english-advising-wizard/manifest.json",
+      "fallbackPrograms": ["english", "english-minor", "creative-writing", "creative-writing-minor", "writing-and-rhetoric"]
+    },
+    "Digital Culture and Data Analytics": {
+      "manifestUrl": "https://dcda-advisor-mobile.web.app/advising-manifest.json",
+      "fallbackPrograms": []
+    }
+  }
+}

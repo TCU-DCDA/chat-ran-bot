@@ -6,10 +6,8 @@ const { getAuth } = require("firebase-admin/auth");
 const Anthropic = require("@anthropic-ai/sdk");
 const fs = require("fs");
 const path = require("path");
-
-// Load DCDA data from JSON file
-const dcdaDataPath = path.join(__dirname, "dcda-data.json");
-const dcdaData = JSON.parse(fs.readFileSync(dcdaDataPath, "utf8"));
+const { initManifestLoader, getAllManifests } = require("./manifest-loader");
+const { manifestToContext, extractProgramsForLookup } = require("./manifest-to-context");
 
 // Load programs from CSV file
 const programsCsvPath = path.join(__dirname, "programs.csv");
@@ -86,9 +84,9 @@ function escapeRegex(str) {
 // from casual mentions like "if you're interested in English..."
 const PROGRAM_KEYWORDS_PATTERN = /\b(major|minor|program|degree|BA\b|BS\b|B\.A\.|B\.S\.)/i;
 
-function detectProgramMentions(text) {
+function detectProgramMentions(text, lookup = programLookup) {
   const mentions = [];
-  for (const [, program] of programLookup) {
+  for (const [, program] of lookup) {
     const isSingleWord = program.name.split(/\s+/).length === 1;
     const pattern = new RegExp(`\\b${escapeRegex(program.name)}\\b`, "i");
     const match = pattern.exec(text);
@@ -162,60 +160,6 @@ When students ask about the value of liberal arts, career outcomes, AI and the f
 ${sections.join("\n\n")}`;
 }
 
-// Helper function to format DCDA context from JSON data
-function buildDcdaContext(data) {
-  const { programs, approvedCourses } = data;
-  const major = programs.dcda_major;
-  const minor = programs.dcda_minor;
-
-  // Format required categories for major
-  const majorReqs = major.requirements.requiredCategories.courses
-    .map(cat => `- ${cat.category}: ${cat.options.join(", ")}`)
-    .join("\n");
-
-  // Format required categories for minor
-  const minorReqs = minor.requirements.requiredCategories.courses
-    .map(cat => `- ${cat.category}: ${cat.options.join(", ")}`)
-    .join("\n");
-
-  // Pick notable courses (ones with notes or specific highlights)
-  const notableCourses = [
-    ...approvedCourses.dataAnalytics.filter(c => c.note),
-    ...approvedCourses.digitalCulture.slice(0, 3),
-    ...approvedCourses.honorsSeminarsCapstone
-  ].slice(0, 6);
-
-  const notableList = notableCourses
-    .map(c => `- ${c.code}: ${c.title}${c.note ? ` (${c.note})` : ""}`)
-    .join("\n");
-
-  return `\n\n## DCDA (Digital Culture and Data Analytics) Program Details
-
-### DCDA Major (${major.degree}, ${major.totalHours} hours)
-Required categories (${major.requirements.requiredCategories.hours} hours):
-${majorReqs}
-
-Plus ${major.requirements.dcAndDaElectives.hours} hours of DC & DA electives (${major.requirements.dcAndDaElectives.description})
-Plus ${major.requirements.generalElectives.hours} hours of general electives from approved list
-
-### DCDA Minor (${minor.totalHours} hours)
-Required categories (${minor.requirements.requiredCategories.hours} hours):
-${minorReqs}
-
-Plus ${minor.requirements.generalElectives.hours} hours of general electives from approved list
-
-### DCDA Internship (${programs.internship.code}, ${programs.internship.hours} hours)
-${programs.internship.description}
-
-### Notable DCDA Courses:
-${notableList}
-
-### DCDA Advisor Contact:
-For questions about the DCDA program, contact:
-- Email: dcda@tcu.edu
-- Program Director: Dr. Curt Rode (c.rode@tcu.edu)`;
-}
-
 // Helper function to format program details context
 function buildProgramDetailsContext(programs) {
   if (programs.length === 0) return "";
@@ -267,6 +211,7 @@ function buildProgramDetailsContext(programs) {
 
 initializeApp();
 const db = getFirestore();
+initManifestLoader(db);
 
 // Rate limiting — per-IP, fixed-window, Firestore-backed
 const RATE_LIMITS = {
@@ -447,56 +392,25 @@ exports.api = onRequest(
         }).join("\n")}\n\nIMPORTANT: Cite articles by title, source, and link. Do not synthesize claims across articles.`
         : "";
 
-      // Build DCDA program details context from JSON data
-      const dcdaContext = buildDcdaContext(dcdaData);
+      // Fetch wizard manifests (SWR — fast if cached, triggers background refresh if stale)
+      const manifests = await getAllManifests();
 
-      // Build English Department program details context
-      const englishContext = `\n\n## English Department Programs
+      // Build manifest-based context (replaces hardcoded English + DCDA contexts)
+      let manifestContext = "";
+      const manifestProgramNames = new Set();
+      const normalizeName = (n) => n.toLowerCase().replace(/&/g, "and");
+      for (const [, data] of manifests) {
+        manifestContext += manifestToContext(data);
+        for (const p of extractProgramsForLookup(data.manifest)) {
+          manifestProgramNames.add(normalizeName(p.name));
+        }
+      }
 
-### English Major (BA, 33 hours)
-Required categories:
-- American Literature (6 hrs): e.g., ENGL 30133 American Lit to 1865, ENGL 30593 American Fiction 1960-present
-- British Literature (6 hrs): e.g., ENGL 30673 King Arthur: Lit & Legend, ENGL 30653 Jane Austen: Novels & Films
-- Global & Diasporic Literature (3 hrs): e.g., ENGL 30693 U.S. Multi-Ethnic Literature
-- Writing (3 hrs): Creative writing workshops (CRWT) or multimedia authoring (WRIT)
-- Theory (3 hrs): e.g., ENGL 30103 Intro to Literary Theory, ENGL 30803 Theories of Cinema
-- Electives (12 hrs): Any ENGL, WRIT, or CRWT courses (max 9 hrs lower-division)
-
-Overlay Requirements:
-- Early Literature & Culture (6 hrs)
-- Junior Research Seminar (3 hrs): ENGL 38023 Research Seminar
-
-### Writing and Rhetoric Major (BA, 33 hours)
-Required categories:
-- Writing & Publishing (3 hrs): e.g., WRIT 20113 Technical Writing, WRIT 40233 Writing for Publication
-- Rhetorics & Cultures (6 hrs): e.g., WRIT 20313 Power & Protest, WRIT 40333 Language, Rhetoric & Culture
-- Digital Rhetorics & Design (3 hrs): e.g., WRIT 20303 Writing Games, WRIT 40163 Multimedia Authoring
-- Writing Internship (3 hrs): WRIT 40273
-- Junior Writing Major Seminar (3 hrs): WRIT 38063
-- Electives (12 hrs): Any ENGL, WRIT, or CRWT courses (max 9 hrs lower-division)
-
-### Creative Writing Major (BA, 33 hours)
-Required categories:
-- Prerequisite (3 hrs): CRWT 10203 Intro to Creative Writing
-- Upper Division Creative Writing (12 hrs): Fiction, Poetry, Nonfiction, or Drama workshops
-- Advanced Creative Writing Seminar (3 hrs): CRWT 40703 Advanced Multi-Genre or CRWT 40803 Advanced Literary Forms
-- Internship (3 hrs): WRIT 30390 Publication Production or WRIT 40273 Writing Internship
-- Upper-division ENGL electives (6 hrs)
-- Upper-division WRIT electives (6 hrs)
-
-Note: Only 3 lower-division hours count toward Creative Writing major.
-
-### Spring 2026 Highlighted Courses:
-- ENGL 30653 Jane Austen: Novels and Films
-- ENGL 30673 King Arthur: Literature & Legend
-- ENGL 40473 Milton and His Contemporaries
-- CRWT 30233 Creative Nonfiction Workshop I
-- CRWT 30373 Drama Writing Workshop I
-- WRIT 40373 The Rhetoric of Revolution
-- WRIT 40563 Multimedia Authoring: Sound & Podcast
-
-### English Department Advising:
-For course descriptions and advising: https://addran.tcu.edu/english/academics/advising/`;
+      // Build program details context, excluding programs covered by manifests
+      const nonWizardPrograms = programDetails.filter(
+        p => !manifestProgramNames.has(normalizeName(p.name))
+      );
+      const programDetailsContext = buildProgramDetailsContext(nonWizardPrograms);
 
       // Build messages array for Claude
       const messages = [
@@ -507,16 +421,13 @@ For course descriptions and advising: https://addran.tcu.edu/english/academics/a
       // Build Core Curriculum context
       const coreCurriculumContext = buildCoreCurriculumContext(coreCurriculumData);
 
-      // Build program details context
-      const programDetailsContext = buildProgramDetailsContext(programDetails);
-
       // Build liberal arts value research context
       const laResearchContext = buildLaResearchContext(laResearchData);
 
       const response = await anthropic.messages.create({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1024,
-        system: SYSTEM_PROMPT + programContext + abbreviationsContext + dcdaContext + englishContext + programDetailsContext + coreCurriculumContext + laResearchContext + articlesContext,
+        system: SYSTEM_PROMPT + programContext + abbreviationsContext + manifestContext + programDetailsContext + coreCurriculumContext + laResearchContext + articlesContext,
         messages: messages,
       });
 
@@ -529,7 +440,24 @@ For course descriptions and advising: https://addran.tcu.edu/english/academics/a
         timestamp: new Date(),
       });
 
-      const programMentions = detectProgramMentions(assistantMessage);
+      // Build combined program lookup: static programs + manifest programs
+      const combinedLookup = new Map(programLookup);
+      for (const [, data] of manifests) {
+        for (const slim of extractProgramsForLookup(data.manifest)) {
+          const key = slim.name.toLowerCase();
+          if (combinedLookup.has(key)) {
+            const existing = combinedLookup.get(key);
+            if (!existing.degree.includes(slim.degree)) {
+              existing.degree = existing.degree + ", " + slim.degree;
+            }
+            if (slim.url && !existing.url) existing.url = slim.url;
+          } else {
+            combinedLookup.set(key, slim);
+          }
+        }
+      }
+
+      const programMentions = detectProgramMentions(assistantMessage, combinedLookup);
 
       res.json({
         message: assistantMessage,

@@ -1,0 +1,352 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/curtrode/tcu-english-advising/schemas/manifest.schema.json",
+  "title": "Department Wizard Manifest",
+  "description": "Schema for department wizard manifest files consumed by Sandra (AddRan chatbot)",
+  "type": "object",
+  "required": ["manifestVersion", "department", "lastUpdated", "wizardUrl", "programs"],
+  "properties": {
+    "manifestVersion": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Schema version - must be 1.0"
+    },
+    "department": {
+      "type": "string",
+      "description": "Department name (e.g., 'English', 'DCDA')"
+    },
+    "lastUpdated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last manifest generation"
+    },
+    "wizardUrl": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL of the deployed department wizard"
+    },
+    "programs": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Array of program definitions",
+      "items": {
+        "$ref": "#/definitions/program"
+      }
+    },
+    "courseCatalog": {
+      "type": "array",
+      "description": "Optional full course catalog for deep questions",
+      "items": {
+        "$ref": "#/definitions/catalogCourse"
+      }
+    },
+    "advisingNotes": {
+      "type": "array",
+      "description": "Optional department-specific warnings or policies",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "definitions": {
+    "program": {
+      "type": "object",
+      "required": ["id", "name", "abbreviation", "degree", "totalHours", "requirements"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique program identifier (e.g., 'english-ba', 'writing-rhetoric-ba')"
+        },
+        "name": {
+          "type": "string",
+          "description": "Program display name"
+        },
+        "abbreviation": {
+          "type": "string",
+          "description": "Course prefix (e.g., 'ENGL', 'WRIT', 'CRWT')"
+        },
+        "degree": {
+          "type": "string",
+          "description": "Degree type (e.g., 'BA', 'BS', 'Minor')"
+        },
+        "totalHours": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total credit hours required"
+        },
+        "maxLowerDivision": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum lower-division hours that count toward major"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Official program page URL"
+        },
+        "descriptions": {
+          "type": "array",
+          "description": "Program descriptions and features",
+          "items": {
+            "type": "string"
+          }
+        },
+        "careerOptions": {
+          "type": "array",
+          "description": "Career paths for graduates",
+          "items": {
+            "type": "string"
+          }
+        },
+        "contacts": {
+          "type": "array",
+          "description": "Department contacts",
+          "items": {
+            "$ref": "#/definitions/contact"
+          }
+        },
+        "internship": {
+          "type": "object",
+          "description": "Internship information",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "courses": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/course"
+              }
+            }
+          }
+        },
+        "requirements": {
+          "type": "object",
+          "required": ["categories"],
+          "description": "Program requirements structure",
+          "properties": {
+            "maxLowerDivision": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Max lower-division hours (can differ from program-level setting)"
+            },
+            "categories": {
+              "type": "array",
+              "minItems": 1,
+              "description": "Requirement categories",
+              "items": {
+                "$ref": "#/definitions/requirementCategory"
+              }
+            },
+            "overlays": {
+              "type": "array",
+              "description": "Optional overlay requirements (e.g., Early Literature)",
+              "items": {
+                "$ref": "#/definitions/requirementCategory"
+              }
+            }
+          }
+        },
+        "prerequisites": {
+          "type": "object",
+          "description": "Course prerequisite mapping",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "fourYearPlan": {
+          "type": "object",
+          "description": "Sample four-year course sequence",
+          "properties": {
+            "year1": {
+              "$ref": "#/definitions/academicYear"
+            },
+            "year2": {
+              "$ref": "#/definitions/academicYear"
+            },
+            "year3": {
+              "$ref": "#/definitions/academicYear"
+            },
+            "year4": {
+              "$ref": "#/definitions/academicYear"
+            }
+          }
+        },
+        "highlightedCourses": {
+          "type": "object",
+          "description": "Featured courses for current term",
+          "properties": {
+            "term": {
+              "type": "string",
+              "description": "Semester term (e.g., 'Spring 2026')"
+            },
+            "courses": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/course"
+              }
+            }
+          }
+        },
+        "note": {
+          "type": "string",
+          "description": "Special notes about the program"
+        }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "required": ["role", "name"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "description": "Contact role (e.g., 'Department Chair', 'Academic Advisor')"
+        },
+        "name": {
+          "type": "string",
+          "description": "Full name with title"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Email address"
+        },
+        "phone": {
+          "type": "string",
+          "description": "Phone number"
+        },
+        "office": {
+          "type": "string",
+          "description": "Office location"
+        }
+      }
+    },
+    "requirementCategory": {
+      "type": "object",
+      "required": ["id", "name", "hours", "courses"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Category identifier (camelCase, e.g., 'americanLit')"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name"
+        },
+        "hours": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Required credit hours for this category"
+        },
+        "note": {
+          "type": "string",
+          "description": "Special instructions or constraints"
+        },
+        "courses": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Courses that satisfy this requirement",
+          "items": {
+            "$ref": "#/definitions/course"
+          }
+        }
+      }
+    },
+    "course": {
+      "type": "object",
+      "required": ["code", "title", "hours"],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Course code (e.g., 'ENGL 30653')"
+        },
+        "title": {
+          "type": "string",
+          "description": "Course title"
+        },
+        "hours": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Credit hours"
+        },
+        "level": {
+          "type": "string",
+          "enum": ["lower", "upper"],
+          "description": "Division level (lower = 10000-20000, upper = 30000+)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Course description"
+        },
+        "category": {
+          "type": "string",
+          "description": "Requirement category this course satisfies"
+        },
+        "note": {
+          "type": "string",
+          "description": "Additional notes"
+        },
+        "schedule": {
+          "type": "string",
+          "description": "Meeting times (e.g., 'TR 11:00-12:20')"
+        },
+        "modality": {
+          "type": "string",
+          "description": "Delivery mode (e.g., 'In Person', 'Online', 'Hybrid')"
+        },
+        "enrollment": {
+          "type": "string",
+          "description": "Enrollment status (e.g., '22/25')"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Open", "Closed", "Waitlist"],
+          "description": "Registration status"
+        }
+      }
+    },
+    "catalogCourse": {
+      "type": "object",
+      "required": ["code", "title", "hours"],
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "hours": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "level": {
+          "type": "string",
+          "enum": ["lower", "upper"]
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "academicYear": {
+      "type": "object",
+      "properties": {
+        "fall": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/course"
+          }
+        },
+        "spring": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/course"
+          }
+        }
+      }
+    }
+  }
+}
