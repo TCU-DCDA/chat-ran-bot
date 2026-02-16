@@ -1,0 +1,52 @@
+{
+  "name": "Digital Culture and Data Analytics",
+  "abbreviation": "DCDA",
+  "degree": "BS",
+  "totalHours": 33,
+  "url": "https://www.tcu.edu/academics/programs/digital-culture-data-analytics.php",
+  "descriptions": [
+    "The Digital Culture and Data Analytics (DCDA) program prepares students to work at the intersection of technology, culture, and data. Students develop skills in coding, statistics, multimedia authoring, and digital analysis."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 15,
+      "courses": [
+        "Intro: ENGL 20813, WRIT 20303, WRIT 20323, or WRIT 20333",
+        "Statistics: MATH 10043 or INSC 20153",
+        "Coding: WRIT 20833, GEOG 30323, or COSC 10603",
+        "Multimedia Authoring: WRIT 40163, WRIT 40263, WRIT 40363, WRIT 40463, WRIT 40563, CRWT 30363, STCO 36403, or EDUC 50263",
+        "Capstone: DCDA 40833 (offered each Spring) or DCDA 40003"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 18,
+      "description": "One Digital Culture elective (3 hrs) + One Data Analytics elective (3 hrs) + Four general electives from approved list (12 hrs)"
+    }
+  },
+  "careerOptions": [
+    "UX Designer or Researcher",
+    "Data Analyst",
+    "Digital Content Strategist",
+    "Web Developer",
+    "Social Media Manager",
+    "Digital Marketing Specialist",
+    "Information Architect",
+    "Technical Writer",
+    "Digital Project Manager",
+    "Multimedia Producer",
+    "GIS Analyst",
+    "Digital Humanities Researcher"
+  ],
+  "contacts": [
+    {
+      "role": "Program Director & Advisor",
+      "name": "Dr. Curt Rode",
+      "phone": "817-257-6983",
+      "email": "c.rode@tcu.edu",
+      "office": "Scharbauer 2006"
+    }
+  ],
+  "internship": {
+    "description": "DCDA 40273 - DCDA Internship (3 hrs). Students apply digital culture and data analytics skills in a professional setting. The internship can count as either a Digital Culture or Data Analytics elective."
+  }
+}

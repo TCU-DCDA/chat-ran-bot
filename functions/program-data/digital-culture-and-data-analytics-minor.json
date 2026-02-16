@@ -1,0 +1,47 @@
+{
+  "name": "Digital Culture and Data Analytics Minor",
+  "abbreviation": "DCDA",
+  "totalHours": 21,
+  "url": "https://www.tcu.edu/academics/programs/digital-culture-data-analytics.php",
+  "descriptions": [
+    "The DCDA minor complements any major with skills in statistics, coding, multimedia authoring, and digital analysis. At 21 hours, it provides a focused introduction to digital culture and data analytics."
+  ],
+  "requirements": {
+    "requiredCourses": {
+      "hours": 12,
+      "courses": [
+        "Statistics: MATH 10043 or INSC 20153",
+        "Coding: WRIT 20833, GEOG 30323, or COSC 10603",
+        "Multimedia Authoring: WRIT 40163, WRIT 40263, WRIT 40363, WRIT 40463, WRIT 40563, CRWT 30363, STCO 36403, or EDUC 50263",
+        "Capstone: DCDA 40833 or DCDA 40003"
+      ]
+    },
+    "electiveCourses": {
+      "hours": 9,
+      "description": "Three general elective courses from the approved elective list"
+    }
+  },
+  "careerOptions": [
+    "UX Designer or Researcher",
+    "Data Analyst",
+    "Digital Content Strategist",
+    "Web Developer",
+    "Social Media Manager",
+    "Digital Marketing Specialist",
+    "Information Architect",
+    "Technical Writer",
+    "Digital Project Manager",
+    "Multimedia Producer",
+    "GIS Analyst",
+    "Digital Humanities Researcher"
+  ],
+  "contacts": [
+    {
+      "role": "Program Director & Advisor",
+      "name": "Dr. Curt Rode",
+      "phone": "817-257-6983",
+      "email": "c.rode@tcu.edu",
+      "office": "Scharbauer 2006"
+    }
+  ]
+}

@@ -62,17 +62,28 @@ async function getManifest(department) {
     return { manifest: cached.manifest, source: "memory" };
   }
 
-  // 2. Memory miss — try Firestore cache
+  // 2. Memory miss — try Firestore cache (revalidate before trusting)
   const firestoreCached = await readFirestoreCache(department);
   if (firestoreCached) {
-    memoryCache.set(department, {
-      manifest: firestoreCached.manifest,
-      fetchedAt: firestoreCached.fetchedAt,
-      source: "firestore",
+    const valid = validateManifest(firestoreCached.manifest);
+    const versionOk = valid && SUPPORTED_VERSIONS.includes(firestoreCached.manifest.manifestVersion);
+    if (valid && versionOk) {
+      memoryCache.set(department, {
+        manifest: firestoreCached.manifest,
+        fetchedAt: firestoreCached.fetchedAt,
+        source: "firestore",
+      });
+      // Trigger background refresh regardless of Firestore age (cold-miss refresh)
+      refreshManifest(department);
+      return { manifest: firestoreCached.manifest, source: "firestore" };
+    }
+    log("firestore_cache_invalid", {
+      department,
+      validationErrors: valid ? null : validateManifest.errors,
+      version: firestoreCached.manifest?.manifestVersion,
+      reason: !valid ? "schema_validation_failed" : "unsupported_version",
     });
-    // Trigger background refresh regardless of Firestore age (cold-miss refresh)
-    refreshManifest(department);
-    return { manifest: firestoreCached.manifest, source: "firestore" };
+    // Fall through to live fetch
   }
 
   // 3. All caches empty — synchronous live fetch

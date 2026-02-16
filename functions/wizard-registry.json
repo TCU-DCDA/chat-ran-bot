@@ -7,7 +7,7 @@
     },
     "Digital Culture and Data Analytics": {
       "manifestUrl": "https://dcda-advisor-mobile.web.app/advising-manifest.json",
-      "fallbackPrograms": []
+      "fallbackPrograms": ["digital-culture-and-data-analytics", "digital-culture-and-data-analytics-minor"]
     }
   }
 }
