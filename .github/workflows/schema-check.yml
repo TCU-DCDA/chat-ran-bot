@@ -1,0 +1,34 @@
+name: Schema Version Check
+
+on:
+  push:
+    branches: [main, feature/**]
+  pull_request:
+    branches: [main]
+
+jobs:
+  schema-version-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch source-of-truth schema
+        run: |
+          curl -sL https://raw.githubusercontent.com/TCU-DCDA/english-advising-wizard/main/schemas/manifest.schema.json \
+            -o /tmp/source-schema.json
+
+      - name: Compare schema versions
+        run: |
+          LOCAL_VERSION=$(jq -r '.properties.manifestVersion.const' functions/schemas/manifest.schema.json)
+          SOURCE_VERSION=$(jq -r '.properties.manifestVersion.const' /tmp/source-schema.json)
+
+          echo "Local schema version: $LOCAL_VERSION"
+          echo "Source schema version: $SOURCE_VERSION"
+
+          if [ "$LOCAL_VERSION" != "$SOURCE_VERSION" ]; then
+            echo "::error::Schema version mismatch! Local=$LOCAL_VERSION, Source=$SOURCE_VERSION"
+            echo "Update functions/schemas/manifest.schema.json from english-advising-wizard"
+            exit 1
+          fi
+
+          echo "Schema versions match."
