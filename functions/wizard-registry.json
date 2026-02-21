@@ -6,7 +6,7 @@
       "fallbackPrograms": ["english", "english-minor", "creative-writing", "creative-writing-minor", "writing-and-rhetoric"]
     },
     "Digital Culture and Data Analytics": {
-      "manifestUrl": "https://dcda-advisor-mobile.web.app/advising-manifest.json",
+      "manifestUrl": "https://tcu-dcda.github.io/dcda-advising-wizard/advising-manifest.json",
       "fallbackPrograms": ["digital-culture-and-data-analytics", "digital-culture-and-data-analytics-minor"]
     }
   }
