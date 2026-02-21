@@ -5,6 +5,15 @@ const sendBtn = document.getElementById("send-btn");
 const clearBtn = document.getElementById("clear-btn");
 const themeToggle = document.getElementById("theme-toggle");
 const exportBtn = document.getElementById("export-btn");
+const toastEl = document.getElementById("toast");
+
+let toastTimer = null;
+function showToast(message, duration = 3000) {
+  toastEl.textContent = message;
+  toastEl.classList.add("visible");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove("visible"), duration);
+}
 
 // Embed mode: when loaded inside an advising wizard iframe
 const isEmbedded = new URLSearchParams(window.location.search).get("embed") === "true";
@@ -297,7 +306,7 @@ chatForm.addEventListener("submit", async (e) => {
   const message = userInput.value.trim();
   if (!message) return;
   if (message.length > 1000) {
-    alert("Please keep your message under 1000 characters.");
+    showToast("Please keep your message under 1,000 characters.");
     return;
   }
 
