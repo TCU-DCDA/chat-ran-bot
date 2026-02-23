@@ -26,7 +26,15 @@ if (isEmbedded) {
 }
 
 // Listen for wizard context from parent iframe
+const ALLOWED_ORIGINS = [
+  "https://english.digitcu.org",
+  "https://dcda.digitcu.org",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+];
+
 window.addEventListener("message", (event) => {
+  if (!ALLOWED_ORIGINS.includes(event.origin)) return;
   if (event.data && event.data.type === "wizard-context") {
     wizardContext = event.data.context;
     // Update placeholder to hint that Sandra knows the student's context
@@ -872,7 +880,7 @@ function pdfDrawDisclaimer(doc, y, margin, contentWidth) {
   doc.setFont("helvetica", "italic");
   doc.setFontSize(8);
   doc.setTextColor(136, 136, 136);
-  const disclaimer = "AI-generated responses may contain errors. Program details reflect the most recent data update and may not match the latest catalog. Confirm details with your advisor or department. Conversations are anonymous and not linked to your student records.";
+  const disclaimer = "AI-generated responses may contain errors. Program details reflect the most recent data update and may not match the latest catalog. Confirm details with your advisor or department. Conversations are not linked to your student records. When used within an advising wizard, Sandra can see your course selections for that session.";
   const lines = doc.splitTextToSize(disclaimer, contentWidth);
   for (const line of lines) {
     doc.text(line, margin, y);
