@@ -467,6 +467,7 @@ function renderArticles() {
         <div class="article-actions">
           ${scoreBadge}
           <span class="status-badge status-${article.status}">${article.status}</span>
+          ${article.status !== "rejected" ? `<button class="btn-danger btn-small" onclick="quickRejectArticle('${article.id}', this)">Reject</button>` : ""}
           <button class="btn-secondary btn-small" onclick="editArticle('${article.id}')">Edit</button>
         </div>
       </div>
@@ -517,6 +518,42 @@ async function saveArticle() {
     alert("Failed to save article. Try again.");
   }
 }
+
+window.quickRejectArticle = async function(id, btn) {
+  const card = btn.closest(".article-card");
+  btn.disabled = true;
+  btn.textContent = "...";
+
+  try {
+    const response = await adminFetch(`/admin/articles/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "rejected" })
+    });
+
+    if (!response.ok) throw new Error("Failed to reject");
+
+    // Update local state so re-render is instant
+    const article = articles.find(a => a.id === id);
+    if (article) article.status = "rejected";
+
+    // Fade out the card if currently filtering to pending
+    const filterValue = articleFilter ? articleFilter.value : "all";
+    if (filterValue === "pending") {
+      card.style.transition = "opacity 0.3s, transform 0.3s";
+      card.style.opacity = "0";
+      card.style.transform = "translateX(30px)";
+      setTimeout(() => renderArticles(), 300);
+    } else {
+      renderArticles();
+    }
+  } catch (error) {
+    console.error("Quick reject error:", error);
+    btn.disabled = false;
+    btn.textContent = "Reject";
+    alert("Failed to reject article. Try again.");
+  }
+};
 
 window.editArticle = function(id) {
   const article = articles.find(a => a.id === id);
