@@ -8,6 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const { initManifestLoader, getAllManifests } = require("./manifest-loader");
 const { manifestToContext, extractProgramsForLookup } = require("./manifest-to-context");
+const { detectProgramMentions } = require("./mention-utils");
 
 // Load programs from CSV file
 const programsCsvPath = path.join(__dirname, "programs.csv");
@@ -73,37 +74,6 @@ for (const p of programDetails) {
   } else {
     programLookup.set(key, slim);
   }
-}
-
-function escapeRegex(str) {
-  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
-// Single-word program names (e.g., "English", "History") only match
-// when they appear near a program-related keyword to avoid false positives
-// from casual mentions like "if you're interested in English..."
-const PROGRAM_KEYWORDS_PATTERN = /\b(major|minor|program|degree|BA\b|BS\b|B\.A\.|B\.S\.)/i;
-
-function detectProgramMentions(text, lookup = programLookup) {
-  const mentions = [];
-  for (const [, program] of lookup) {
-    const isSingleWord = program.name.split(/\s+/).length === 1;
-    const pattern = new RegExp(`\\b${escapeRegex(program.name)}\\b`, "i");
-    const match = pattern.exec(text);
-
-    if (!match) continue;
-
-    if (isSingleWord) {
-      // Check surrounding context (~80 chars) for a program keyword
-      const start = Math.max(0, match.index - 80);
-      const end = Math.min(text.length, match.index + match[0].length + 80);
-      const context = text.substring(start, end);
-      if (!PROGRAM_KEYWORDS_PATTERN.test(context)) continue;
-    }
-
-    mentions.push(program);
-  }
-  return mentions;
 }
 
 // Helper function to format Core Curriculum context

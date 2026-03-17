@@ -364,4 +364,33 @@ function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-module.exports = { initManifestLoader, getManifest, getAllManifests };
+function resetForTests() {
+  memoryCache.clear();
+  inflightRefreshes.clear();
+  db = null;
+  validateManifest = null;
+}
+
+function setMemoryCacheForTests(department, manifest, fetchedAt) {
+  memoryCache.set(department, {
+    manifest,
+    fetchedAt: fetchedAt ?? Date.now(),
+    source: "test",
+  });
+}
+
+function getInflightPromiseForTests(department) {
+  return inflightRefreshes.get(department) || null;
+}
+
+module.exports = {
+  initManifestLoader,
+  getManifest,
+  getAllManifests,
+  __test: {
+    TTL_MS,
+    resetForTests,
+    setMemoryCacheForTests,
+    getInflightPromiseForTests,
+  },
+};
