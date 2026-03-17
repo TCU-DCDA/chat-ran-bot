@@ -2,7 +2,7 @@
 
 The shared AI chat service powering contextual advising panels embedded inside department wizards in the [Advising Ecosystem](https://github.com/TCU-DCDA/advising-ecosystem).
 
-Sandra answers questions about program requirements, career paths, and course selection using structured data from each wizard's advising manifest. Conversations are anonymous — no login, no student data collected.
+Sandra answers questions about program requirements, career paths, and course selection using structured data from each wizard's advising manifest. The service is privacy-aware by design: no student login and no access to official student record systems. For development, testing, and limited pilot use, chat processing runs on Firebase-hosted services managed by the project team; broader institutional deployment is contingent on formal TCU review and TCU-approved infrastructure and controls.
 
 ## How It Works
 
