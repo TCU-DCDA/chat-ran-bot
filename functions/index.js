@@ -195,6 +195,7 @@ const RETENTION_DAYS = {
   conversations: 30,
   feedback: 30,
   rateLimits: 2,
+  pendingCorrections: 90,
 };
 
 const LOG_PREVIEW_MAX = 240;
@@ -329,6 +330,7 @@ CRITICAL RULES:
 - Program data is current as of your most recent training update and may not reflect the latest catalog changes — encourage students to confirm details with their advisor or the relevant department
 - Do NOT offer or volunteer information about graduate programs — AddRan only offers undergraduate degrees. If a student asks about graduate programs, let them know AddRan focuses on undergraduate education and suggest they check tcu.edu or contact the relevant graduate department directly
 - COURSE PRIORITY: When suggesting what to take next, prioritize remaining required/core courses before electives (except Capstone — Capstone should only be recommended in the student's final spring semester). Only suggest courses that are offered in the upcoming semester. If the student context includes offering data, use it to determine availability. Never recommend a course marked as NOT offered next semester.
+- CATEGORIZATION ISSUES: If a student says a course is in the wrong category, is missing, or hour counts seem wrong, use the report_categorization_issue tool to log it. Extract details from the conversation — don't ask the student to fill in fields. After logging, acknowledge the report and encourage them to also mention it in their "Notes or Questions for Advisor" field so it appears in their PDF for their advisor.
 - DOUBLE COUNTING COURSES: When students ask about double counting or double dipping courses between academic programs (e.g., can a course count for both their major and minor), emphasize that rules vary between colleges and that they should work with their advisor to determine if double counting is available given their specific circumstance. This caveat applies to courses shared between academic programs, NOT to TCU Core Curriculum courses
 
 SENSITIVE TOPICS — redirect with care and empathy:
@@ -342,6 +344,35 @@ SENSITIVE TOPICS — redirect with care and empathy:
 REDIRECT TOPICS (provide the URL when redirecting):
 ${supportResources.map(r => `- ${r.name}: ${r.url}`).join("\n")}`;
 }
+
+const CLAUDE_TOOLS = [
+  {
+    name: "report_categorization_issue",
+    description: "Log a course categorization issue reported by a student. Use this when a student says a course is listed in the wrong category, is missing from a category, or the hour count for a category seems wrong. Extract the details from the conversation — do not ask the student to fill in a form.",
+    input_schema: {
+      type: "object",
+      properties: {
+        courseCode: {
+          type: "string",
+          description: "The course code (e.g. ENGL 30403). Omit if the student describes the issue without a specific course.",
+        },
+        currentCategory: {
+          type: "string",
+          description: "The category where the course currently appears (or where the student expected it).",
+        },
+        suggestedCorrection: {
+          type: "string",
+          description: "What the student thinks should be different (e.g. 'should be in American Lit' or 'this course is missing').",
+        },
+        studentReasoning: {
+          type: "string",
+          description: "Brief summary of why the student believes this is wrong.",
+        },
+      },
+      required: ["suggestedCorrection", "studentReasoning"],
+    },
+  },
+];
 
 exports.api = onRequest(
   {
@@ -445,14 +476,70 @@ exports.api = onRequest(
         ? `\n\nSTUDENT CONTEXT (from advising wizard — the student is using the wizard right now):\n${wizardContext}\nUse this context to give personalized answers. Reference their specific courses and progress when relevant. If they ask what to take, check what they still need and what prerequisites they've met. Prioritize required/core courses over electives, and only suggest courses marked as offered next semester.\n`
         : "";
 
-      const response = await anthropic.messages.create({
+      const systemPrompt = buildSystemPrompt(personaName) + wizardContextBlock + programContext + abbreviationsContext + manifestContext + programDetailsContext + coreCurriculumContext + laResearchContext + articlesContext;
+
+      let currentResponse = await anthropic.messages.create({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1024,
-        system: buildSystemPrompt(personaName) + wizardContextBlock + programContext + abbreviationsContext + manifestContext + programDetailsContext + coreCurriculumContext + laResearchContext + articlesContext,
+        system: systemPrompt,
         messages: messages,
+        ...(wizardContext ? { tools: CLAUDE_TOOLS } : {}),
       });
 
-      const assistantMessage = response.content[0].text;
+      // Handle tool use — Claude may call report_categorization_issue
+      let finalMessages = [...messages];
+      while (currentResponse.stop_reason === "tool_use") {
+        const toolBlock = currentResponse.content.find(b => b.type === "tool_use");
+        if (!toolBlock) break;
+
+        if (toolBlock.name === "report_categorization_issue") {
+          const input = toolBlock.input;
+          const wizardSource = personaName === "Ada" ? "dcda"
+            : personaName === "Engelina" ? "english"
+            : "unknown";
+          const programMatch = wizardContext?.match(/^Program:\s*(.+?)(?:\s*\(|$)/m);
+          const programName = programMatch ? programMatch[1].trim() : null;
+
+          await db.collection("pending_corrections").add({
+            courseCode: input.courseCode || null,
+            currentCategory: input.currentCategory || null,
+            suggestedCorrection: sanitizeForLog(input.suggestedCorrection),
+            studentReasoning: sanitizeForLog(input.studentReasoning),
+            wizardSource,
+            programName,
+            timestamp: new Date(),
+            status: "pending",
+            retentionDays: RETENTION_DAYS.pendingCorrections,
+          });
+        }
+
+        // Send tool result back to Claude for its text response
+        finalMessages = [
+          ...finalMessages,
+          { role: "assistant", content: currentResponse.content },
+          {
+            role: "user",
+            content: [{
+              type: "tool_result",
+              tool_use_id: toolBlock.id,
+              content: "Categorization issue logged successfully. Thank the student and encourage them to also mention this in their 'Notes or Questions for Advisor' field so it appears in their PDF export for their advisor.",
+            }],
+          },
+        ];
+
+        currentResponse = await anthropic.messages.create({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1024,
+          system: systemPrompt,
+          messages: finalMessages,
+          tools: CLAUDE_TOOLS,
+        });
+      }
+
+      const assistantMessage = currentResponse.content
+        .filter(b => b.type === "text")
+        .map(b => b.text)
+        .join("");
 
       // Log minimal conversation data for operations and analytics.
       await db.collection("conversations").add({
@@ -1477,20 +1564,24 @@ exports.purgeRetention = onSchedule(
     const conversationCutoff = new Date(now - RETENTION_DAYS.conversations * 24 * 60 * 60 * 1000);
     const feedbackCutoff = new Date(now - RETENTION_DAYS.feedback * 24 * 60 * 60 * 1000);
     const rateLimitCutoff = new Date(now - RETENTION_DAYS.rateLimits * 24 * 60 * 60 * 1000);
+    const correctionsCutoff = new Date(now - RETENTION_DAYS.pendingCorrections * 24 * 60 * 60 * 1000);
 
-    const [conversationsDeleted, feedbackDeleted, rateLimitsDeleted] = await Promise.all([
+    const [conversationsDeleted, feedbackDeleted, rateLimitsDeleted, correctionsDeleted] = await Promise.all([
       purgeCollectionByDate("conversations", "timestamp", conversationCutoff),
       purgeCollectionByDate("feedback", "createdAt", feedbackCutoff),
       purgeCollectionByDate("rateLimits", "expiresAt", rateLimitCutoff),
+      purgeCollectionByDate("pending_corrections", "timestamp", correctionsCutoff),
     ]);
 
     console.log("retention_purge_complete", {
       conversationsDeleted,
       feedbackDeleted,
       rateLimitsDeleted,
+      correctionsDeleted,
       conversationCutoff: conversationCutoff.toISOString(),
       feedbackCutoff: feedbackCutoff.toISOString(),
       rateLimitCutoff: rateLimitCutoff.toISOString(),
+      correctionsCutoff: correctionsCutoff.toISOString(),
     });
   }
 );

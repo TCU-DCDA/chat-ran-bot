@@ -30,5 +30,10 @@ service cloud.firestore {
     match /rateLimits/{docId} {
       allow read, write: if false;
     }
+
+    // Pending corrections - server-only (Admin SDK bypasses rules)
+    match /pending_corrections/{docId} {
+      allow read, write: if false;
+    }
   }
 }
