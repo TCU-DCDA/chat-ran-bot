@@ -1,6 +1,6 @@
 # Sandra — AI Chat Layer
 
-The shared AI chat service powering contextual advising panels embedded inside department wizards in the [Advising Ecosystem](https://github.com/TCU-DCDA/advising-ecosystem).
+The shared AI chat service powering contextual advising panels embedded inside department wizards in the [Advising Ecosystem](https://github.com/curtrode/ecosystem-docs).
 
 Sandra answers questions about program requirements, career paths, and course selection using structured data from each wizard's advising manifest. The service is privacy-aware by design: no student login and no access to official student record systems. For development, testing, and limited pilot use, chat processing runs on Firebase-hosted services managed by the project team; broader institutional deployment is contingent on formal TCU review and TCU-approved infrastructure and controls.
 
@@ -39,7 +39,7 @@ Department Wizard (Ada, Engelina, ...)
 - **Fallback chain**: Live manifest → Firestore cache → static JSON. Fail-closed per department on invalid schema.
 - **Anonymous analytics**: Conversation logging with topic detection, program mentions, feedback tracking. No PII.
 - **Rate limiting**: Per-IP limits, postMessage origin validation, Firebase security rules.
-- **7 Cloud Functions**: chat, feedback, admin conversations, admin articles, admin stats, manifest health, URL metadata.
+- **13 Cloud Functions**: chat, feedback, admin (conversations, articles, feedback), URL metadata, RSS feed checker, OpenAlex checker, relevance backfill, retention purge, and manual triggers.
 
 ## Local Development
 
