@@ -36,6 +36,12 @@ function manifestToContext(manifestData) {
     sections.push(manifest.advisingNotes.map((n) => `- ${n}`).join("\n"));
   }
 
+  // Full course catalog (not every wizard emits one)
+  if (manifest.courseCatalog && manifest.courseCatalog.length > 0) {
+    sections.push(`### ${manifest.department} Course Catalog:`);
+    sections.push(manifest.courseCatalog.map(formatCatalogCourse).join("\n"));
+  }
+
   // Contacts (deduplicated across programs)
   const allContacts = deduplicateContacts(manifest.programs);
   if (allContacts.length > 0) {
@@ -68,7 +74,6 @@ function formatProgram(program) {
     lines.push("Required categories:");
     for (const cat of program.requirements.categories) {
       const courseList = cat.courses
-        .slice(0, 6)
         .map((c) => `${c.code} ${c.title}`)
         .join(", ");
       const note = cat.note ? ` — ${cat.note}` : "";
@@ -81,7 +86,6 @@ function formatProgram(program) {
     lines.push("Overlay requirements:");
     for (const ov of program.requirements.overlays) {
       const courseList = ov.courses
-        .slice(0, 4)
         .map((c) => `${c.code} ${c.title}`)
         .join(", ");
       lines.push(`- ${ov.name} (${ov.hours} hrs): ${courseList}`);
@@ -192,6 +196,20 @@ function deduplicateContacts(programs) {
     }
   }
   return contacts;
+}
+
+/**
+ * Format a single course from manifest.courseCatalog for context output.
+ */
+function formatCatalogCourse(c) {
+  const levelPart = c.level ? `, ${c.level}` : "";
+  const header = `- ${c.code} — ${c.title} (${c.hours} hrs${levelPart})`;
+  if (!c.description) return header;
+  const desc =
+    c.description.length > 200
+      ? c.description.substring(0, 200) + "..."
+      : c.description;
+  return `${header}: ${desc}`;
 }
 
 /**
