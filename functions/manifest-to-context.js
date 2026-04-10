@@ -105,18 +105,28 @@ function formatProgram(program) {
     );
   }
 
-  // Highlighted courses for current term (deduplicated by code)
-  if (program.highlightedCourses && program.highlightedCourses.courses) {
-    const term = program.highlightedCourses.term || "Highlighted";
-    const seen = new Set();
-    const unique = program.highlightedCourses.courses.filter((c) => {
-      if (seen.has(c.code)) return false;
-      seen.add(c.code);
-      return true;
-    });
-    lines.push(`${term} Courses (${unique.length} unique):`);
-    for (const c of unique) {
-      lines.push(`- ${c.code} ${c.title}`);
+  // Highlighted courses: either an array of {term, courses} (current shape,
+  // one entry per upcoming term) or a single {term, courses} object (legacy).
+  // The converter handles both so Sandra stays compatible during rollout.
+  if (program.highlightedCourses) {
+    const termGroups = Array.isArray(program.highlightedCourses)
+      ? program.highlightedCourses
+      : [program.highlightedCourses];
+
+    for (const group of termGroups) {
+      if (!group || !Array.isArray(group.courses)) continue;
+      const term = group.term || "Highlighted";
+      const seen = new Set();
+      const unique = group.courses.filter((c) => {
+        if (seen.has(c.code)) return false;
+        seen.add(c.code);
+        return true;
+      });
+      if (unique.length === 0) continue;
+      lines.push(`${term} Courses (${unique.length} unique):`);
+      for (const c of unique) {
+        lines.push(`- ${c.code} ${c.title}`);
+      }
     }
   }
 

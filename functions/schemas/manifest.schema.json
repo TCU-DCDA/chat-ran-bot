@@ -176,20 +176,39 @@
           }
         },
         "highlightedCourses": {
-          "type": "object",
-          "description": "Featured courses for current term",
-          "properties": {
-            "term": {
-              "type": "string",
-              "description": "Semester term (e.g., 'Spring 2026')"
+          "description": "Featured courses for current/upcoming terms. Legacy shape is a single {term, courses} object; current shape is an array of those objects (one per upcoming term).",
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "term": {
+                  "type": "string",
+                  "description": "Semester term (e.g., 'Fall 2026')"
+                },
+                "courses": {
+                  "type": "array",
+                  "items": { "$ref": "#/definitions/course" }
+                }
+              }
             },
-            "courses": {
+            {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/course"
+                "type": "object",
+                "required": ["term", "courses"],
+                "properties": {
+                  "term": {
+                    "type": "string",
+                    "description": "Semester term (e.g., 'Summer 2026')"
+                  },
+                  "courses": {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/course" }
+                  }
+                }
               }
             }
-          }
+          ]
         },
         "note": {
           "type": "string",
