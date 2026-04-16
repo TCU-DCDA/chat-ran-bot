@@ -125,7 +125,11 @@ function formatProgram(program) {
       if (unique.length === 0) continue;
       lines.push(`${term} Courses (${unique.length} unique):`);
       for (const c of unique) {
-        lines.push(`- ${c.code} ${c.title}`);
+        const meta = [];
+        if (c.schedule) meta.push(c.schedule);
+        if (c.modality) meta.push(c.modality);
+        const suffix = meta.length > 0 ? ` — ${meta.join(", ")}` : "";
+        lines.push(`- ${c.code} ${c.title}${suffix}`);
       }
     }
   }
