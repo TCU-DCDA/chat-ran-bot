@@ -8,16 +8,22 @@ Sandra answers questions about program requirements, career paths, and course se
 
 Sandra is accessed exclusively through the chat panel built into each department wizard (e.g., [Engelina](https://english.digitcu.org), [Ada](https://dcda.digitcu.org)). Standalone access is disabled.
 
-When a student opens the chat panel from within a wizard, Sandra receives the student's current planning context (program, selected courses) via `postMessage`. This means Sandra can answer questions informed by what the student is actively working on — no need to re-explain.
+When a student opens the chat panel from within a wizard, Sandra receives the student's current planning context (program, selected courses) as a `wizardContext` string on each request. Two integration patterns are in use today:
+
+- **Direct HTTP POST** (Ada, DCDA wizard) — `AdaPanel.tsx` posts the chat message, conversation history, `wizardContext`, and `personaName` directly to the `/api` Cloud Function. No iframe.
+- **Embedded iframe + `postMessage`** (Engelina, English wizard) — the English wizard embeds Sandra's chat UI as an iframe and passes context through `postMessage` to that UI, which in turn calls `/api`.
+
+Either way, Sandra answers questions informed by what the student is actively working on — no need to re-explain.
 
 ```
 Department Wizard (Ada, Engelina, ...)
-  └── SandraPanel (iframe, ?embed=true)
-        └── postMessage: { program, courses }
-              └── Sandra Cloud Function
-                    ├── Manifest registry + TTL cache
-                    ├── Claude Sonnet 4 API
-                    └── Firestore (conversations, analytics)
+  └── Chat Panel (direct POST or iframe + postMessage)
+        └── Sandra Cloud Function (/api)
+              ├── Persona scope (Ada → DCDA only, Engelina → English only, Sandra → all)
+              ├── Manifest registry + TTL cache (SWR)
+              ├── Stable prefix + ephemeral prompt cache
+              ├── Claude Sonnet 4 API
+              └── Firestore (conversations, analytics)
 ```
 
 ## Architecture
